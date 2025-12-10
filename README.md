@@ -86,6 +86,7 @@ Alokacija radnih paketa
 
 ### RP5: Eksperimentalna analiza signalizacijskih tokova
 **Zaduženi:** Zakira, Emina, Muhamed
+
 **Opis:** Analiza signalizacijskih tokova za scenarije (1) i (3).
 
 **Plan isporuke**
