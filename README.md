@@ -18,7 +18,7 @@ Alokacija radnih paketa
 | Lejla Porobić    | RP1 | RP4 |
 | Amr Saračević    | RP2 | RP3 |
 | Emina Hasković   | RP3 | RP5 |
-| Muhamed Crnčalo  | RP2 | RP6 |
+| Muhamed Crnčalo  | RP2 | RP5 |
 | Merjema Varupa   | RP4 | RP6 |
 
 ## Radni paketi
@@ -85,7 +85,7 @@ Alokacija radnih paketa
 ---
 
 ### RP5: Eksperimentalna analiza signalizacijskih tokova
-**Zaduženi:** Zakira, Emina  
+**Zaduženi:** Zakira, Emina, Muhamed
 **Opis:** Analiza signalizacijskih tokova za scenarije (1) i (3).
 
 **Plan isporuke**
@@ -99,8 +99,8 @@ Alokacija radnih paketa
 
 ---
 
-## Repo & dokumentacija (RP6)
-**Zaduženi:** Muhamed, Merjema  
+## RP6: Repo & dokumentacija
+**Zaduženi:** Merjema  
 - Održavanje strukture repozitorija
 - Ažuriranje README-a
 - Otvaranje i praćenje Issues
