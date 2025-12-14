@@ -21,6 +21,131 @@ Alokacija radnih paketa
 | Muhamed Crnčalo  | RP2 | RP5 |
 | Merjema Varupa   | RP4 | RP6 |
 
+# Teorijski uvod
+Ovaj projekat se bavi dizajnom i praktičnom implementacijom fiksno-mobilne konvergencije (FMC) govorne usluge, gdje se VoNR (Voice over New Radio) u 5G mreži povezuje sa IMS/SIP baziranom govornom uslugom u fiksnoj mreži. Cilj je razumjeti i demonstrirati kako se govorni pozivi uspostavljaju kroz različite arhitekturne scenarije IMS jezgra, te kako se signalizacija i medijski tok ponašaju u realnom test okruženju.
+
+## Šta je FMC i zašto je bitan?
+Široka rasprostranjenost širokopojasnih bežičnih tehnologija otvorila je novo razdoblje konvergencije, u kojem se različiti bežični uređaji i pristupne tehnologije koriste za pristup velikom broju usluga. Ova konvergencija, poznata kao fiksno-mobilna konvergencija (FMC), podrazumijeva objedinjavanje bežičnih i žičnih govornih, video i širokopojasnih podatkovnih usluga kroz njihovu neometanu integraciju u jedinstvenu mrežnu cjelinu. [1]. Dakle, FMC označava integraciju fiksnih i mobilnih servisa tako da korisnik dobije jedinstveno iskustvo, bez obzira da li pristupa kroz mobilnu (5G) ili fiksnu mrežu. U praksi, FMC se često realizuje kroz IMS (IP Multimedia Subsystem) kao servisni sloj za govor (i druge real-time usluge), uz SIP signalizaciju i RTP/RTCP.
+
+## VoNR u 5G SA mreži – osnovni koncept
+Voice over New Radio (VoNR) predstavlja proces enkapsulacije govora preko Internet protokola (VoIP) koristeći 5G radio-pristupnu i jezgrenu mrežnu arhitekturu. Time se omogućava prijenos medijskih komponenti preko novog radio-interfejsa, odnosno 5G mreže. Jednostavnije rečeno, VoNR obezbjeđuje govorne usluge u 5G samostalnim (standalone) mrežama. [2]
+I VoLTE i VoNR koriste IP Multimedia Subsystem (IMS), koji omogućava integraciju paketno baziranih poziva u mrežnu infrastrukturu, pri čemu je mobilna mreža izvor komunikacije. Razlika između VoLTE i VoNR leži u osnovnoj mobilnoj mreži i radio arhitekturi na kojoj su zasnovani. Voice over New Radio (VoNR) pretvara telefonske pozive u podatkovne pakete, koji se zatim prenose putem 5G mreže i IMS sistema.
+Tipičan tok je:
+- UE se registruje u 5GC (NAS/NGAP),
+- uspostavlja se PDU sesija (user plane preko UPF),
+- UE se zatim registruje na IMS (SIP REGISTER preko P-CSCF),
+- poziv se uspostavlja SIP porukama (INVITE/180/200/ACK),
+- govor ide preko RTP (medijski tok), uz QoS politike i prioritet govora.
+
+## IMS i SIP – uloga u govornoj usluzi
+IMS je arhitekturni okvir koji omogućava operaterima da pružaju govor kroz IP (multimedijalne) servise. Ključne IMS komponente (konceptualno) uključuju:
+- P-CSCF (prva SIP tačka za UE, sigurnost i politika),
+- I-CSCF / S-CSCF (routing, registracija i servisna logika),
+- baza korisnika (HSS/UDM u modernim implementacijama),
+- interkonekcijski elementi (npr. SBC/IBCF) za povezivanje sa drugim mrežama,
+- aplikacijski serveri (npr. call services), te medijski gateway elementi kada je potrebno.
+
+## Scenariji koji se analiziraju
+U projektu se razmatraju tri realna scenarija organizacije IMS jezgra:
+- Zajedničko IMS jezgro u 5G mreži: IMS je “u mobilnoj domeni”, a fiksna mreža se veže kao SIP/IMS interkonekcija ili trunk prema tom IMS-u.
+- Zajedničko IMS jezgro u fiksnoj mreži: 5G mreža koristi zajedničko IMS jezgro koje je smješteno u fiksnoj domeni.
+- Odvojena IMS jezgra (5G IMS i fiksni IMS): Mobilna i fiksna mreža imaju svoje IMS sisteme, koji se povezuju preko SIP peering / interkonekcije (često kroz SBC/IBCF), uz definisana pravila routinga i autentifikacije.
+U praktičnom dijelu projekta fokus je na implementaciji i mjerenjima za scenarije (1) i (3), uz poređenje signalizacije i ponašanja sistema.
+
+Literatura:
+
+[1] Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
+[2] What is Voice over New Radio (VoNR). NG-Voice. Dostupno na: https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr
+
+# RP1: Dizajn koncepta fiksno-mobilne konvergencije (FMC)
+
+U okviru RP1 modelirana su tri arhitekturna scenarija organizacije IMS jezgra u kontekstu FMC govorne usluge.  
+U svim scenarijima razlikuju se pristupni domeni (5G mobilna mreža i fiksna pristupna mreža), dok se govor realizuje preko IMS/SIP sloja. Razlika je u tome **gdje se IMS jezgro fizički/logički nalazi** i kako su međusobno povezani mobilni i fiksni korisnici.
+
+---
+
+### Zajednički elementi arhitekture
+
+#### 5G mobilna mreža
+
+- **5G UE (VoNR telefon)** – 5G pametni telefon koji podržava VoNR i sadrži IMS parametre (APN za IMS, SIP domen).  
+- **gNB** – 5G bazna stanica koja obezbjeđuje radio pristup i prosljeđuje saobraćaj prema 5G Core-u.  
+- **5G Core (AMF/SMF/UPF)**  
+  - **AMF** – upravlja pristupom i mobilnošću UE-a (NAS signalizacija, registracija).  
+  - **SMF** – upravlja PDU sesijama, IP adresama i QoS parametrima.  
+  - **UPF** – provodi korisnički saobraćaj (SIP/RTP) između 5G RAN-a i servisnih platformi (IMS, Internet itd.).
+
+#### Fiksna mreža
+
+- **SIP telefon / Softphone** – krajnji uređaj fiksnog korisnika (IP telefon ili softphone).  
+- **CPE / Home router** – kućni ruter koji pruža lokalnu IP konekciju prema operatoru (NAT, osnovni QoS).  
+- **Fiksna pristupna tačka (xDSL/FTTH)** – pristupni segment koji povezuje CPE sa mrežom operatora.  
+- **AGF / BNG (Fixed Access Gateway)** – agregacioni čvor koji terminiše sesije fiksnih korisnika, obavlja IP agregaciju i QoS te usmjerava SIP/RTP saobraćaj prema IMS-u.
+
+#### IMS jezgro (logičke funkcije)
+
+U zavisnosti od scenarija, IMS jezgro je smješteno u 5G ili u fiksnoj mreži, ili postoje dva odvojena IMS domena. U svim slučajevima IMS obuhvata:
+
+- **P-CSCF** – prvi kontakt za SIP signalizaciju iz mreže.  
+- **I-CSCF** – ulazna tačka IMS domena, bira odgovarajući S-CSCF.  
+- **S-CSCF** – centralni SIP server koji održava registracije i sesije korisnika te primjenjuje servisna pravila.  
+- **AS (Application Servers)** – aplikacijski serveri za dodatne usluge (FMC logika, istovremeno zvonjenje, voicemail itd.).  
+- **HSS/UDM** – pretplatnička baza sa profilima mobilnih i fiksnih korisnika (brojevi, identiteti, servisi).
+
+---
+
+### Scenarij (1): Zajedničko IMS jezgro u 5G mreži
+
+U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi se kao zajednička platforma za VoNR i fiksnu govornu uslugu.
+
+**Tok poziva (primjer 5G UE → fiksni SIP korisnik):**
+
+- 5G UE se registruje u 5GC i uspostavlja PDU sesiju prema IMS APN-u, zatim se registruje na IMS (SIP `REGISTER` preko P-CSCF-a).  
+- Fiksni SIP telefon se, preko CPE-a i AGF/BNG-a, registruje na isto IMS jezgro.  
+- Pri uspostavi poziva, SIP `INVITE` sa 5G UE prolazi kroz 5GC do IMS-a, gdje S-CSCF pronalazi registraciju fiksnog korisnika i prosljeđuje poziv prema fiksnoj mreži.  
+- RTP tok nakon uspostave sesije prati put:
+  - `5G UE → gNB → UPF → IP jezgro → AGF/BNG → CPE → SIP telefon`.
+
+Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
+
+<img width="902" height="410" alt="Scenarij1 drawio" src="https://github.com/user-attachments/assets/a578b16c-e361-44ef-b012-e6c075a396ca" />
+
+---
+
+### Scenarij (2): Zajedničko IMS jezgro u fiksnoj mreži
+
+U drugom scenariju IMS jezgro je i dalje zajedničko za mobilne i fiksne korisnike, ali je **smješteno u fiksnoj mreži**. 5G domen koristi IMS fiksnog operatora za pružanje VoNR usluge.
+
+**Tok poziva (5G UE → fiksni SIP korisnik):**
+
+- 5G UE se registruje u 5GC, zatim šalje SIP `REGISTER` ka IMS-u u fiksnoj mreži (tunelovan preko UPF-a).  
+- Fiksni SIP telefon se registruje lokalno na isto IMS jezgro u fiksnoj mreži.  
+- SIP `INVITE` sa 5G UE ide: `UE → gNB → 5GC → IMS P-CSCF (u fiksnoj mreži) → S-CSCF`, koji zatim poziv prosljeđuje prema registraciji fiksnog korisnika.  
+- Media saobraćaj teče preko UPF-a i IP jezgra prema fiksnoj strani.
+
+Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna platforma**, a 5G mreža ga koristi kao servisni sloj za govor.
+
+<img width="908" height="404" alt="Scenarij2 drawio" src="https://github.com/user-attachments/assets/62c239ff-fa0b-4941-a42c-6a0f1febfa20" />
+
+---
+
+### Scenarij (3): Odvojena IMS jezgra za 5G i fiksnu mrežu
+
+Treći scenarij predstavlja pristup u kojem 5G i fiksna mreža imaju **dva odvojena IMS domena**, sa zasebnim pretplatničkim bazama i servisnim logikama. Između ova dva IMS sistema uspostavljen je SIP trunk / peering.
+
+**Tok poziva (5G UE → fiksni SIP korisnik):**
+
+- 5G UE je registrovan na IMS-5G, a fiksni SIP telefon na IMS-F; svaki koristi vlastitu pretplatničku bazu i servisni profil.  
+- SIP `INVITE` sa 5G UE ide prema S-CSCF-5G, koji na osnovu broja ili domene prepoznaje da se pozvani korisnik nalazi u fiksnoj IMS mreži.  
+- Poziv se preusmjerava preko SIP trunk veze: `IMS-5G → IMS-F`, gdje S-CSCF-F pronalazi registraciju fiksnog korisnika i dostavlja poziv do SIP telefona.  
+- Media saobraćaj se uspostavlja direktno između domena ili preko media gateway-a, u zavisnosti od konfiguracije trunk-a i eventualnog transkodiranja.
+
+U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS sistema**, a ne kroz jedno zajedničko jezgro, što omogućava veću nezavisnost domena, ali i kompleksnije upravljanje routiranjem i politikama.
+
+<img width="1056" height="418" alt="Scenarij3 drawio" src="https://github.com/user-attachments/assets/40d1a28c-4984-45f6-89b7-93728aa86417" />
+
+
+# Plan rada
 ## Radni paketi
 
 ### RP1: Dizajn koncepta FMC
