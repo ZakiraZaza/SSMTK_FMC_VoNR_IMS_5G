@@ -246,4 +246,5 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 
 ## Dnevnik promjena
 - 2025-12-09: Kreiran repo i inicijalni README.
+- 2025-12-14: Ažuriran README - kreiran teorijski uvod i inicijalna arhitektura.
 
