@@ -1,5 +1,4 @@
 # SSMTK_FMC_VoNR_IMS_5G
-Dizajn i implementacija fiksno-mobilne konvergencije (FMC) koja povezuje VoNR u 5G mreži sa IMS/SIP govornom uslugom u fiksnoj mreži, kroz više scenarija IMS jezgra.
 
 <table>
 <tr>
@@ -9,6 +8,14 @@ Dizajn i implementacija fiksno-mobilne konvergencije (FMC) koja povezuje VoNR u 
 <tr>
   <td><b>Akademska godina</b></td>
   <td>2025/2026</td>
+</tr>
+<tr>
+  <td><b>Projektni zadatak</b></td>
+  <td>Fiksno-mobilna konvergencija govorne usluge u 5G mreži</td>
+</tr>
+<tr>
+  <td><b>Opis projektnog zadatka</b></td>
+  <td>Dizajn i implementacija fiksno-mobilne konvergencije (FMC) koja povezuje VoNR u 5G mreži sa IMS/SIP govornom uslugom u fiksnoj mreži, kroz više scenarija IMS jezgra.</td>
 </tr>
 <tr>
   <td><b>Tim</b></td>
@@ -133,11 +140,11 @@ U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi 
 - Fiksni SIP telefon se, preko CPE-a i AGF/BNG-a, registruje na isto IMS jezgro.  
 - Pri uspostavi poziva, SIP `INVITE` sa 5G UE prolazi kroz 5GC do IMS-a, gdje S-CSCF pronalazi registraciju fiksnog korisnika i prosljeđuje poziv prema fiksnoj mreži.  
 - RTP tok nakon uspostave sesije prati put:
-  - `5G UE → gNB → UPF → IP jezgro → AGF/BNG → CPE → SIP telefon`.
+  - `5G UE -> gNB -> UPF -> IP jezgro ->  AGF/BNG -> CPE → SIP telefon`.
 
 Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
 
-![scenarij_1-drawio](assets/images/common_ims_core_in_5g_network.png)
+![scenarij_1-drawio](assets/images/common_ims_core_in_5g_network.png "draw.io - scenarij 1")
 <div align="center">
 <i>Slika 1: Zajedničko IMS jezgro u 5G mreži</i>
 </div>
@@ -157,7 +164,7 @@ U drugom scenariju IMS jezgro je i dalje zajedničko za mobilne i fiksne korisni
 
 Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna platforma**, a 5G mreža ga koristi kao servisni sloj za govor.
 
-![Scenarij_2-drawio](assets/images/common_ims_core_in_a_fixed_network.png)
+![Scenarij_2-drawio](assets/images/common_ims_core_in_a_fixed_network.png "draw.io - scenarij 2")
 <div align="center">
 <i>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</i>
 </div>
@@ -177,7 +184,7 @@ Treći scenarij predstavlja pristup u kojem 5G i fiksna mreža imaju **dva odvoj
 
 U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS sistema**, a ne kroz jedno zajedničko jezgro, što omogućava veću nezavisnost domena, ali i kompleksnije upravljanje routiranjem i politikama.
 
-![scenarij_3-drawio](assets/images/separate_ims_cores_for_5G_and_fixed_network.png)
+![scenarij_3-drawio](assets/images/separate_ims_cores_for_5G_and_fixed_network.png "draw.io - scenarij 3")
 <div align="center">
 <i>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</i>
 </div>
@@ -285,9 +292,14 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
   /images  
 ```
 
-## Dnevnik promjena
-- 2025-12-09: Kreiran repo i inicijalni README.
-- 2025-12-14: Ažuriran README - kreiran teorijski uvod i inicijalna arhitektura.
+## Dnevnik izmjena
+<details>
+<summary title="Kliknite za prikaz svih aktivnosti."><b>Izmjene</b></summary>
+<ul>
+  <li>2025-12-09: Kreiran repo i inicijalni README.</li>
+  <li>2025-12-14: Ažuriran README - kreiran teorijski uvod i inicijalna arhitektura.</li>
+</ul>
+</details>
 
 # Literatura:
 [^1]: Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
