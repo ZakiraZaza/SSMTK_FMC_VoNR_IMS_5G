@@ -144,8 +144,9 @@ U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi 
 
 Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
 
-![scenarij_1-drawio](assets/images/common_ims_core_in_5g_network.png "draw.io - scenarij 1")
 <div align="center">
+
+![scenarij_1-drawio](assets/images/common_ims_core_in_5g_network.png "draw.io - scenarij 1")
 <i>Slika 1: Zajedničko IMS jezgro u 5G mreži</i>
 </div>
 
@@ -164,8 +165,9 @@ U drugom scenariju IMS jezgro je i dalje zajedničko za mobilne i fiksne korisni
 
 Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna platforma**, a 5G mreža ga koristi kao servisni sloj za govor.
 
-![Scenarij_2-drawio](assets/images/common_ims_core_in_a_fixed_network.png "draw.io - scenarij 2")
 <div align="center">
+
+![Scenarij_2-drawio](assets/images/common_ims_core_in_a_fixed_network.png "draw.io - scenarij 2")
 <i>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</i>
 </div>
 
@@ -184,8 +186,9 @@ Treći scenarij predstavlja pristup u kojem 5G i fiksna mreža imaju **dva odvoj
 
 U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS sistema**, a ne kroz jedno zajedničko jezgro, što omogućava veću nezavisnost domena, ali i kompleksnije upravljanje routiranjem i politikama.
 
-![scenarij_3-drawio](assets/images/separate_ims_cores_for_5G_and_fixed_network.png "draw.io - scenarij 3")
 <div align="center">
+
+![scenarij_3-drawio](assets/images/separate_ims_cores_for_5G_and_fixed_network.png "draw.io - scenarij 3")
 <i>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</i>
 </div>
 
