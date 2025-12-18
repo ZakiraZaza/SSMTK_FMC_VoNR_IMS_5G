@@ -291,4 +291,4 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 
 # Literatura:
 [^1]: Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
-[^2]: What is Voice over New Radio (VoNR). NG-Voice. Dostupno na: https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr -->
+[^2]: What is Voice over New Radio (VoNR). NG-Voice. Dostupno na: https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr
