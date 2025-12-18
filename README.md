@@ -146,6 +146,7 @@ Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a 
 
 <div align="center">
 <img src="assets/images/common_ims_core_in_5g_network.png" alt="scenarij_1-drawio" title="draw.io - scenarij 1">
+<br>
 <i>Slika 1: Zajedničko IMS jezgro u 5G mreži</i>
 </div>
 
@@ -166,6 +167,7 @@ Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna plat
 
 <div align="center">
 <img src="assets/images/common_ims_core_in_a_fixed_network.png" title="draw.io - scenarij 2" alt="scenarij_2-drawio">
+<br>
 <i>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</i>
 </div>
 
@@ -186,6 +188,7 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 
 <div align="center">
 <img src="assets/images/separate_ims_cores_for_5G_and_fixed_network.png" title="draw.io - scenarij 3" alt="scenarij_3-drawio">
+<br>
 <i>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</i>
 </div>
 
