@@ -1,35 +1,69 @@
 # SSMTK_FMC_VoNR_IMS_5G
 Dizajn i implementacija fiksno-mobilne konvergencije (FMC) koja povezuje VoNR u 5G mreži sa IMS/SIP govornom uslugom u fiksnoj mreži, kroz više scenarija IMS jezgra.
-Predmet: Sistemi i servisi mobilnih telekomunikacija  
-Ak. godina: 2025/2026
-Tim:
-- Emina Hasković
-- Zakira Jašarević
-- Lejla Porobić
-- Amr Saračević
-- Muhamed Crnčalo
-- Merjema Varupa
 
-Alokacija radnih paketa
-
-| Član tima        | RP1 | RP 2|
-|------------------|-----|-----|
-| Zakira Jašarević | RP1 | RP5 |
-| Lejla Porobić    | RP1 | RP4 |
-| Amr Saračević    | RP2 | RP3 |
-| Emina Hasković   | RP3 | RP5 |
-| Muhamed Crnčalo  | RP2 | RP5 |
-| Merjema Varupa   | RP4 | RP6 |
+<table>
+<tr>
+  <td><b>Predmet</b></td>
+  <td>Sistemi i servisi mobilnih telekomunikacija</td>
+</tr>
+<tr>
+  <td><b>Akademska godina</b></td>
+  <td>2025/2026</td>
+</tr>
+<tr>
+  <td><b>Tim</b></td>
+  <td align="left">
+    <table>
+      <tr>
+        <td><b>Član tima</b></td>
+        <td colspan="2"><b>Alocirani radni paketi</b></td>
+      </tr>
+      <tr>
+        <td>Zakira Jašarević</td>
+        <td>RP1</td>
+        <td>RP5</td>
+      </tr>
+      <tr>
+        <td>Lejla Porobić</td>
+        <td>RP1</td>
+        <td>RP4</td>
+      </tr>
+      <tr>
+      <td>
+        Amr Saračević</td>
+        <td>RP2</td>
+        <td>RP3</td>
+      </tr>
+      <tr>
+        <td>Emina Hasković</td>
+        <td>RP3</td>
+        <td>RP5</td>
+      </tr>
+      <tr>
+        <td>Merjema Varupa</td>
+        <td>RP4</td>
+        <td>RP6</td>
+      </tr>
+      <tr>
+        <td>Muhamed Crnčalo</td>
+        <td>RP2</td>
+        <td>RP5</td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
 
 # Teorijski uvod
 Ovaj projekat se bavi dizajnom i praktičnom implementacijom fiksno-mobilne konvergencije (FMC) govorne usluge, gdje se VoNR (Voice over New Radio) u 5G mreži povezuje sa IMS/SIP baziranom govornom uslugom u fiksnoj mreži. Cilj je razumjeti i demonstrirati kako se govorni pozivi uspostavljaju kroz različite arhitekturne scenarije IMS jezgra, te kako se signalizacija i medijski tok ponašaju u realnom test okruženju.
 
-## Šta je FMC i zašto je bitan?
-Široka rasprostranjenost širokopojasnih bežičnih tehnologija otvorila je novo razdoblje konvergencije, u kojem se različiti bežični uređaji i pristupne tehnologije koriste za pristup velikom broju usluga. Ova konvergencija, poznata kao fiksno-mobilna konvergencija (FMC), podrazumijeva objedinjavanje bežičnih i žičnih govornih, video i širokopojasnih podatkovnih usluga kroz njihovu neometanu integraciju u jedinstvenu mrežnu cjelinu. [1]. Dakle, FMC označava integraciju fiksnih i mobilnih servisa tako da korisnik dobije jedinstveno iskustvo, bez obzira da li pristupa kroz mobilnu (5G) ili fiksnu mrežu. U praksi, FMC se često realizuje kroz IMS (IP Multimedia Subsystem) kao servisni sloj za govor (i druge real-time usluge), uz SIP signalizaciju i RTP/RTCP.
+## Definicija FMC-a i njegova važnost
+Široka rasprostranjenost širokopojasnih bežičnih tehnologija otvorila je novo razdoblje konvergencije, u kojem se različiti bežični uređaji i pristupne tehnologije koriste za pristup velikom broju usluga. Ova konvergencija, poznata kao fiksno-mobilna konvergencija (FMC), podrazumijeva objedinjavanje bežičnih i žičnih govornih, video i širokopojasnih podatkovnih usluga kroz njihovu neometanu integraciju u jedinstvenu mrežnu cjelinu.[^1]. Dakle, FMC označava integraciju fiksnih i mobilnih servisa tako da korisnik dobije jedinstveno iskustvo, bez obzira da li pristupa kroz mobilnu (5G) ili fiksnu mrežu. U praksi, FMC se često realizuje kroz IMS (IP Multimedia Subsystem) kao servisni sloj za govor (i druge real-time usluge), uz SIP signalizaciju i RTP/RTCP.
 
 ## VoNR u 5G SA mreži – osnovni koncept
-Voice over New Radio (VoNR) predstavlja proces enkapsulacije govora preko Internet protokola (VoIP) koristeći 5G radio-pristupnu i jezgrenu mrežnu arhitekturu. Time se omogućava prijenos medijskih komponenti preko novog radio-interfejsa, odnosno 5G mreže. Jednostavnije rečeno, VoNR obezbjeđuje govorne usluge u 5G samostalnim (standalone) mrežama. [2]
+Voice over New Radio (VoNR) predstavlja proces enkapsulacije govora preko Internet protokola (VoIP) koristeći 5G radio-pristupnu i jezgrenu mrežnu arhitekturu. Time se omogućava prijenos medijskih komponenti preko novog radio-interfejsa, odnosno 5G mreže. Jednostavnije rečeno, VoNR obezbjeđuje govorne usluge u 5G samostalnim (standalone) mrežama.[^2]
 I VoLTE i VoNR koriste IP Multimedia Subsystem (IMS), koji omogućava integraciju paketno baziranih poziva u mrežnu infrastrukturu, pri čemu je mobilna mreža izvor komunikacije. Razlika između VoLTE i VoNR leži u osnovnoj mobilnoj mreži i radio arhitekturi na kojoj su zasnovani. Voice over New Radio (VoNR) pretvara telefonske pozive u podatkovne pakete, koji se zatim prenose putem 5G mreže i IMS sistema.
+
 Tipičan tok je:
 - UE se registruje u 5GC (NAS/NGAP),
 - uspostavlja se PDU sesija (user plane preko UPF),
@@ -52,10 +86,6 @@ U projektu se razmatraju tri realna scenarija organizacije IMS jezgra:
 - Odvojena IMS jezgra (5G IMS i fiksni IMS): Mobilna i fiksna mreža imaju svoje IMS sisteme, koji se povezuju preko SIP peering / interkonekcije (često kroz SBC/IBCF), uz definisana pravila routinga i autentifikacije.
 U praktičnom dijelu projekta fokus je na implementaciji i mjerenjima za scenarije (1) i (3), uz poređenje signalizacije i ponašanja sistema.
 
-Literatura:
-
-[1] Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
-[2] What is Voice over New Radio (VoNR). NG-Voice. Dostupno na: https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr
 
 # RP1: Dizajn koncepta fiksno-mobilne konvergencije (FMC)
 
@@ -85,7 +115,6 @@ U svim scenarijima razlikuju se pristupni domeni (5G mobilna mreža i fiksna pri
 #### IMS jezgro (logičke funkcije)
 
 U zavisnosti od scenarija, IMS jezgro je smješteno u 5G ili u fiksnoj mreži, ili postoje dva odvojena IMS domena. U svim slučajevima IMS obuhvata:
-
 - **P-CSCF** – prvi kontakt za SIP signalizaciju iz mreže.  
 - **I-CSCF** – ulazna tačka IMS domena, bira odgovarajući S-CSCF.  
 - **S-CSCF** – centralni SIP server koji održava registracije i sesije korisnika te primjenjuje servisna pravila.  
@@ -108,7 +137,10 @@ U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi 
 
 Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
 
-<img width="902" height="410" alt="Scenarij1 drawio" src="https://github.com/user-attachments/assets/a578b16c-e361-44ef-b012-e6c075a396ca" />
+![scenarij_1-drawio](assets/images/common_ims_core_in_5g_network.png)
+<div align="center">
+<i>Slika 1: Zajedničko IMS jezgro u 5G mreži</i>
+</div>
 
 ---
 
@@ -125,7 +157,10 @@ U drugom scenariju IMS jezgro je i dalje zajedničko za mobilne i fiksne korisni
 
 Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna platforma**, a 5G mreža ga koristi kao servisni sloj za govor.
 
-<img width="908" height="404" alt="Scenarij2 drawio" src="https://github.com/user-attachments/assets/62c239ff-fa0b-4941-a42c-6a0f1febfa20" />
+![Scenarij_2-drawio](assets/images/common_ims_core_in_a_fixed_network.png)
+<div align="center">
+<i>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</i>
+</div>
 
 ---
 
@@ -142,8 +177,12 @@ Treći scenarij predstavlja pristup u kojem 5G i fiksna mreža imaju **dva odvoj
 
 U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS sistema**, a ne kroz jedno zajedničko jezgro, što omogućava veću nezavisnost domena, ali i kompleksnije upravljanje routiranjem i politikama.
 
-<img width="1056" height="418" alt="Scenarij3 drawio" src="https://github.com/user-attachments/assets/40d1a28c-4984-45f6-89b7-93728aa86417" />
+![scenarij_3-drawio](assets/images/separate_ims_cores_for_5G_and_fixed_network.png)
+<div align="center">
+<i>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</i>
+</div>
 
+---
 
 # Plan rada
 ## Radni paketi
@@ -234,17 +273,22 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 
 ## Struktura repozitorija (prijedlog)
 
+```
 /docs  
   /rp1-design  
   /rp3-fmc-s1  
   /rp4-fmc-s3  
   /rp5-analysis  
-
 /config  
 /scripts  
-/assets  
+/assets
+  /images  
+```
 
 ## Dnevnik promjena
 - 2025-12-09: Kreiran repo i inicijalni README.
 - 2025-12-14: Ažuriran README - kreiran teorijski uvod i inicijalna arhitektura.
 
+# Literatura:
+[^1]: Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
+[^2]: What is Voice over New Radio (VoNR). NG-Voice. Dostupno na: https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr -->
