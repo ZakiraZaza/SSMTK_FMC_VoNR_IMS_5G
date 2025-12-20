@@ -64,7 +64,7 @@ cloud_1 -[hidden]right-> rectangle_empty
 2 -down-> 3
 3 -right-> 4_1
 4_1 <-right-> 4_2
-4_2 -right-> 5
+4_2 <-right- 5
 5 <-up- 6
 6 <-up- 7
 7 <-up- 8
