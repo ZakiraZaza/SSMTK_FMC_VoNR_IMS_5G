@@ -1,0 +1,67 @@
+@startuml
+top to bottom direction
+hide <<hidden>> stereotype
+hide <<core>> stereotype
+
+<style>
+rectangle {
+  HorizontalAlignment center
+  BackgroundColor white
+  .hidden {
+    BackgroundColor transparent
+    FontColor transparent
+  }
+  .core {
+    BackgroundColor #EEEEEE
+  }
+}
+</style>
+
+skinparam rectangle {
+  BorderColor black
+  BorderColor<<hidden>> transparent
+}
+
+skinparam linetype ortho
+
+title "Zajedničko IMS jezgro u 5G mreži"
+
+cloud "5G mobilna mreža" as "cloud_1" {
+  rectangle "0" <<hidden>>
+  rectangle "5G UE (VoNR telefon)" as 1
+  rectangle "gNB" as 2
+  rectangle "_1"<<hidden>> {
+    rectangle "_2"<<hidden>> {
+      rectangle "5G core (5GC)\nAMF/SMF/UPF" as 3
+    }
+    rectangle "Zajedničko jezgro"<<core>> {
+      rectangle "IMS jezgro\nP-CSCF, I-CSCF\nS-CSCF, AS\nHSS/UDM" as 4 
+    }
+  }
+}
+
+cloud "Fiksna mreža" as "cloud_2" {
+  rectangle "_4"<<hidden>> {
+    rectangle "_5"<<hidden>> {
+      rectangle "AGF/BNG\nfixed access gateway" as 5
+    }
+  }
+  rectangle "Fiksna pristupna tačka\n(xDSL/FTTH)" as 6
+  rectangle "CPE/Home router" as 7
+  rectangle "SIP telefon/Softphone" as 8
+}
+
+rectangle "rectangle_empty"<<hidden>> {
+
+}
+
+cloud_1 -[hidden]right-> rectangle_empty
+0 -[hidden]down-> 1
+1 -down-> 2
+2 -down-> 3
+3 -right-> 4
+4 <-right- 5
+5 <-up- 6
+6 <-up- 7
+7 <-up- 8
+@enduml

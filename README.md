@@ -145,7 +145,7 @@ U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi 
 Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
 
 <div align="center">
-<img src="assets/images/common_ims_core_in_5g_network.png" alt="scenarij_1-drawio" title="draw.io - scenarij 1">
+<img src="/assets/diagrams/plantuml/images/common_ims_core_in_5g_network.svg" alt="scenarij_1-plantuml" title="PlantUML - scenarij 1">
 <br>
 <i>Slika 1: Zajedničko IMS jezgro u 5G mreži</i>
 </div>
@@ -166,7 +166,7 @@ U drugom scenariju IMS jezgro je i dalje zajedničko za mobilne i fiksne korisni
 Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna platforma**, a 5G mreža ga koristi kao servisni sloj za govor.
 
 <div align="center">
-<img src="assets/images/common_ims_core_in_a_fixed_network.png" title="draw.io - scenarij 2" alt="scenarij_2-drawio">
+<img src="assets/diagrams/plantuml/images/common_ims_core_in_a_fixed_network.svg" title="PlantUML - scenarij 2" alt="scenarij_2-plantuml">
 <br>
 <i>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</i>
 </div>
@@ -187,7 +187,7 @@ Treći scenarij predstavlja pristup u kojem 5G i fiksna mreža imaju **dva odvoj
 U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS sistema**, a ne kroz jedno zajedničko jezgro, što omogućava veću nezavisnost domena, ali i kompleksnije upravljanje routiranjem i politikama.
 
 <div align="center">
-<img src="assets/images/separate_ims_cores_for_5G_and_fixed_network.png" title="draw.io - scenarij 3" alt="scenarij_3-drawio">
+<img src="assets/diagrams/plantuml/images/separate_ims_cores_for_5G_and_fixed_network.svg" title="PlantUML - scenarij 3" alt="scenarij_3-plantuml">
 <br>
 <i>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</i>
 </div>
@@ -280,20 +280,6 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 - Ažuriranje README-a
 - Otvaranje i praćenje Issues
 - Sedmični “status update”
-
-## Struktura repozitorija (prijedlog)
-
-```
-/docs  
-  /rp1-design  
-  /rp3-fmc-s1  
-  /rp4-fmc-s3  
-  /rp5-analysis  
-/config  
-/scripts  
-/assets
-  /images  
-```
 
 ## Dnevnik izmjena
 <details>
