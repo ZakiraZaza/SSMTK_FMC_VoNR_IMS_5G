@@ -1,3 +1,4 @@
+<!-- # SSMTK_FMC_VoNR_IMS_5G -->
 # SSMTK_FMC_VoNR_IMS_5G
 
 <table>
@@ -200,7 +201,7 @@ U okviru eksperimenta uspješno je izvršeno povezivanje korisničkog uređaja n
 ### Uspostava 5G 
 
 Prelazak na 5G vrši se pozivom sljedećih naredbi unutar foldera 
-```
+```sh
 ln -sfn gnb-sa.cfg enb.cfg
 service lte start
 ```
@@ -211,8 +212,11 @@ Mobilni uređaj je uspješno registrovan na baznu stanicu i ostvarena je 5G (NR)
 ### Verifikacija podatkovne konekcije
 Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti download i upload brzine, uz prihvatljive vrijednosti kašnjenja i jittera, bez detektovanog gubitka paketa. Ovi rezultati potvrđuju ispravnu uspostavu podatkovnog prenosa preko 5G mreže.
 
-<img width="405" height="327" alt="konekcija" src="https://github.com/user-attachments/assets/5c3e2229-bbbc-417a-824a-406243af4df3" />
-
+<div align="center">
+<img src="/assets/5g/images/connection_verification.png" alt="konekcija" title="Verifikacija 5G podatkovne konekcije">
+<br>
+<i>Slika 4: Verifikacija podatkovne konekcije</i>
+</div>
 
 ### Uspostava poziva
 
@@ -223,7 +227,11 @@ mt_call 0600000124
 ```
 Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
-![att fyOzIoMoNgmmErkhz3abQWsnI6-lEfnrzBAE3pmUIMw](https://github.com/user-attachments/assets/3549ecff-417f-4552-9a32-fe005a29712e)
+<div align="center">
+<img src="/assets/5g/images/call_setup.jpg" alt="uspostava_poziva" title="Uspješno uspostavljen poziv">
+<br>
+<i>Slika 5: Uspostava poziva</i>
+</div>
 
 ---
 
