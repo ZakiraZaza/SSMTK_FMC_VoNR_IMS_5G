@@ -210,20 +210,20 @@ Mobilni uređaj je uspješno registrovan na baznu stanicu i ostvarena je 5G (NR)
 
 ### Verifikacija podatkovne konekcije
 Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti download i upload brzine, uz prihvatljive vrijednosti kašnjenja i jittera, bez detektovanog gubitka paketa. Ovi rezultati potvrđuju ispravnu uspostavu podatkovnog prenosa preko 5G mreže.
-![att hEHZ2hAsnsy144M5mxlR1o8WJB0oHaMUIA8B4v967VY](https://github.com/user-attachments/assets/f56de84d-c6bf-4e56-bb25-3b2369f327bd)
 
 
 ### Uspostava poziva
 
 Nakon uspješne registracije na mrežu, na mobilnom uređaju je uspostavljen poziv čime je potvrđena ispravna signalizacija i funkcionalnost servisnog sloja. Poziv je izvršen sljedećom komandom:
-
+<img src=![att hEHZ2hAsnsy144M5mxlR1o8WJB0oHaMUIA8B4v967VY](https://github.com/user-attachments/assets/3eeab99a-010c-45c3-b248-45bd0ec2562c)
+ width="400">
 ```
 mt_call 0600000124
 ```
 Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
-![att fyOzIoMoNgmmErkhz3abQWsnI6-lEfnrzBAE3pmUIMw](https://github.com/user-attachments/assets/acd0e952-fc0a-477a-aed4-4738c840d51c)
-
+<img src=![att fyOzIoMoNgmmErkhz3abQWsnI6-lEfnrzBAE3pmUIMw](https://github.com/user-attachments/assets/757ad864-994a-4070-a301-f9b6d436ec5b)
+ width="400">
 ---
 
 # Plan rada
