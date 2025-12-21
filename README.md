@@ -94,7 +94,6 @@ U projektu se razmatraju tri realna scenarija organizacije IMS jezgra:
 - Odvojena IMS jezgra (5G IMS i fiksni IMS): Mobilna i fiksna mreža imaju svoje IMS sisteme, koji se povezuju preko SIP peering / interkonekcije (često kroz SBC/IBCF), uz definisana pravila routinga i autentifikacije.
 U praktičnom dijelu projekta fokus je na implementaciji i mjerenjima za scenarije (1) i (3), uz poređenje signalizacije i ponašanja sistema.
 
-
 # RP1: Dizajn koncepta fiksno-mobilne konvergencije (FMC)
 
 U okviru RP1 modelirana su tri arhitekturna scenarija organizacije IMS jezgra u kontekstu FMC govorne usluge.  
@@ -141,7 +140,7 @@ U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi 
 - Fiksni SIP telefon se, preko CPE-a i AGF/BNG-a, registruje na isto IMS jezgro.  
 - Pri uspostavi poziva, SIP `INVITE` sa 5G UE prolazi kroz 5GC do IMS-a, gdje S-CSCF pronalazi registraciju fiksnog korisnika i prosljeđuje poziv prema fiksnoj mreži.  
 - RTP tok nakon uspostave sesije prati put:
-  - `5G UE -> gNB -> UPF -> IP jezgro ->  AGF/BNG -> CPE → SIP telefon`.
+  - `5G UE -> gNB -> UPF -> IP jezgro -> AGF/BNG -> CPE -> SIP telefon`.
 
 Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
 
@@ -201,19 +200,17 @@ U okviru eksperimenta uspješno je izvršeno povezivanje korisničkog uređaja n
 ### Uspostava 5G 
 
 Prelazak na 5G vrši se pozivom sljedećih naredbi unutar foldera 
-```sh
+```shell
 ln -sfn gnb-sa.cfg enb.cfg
 service lte start
 ```
-
 Mobilni uređaj je uspješno registrovan na baznu stanicu i ostvarena je 5G (NR) konekcija, što je potvrđeno statusom mreže na uređaju. Tokom testiranja, uređaj je radio u 5G režimu sa stabilnim radio linkom.
-
 
 ### Verifikacija podatkovne konekcije
 Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti download i upload brzine, uz prihvatljive vrijednosti kašnjenja i jittera, bez detektovanog gubitka paketa. Ovi rezultati potvrđuju ispravnu uspostavu podatkovnog prenosa preko 5G mreže.
 
 <div align="center">
-<img src="/assets/5g/images/connection_verification.png" alt="konekcija" title="Verifikacija 5G podatkovne konekcije">
+<img src="/assets/5g/images/connection_verification.png" alt="konekcija" title="Verifikacija 5G podatkovne konekcije" style="width:75%">
 <br>
 <i>Slika 4: Verifikacija podatkovne konekcije</i>
 </div>
@@ -228,7 +225,7 @@ mt_call 0600000124
 Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
 <div align="center">
-<img src="/assets/5g/images/call_setup.jpg" alt="uspostava_poziva" title="Uspješno uspostavljen poziv">
+<img src="/assets/5g/images/call_setup.jpg" alt="uspostava_poziva" title="Uspješno uspostavljen poziv" style="width:50%">
 <br>
 <i>Slika 5: Uspostava poziva</i>
 </div>
