@@ -193,6 +193,38 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 </div>
 
 ---
+## Implementacija VoNR usluge korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona
+
+U okviru eksperimenta uspješno je izvršeno povezivanje korisničkog uređaja na 5G mrežu i verifikovana osnovna funkcionalnost mrežnog i servisnog sloja.
+
+### Uspostava 5G 
+
+Prelazak na 5G vrši se pozivom sljedećih naredbi unutar foldera 
+```
+ln -sfn gnb-sa.cfg enb.cfg
+service lte start
+```
+
+Mobilni uređaj je uspješno registrovan na baznu stanicu i ostvarena je 5G (NR) konekcija, što je potvrđeno statusom mreže na uređaju. Tokom testiranja, uređaj je radio u 5G režimu sa stabilnim radio linkom.
+
+
+### Verifikacija podatkovne konekcije
+Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti download i upload brzine, uz prihvatljive vrijednosti kašnjenja i jittera, bez detektovanog gubitka paketa. Ovi rezultati potvrđuju ispravnu uspostavu podatkovnog prenosa preko 5G mreže.
+![att hEHZ2hAsnsy144M5mxlR1o8WJB0oHaMUIA8B4v967VY](https://github.com/user-attachments/assets/f56de84d-c6bf-4e56-bb25-3b2369f327bd)
+
+
+### Uspostava poziva
+
+Nakon uspješne registracije na mrežu, na mobilnom uređaju je uspostavljen poziv čime je potvrđena ispravna signalizacija i funkcionalnost servisnog sloja. Poziv je izvršen sljedećom komandom:
+
+```
+mt_call 0600000124
+```
+Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
+
+![att fyOzIoMoNgmmErkhz3abQWsnI6-lEfnrzBAE3pmUIMw](https://github.com/user-attachments/assets/acd0e952-fc0a-477a-aed4-4738c840d51c)
+
+---
 
 # Plan rada
 ## Radni paketi
