@@ -225,7 +225,7 @@ mt_call 0600000124
 Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
 <div align="center">
-<img src="/assets/5g/images/call_setup.jpg" alt="uspostava_poziva" title="Uspješno uspostavljen poziv" style="width:50%">
+<img src="/assets/5g/images/call_setup.jpg" alt="uspostava_poziva" title="Uspješno uspostavljen poziv" style="width:30%">
 <br>
 <i>Slika 5: Uspostava poziva</i>
 </div>
