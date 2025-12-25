@@ -193,13 +193,13 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 </div>
 
 ---
-## Implementacija VoNR usluge korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona
+# RP2: Implementacija VoNR usluge korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona
 
 U okviru eksperimenta uspješno je izvršeno povezivanje korisničkog uređaja na 5G mrežu i verifikovana osnovna funkcionalnost mrežnog i servisnog sloja.
 
 ### Uspostava 5G 
 
-Prelazak na 5G vrši se pozivom sljedećih naredbi unutar foldera 
+Prelazak na 5G vrši se pozivom sljedećih naredbi kao root unutar foldera /enb:
 ```shell
 ln -sfn gnb-sa.cfg enb.cfg
 service lte start
