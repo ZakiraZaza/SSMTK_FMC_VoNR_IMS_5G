@@ -232,6 +232,41 @@ Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje
 
 ---
 
+# RP3: Implementacija FMC za scenarij (1)
+U okviru scenarija (1) pokušali smo realizovati fiksno-mobilnu konvergenciju tako što će se fiksni korisnik (SIP softphone) registrovati na isti IMS koji koristi VoNR u 5G mreži (Amarisoft Callbox Mini). Pošto nemamo fizički SIP telefon, kao fiksni terminal korišten je Linphone (desktop). Definisan je SIP korisnika u IMS bazi (ue_db-ims.cfg / edb.cfg)
+
+Kreiran IMS korisnik za SIP klijenta koristeći standardni IMS pristup:
+- IMPI: sipclient (privatni identitet za autentifikaciju)
+- IMPU: 1234 i tel:1234 (javni identiteti za pozivanje)
+- pwd: sipclient
+- authent_type: MD5
+- domain: ims.mnc001.mcc001.3gppnetwork.org
+
+Zatim je realizovana registracija Linphone-a na IMS (Digest/MD5)
+Linphone je podešen da se registruje na IMS kroz:
+- Identity tipa sip:sipclient@...
+- Proxy/Server prema IP adresi Callbox Mini (SIP port 5060)
+- pokušaj usklađivanja Realm/UserID/Password parametara za MD5 autentifikaciju
+
+U više pokušaja rađen je debug kroz iterativno usklađivanje parametara i mijenjani su Realm (IP vs IMS domen), User ID (IMPI vs prazno) i format identity-ja (sipclient@IP vs sipclient@IMS_domain). Linphone nije uspio završiti IMS registraciju — ostao je indikator greške (uzvičnik) i poruka: “Unable to authenticate. Please verify your password.”
+![prva](https://github.com/user-attachments/assets/d2d58722-8f57-4c8e-b3f1-077bff55b0bd)
+
+
+Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije mogao biti uspostavljen u ovom koraku. Screenshot prikazuje definisanog SIP korisnika i istovremeno status neuspjele registracije u Linphone-u, što potvrđuje da problem nastaje u fazi IMS Digest autentifikacije.
+<div align="center">
+<img src="/assets/5g/images/druga.jpg" alt="neuspjeh" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:75%">
+<br>
+<i>Slika 6: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
+</div>
+
+Mogući razlog neuspjeha jeste neusklađen Realm/Domen u Digest autentifikaciji.  Linphone je u pojedinim pokušajima koristio Realm kao IP adresu, dok IMS očekuje domen ims.mnc001.mcc001.3gppnetwork.org, što može dovesti do pogrešnog MD5 hash-a i odbijanja registracije. Također, moguće su kontradiktorne odnosno duple postavke u edb.cfg. U konfiguraciji se vide elementi za “standard SIP client” i istovremeno definisan SIP user sa MD5 autentifikacijom, što može uzrokovati konflikte u pravilima autentifikacije.
+
+
+U narednom koraku planiramo očistiti IMS bazu i ostaviti samo jedan SIP korisnički blok (bez duplikata i bez authent_type: none) i zatim restartovati servis (lte_stop / lte_start). Zatim, utvrditi tačan Realm koji IMS šalje u 401 izazovu iz lteims.log, te u Linphone-u eksplicitno postaviti parametre u skladu s tim.
+
+---
+
+
 # Plan rada
 ## Radni paketi
 
