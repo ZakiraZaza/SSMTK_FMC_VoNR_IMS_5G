@@ -210,7 +210,7 @@ Mobilni uređaj je uspješno registrovan na baznu stanicu i ostvarena je 5G (NR)
 Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti download i upload brzine, uz prihvatljive vrijednosti kašnjenja i jittera, bez detektovanog gubitka paketa. Ovi rezultati potvrđuju ispravnu uspostavu podatkovnog prenosa preko 5G mreže.
 
 <div align="center">
-<img src="/assets/5g/images/connection_verification.png" alt="konekcija" title="Verifikacija 5G podatkovne konekcije" style="width:75%">
+<img src="/assets/5g/images/connection_verification.png" alt="konekcija" title="Verifikacija 5G podatkovne konekcije" style="width:50%">
 <br>
 <i>Slika 4: Verifikacija podatkovne konekcije</i>
 </div>
@@ -249,12 +249,11 @@ Linphone je podešen da se registruje na IMS kroz:
 - pokušaj usklađivanja Realm/UserID/Password parametara za MD5 autentifikaciju
 
 U više pokušaja rađen je debug kroz iterativno usklađivanje parametara i mijenjani su Realm (IP vs IMS domen), User ID (IMPI vs prazno) i format identity-ja (sipclient@IP vs sipclient@IMS_domain). Linphone nije uspio završiti IMS registraciju — ostao je indikator greške (uzvičnik) i poruka: “Unable to authenticate. Please verify your password.”
-![prva](https://github.com/user-attachments/assets/d2d58722-8f57-4c8e-b3f1-077bff55b0bd)
 
 
 Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije mogao biti uspostavljen u ovom koraku. Screenshot prikazuje definisanog SIP korisnika i istovremeno status neuspjele registracije u Linphone-u, što potvrđuje da problem nastaje u fazi IMS Digest autentifikacije.
 <div align="center">
-<img src="/assets/5g/images/druga.jpg" alt="neuspjeh" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:75%">
+<img src="/assets/5g/images/Linphone.jpg" alt="neuspjeh" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:50%">
 <br>
 <i>Slika 6: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
 </div>
