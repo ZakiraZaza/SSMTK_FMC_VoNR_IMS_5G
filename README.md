@@ -245,7 +245,7 @@ Signalizacijski i govorni tokovi u VoNR scenariju su kriptovani:
 Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku, dok su dostupni meta-podaci (protokoli, vremenski odnosi, redoslijed paketa), što odgovara realnim operativnim 5G mrežama.
 
 <div align="center">
-<img src="/assets/5g/images/Wireshark_RP2.png" alt="WS_RP2" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:30%">
+<img src="/assets/5g/images/Wireshark_RP2.png" alt="WS_RP2" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:50%">
 <br>
 <i>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</i>
 </div>
