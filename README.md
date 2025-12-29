@@ -135,10 +135,11 @@ U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi 
 
 Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
 
-<figure style="text-align: center;">
+<div align="center">
   <img src="assets/diagrams/plantuml/images/common_ims_core_in_5g_network.svg" alt="scenarij_1-plantuml" title="PlantUML - scenarij 1">
-  <figcaption>Slika 1: Zajedničko IMS jezgro u 5G mreži</figcaption>
-</figure>
+  <br>
+  <i>Slika 1: Zajedničko IMS jezgro u 5G mreži</i>
+</div>
 
 ---
 
@@ -153,10 +154,11 @@ U drugom scenariju IMS jezgro je i dalje zajedničko za mobilne i fiksne korisni
 
 Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna platforma**, a 5G mreža ga koristi kao servisni sloj za govor.
 
-<figure style="text-align: center;">
+<div align="center">
   <img src="assets/diagrams/plantuml/images/common_ims_core_in_a_fixed_network.svg" title="PlantUML - scenarij 2" alt="scenarij_2-plantuml">
-  <figcaption>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</figcaption>
-</figure>
+  <br>
+  <i>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</i>
+</div>
 
 ---
 
@@ -172,10 +174,11 @@ Treći scenarij predstavlja pristup u kojem 5G i fiksna mreža imaju **dva odvoj
 
 U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS sistema**, a ne kroz jedno zajedničko jezgro, što omogućava veću nezavisnost domena, ali i kompleksnije upravljanje routiranjem i politikama.
 
-<figure style="text-align: center;">
+<div align="center">
   <img src="assets/diagrams/plantuml/images/separate_ims_cores_for_5G_and_fixed_network.svg" title="PlantUML - scenarij 3" alt="scenarij_3-plantuml">
-  <figcaption>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</figcaption>
-</figure>
+  <br>
+  <i>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</i>
+</div>
 
 ---
 # RP2: Implementacija VoNR usluge korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona
@@ -192,10 +195,11 @@ Mobilni uređaj je uspješno registrovan na baznu stanicu i ostvarena je 5G (NR)
 ### Verifikacija podatkovne konekcije
 Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti download i upload brzine, uz prihvatljive vrijednosti kašnjenja i jittera, bez detektovanog gubitka paketa. Ovi rezultati potvrđuju ispravnu uspostavu podatkovnog prenosa preko 5G mreže.
 
-<figure style="text-align: center;">
+<div align="center">
   <img src="assets/5g/images/connection_verification.png" alt="konekcija" title="Verifikacija 5G podatkovne konekcije" style="width:50%">
-  <figcaption>Slika 4: Verifikacija podatkovne konekcije</figcaption>
-</figure>
+  <br>
+  <i>Slika 4: Verifikacija podatkovne konekcije</i>
+</div>
 
 ---
 
@@ -208,10 +212,11 @@ mt_call 0600000124
 
 Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
-<figure style="text-align: center;">
+<div align="center">
   <img src="assets/5g/images/call_setup.jpg" alt="uspostava_poziva" title="Uspješno uspostavljen poziv" style="width:30%">
-  <figcaption>Slika 5: Uspostava poziva</figcaption>
-</figure>
+  <br>
+  <i>Slika 5: Uspostava poziva</i>
+</div>
 
 ---
 
@@ -228,10 +233,11 @@ Signalizacijski i govorni tokovi u VoNR scenariju su kriptovani:
 - govorni tok koristi SRTP.
 Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku, dok su dostupni meta-podaci (protokoli, vremenski odnosi, redoslijed paketa), što odgovara realnim operativnim 5G mrežama.
 
-<figure style="text-align: center;">
+<div align="center">
   <img src="assets/5g/images/wireshark_rp2.png" alt="WS_RP2" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:60%">
-  <figcaption>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</figcaption>
-</figure>
+  <br>
+  <i>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</i>
+</div>
 
 ---
 
@@ -261,10 +267,11 @@ Linphone nije uspio završiti IMS registraciju. Indikator greške koji je ostao 
 
 Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije mogao biti uspostavljen u ovom koraku. Screenshot prikazuje definisanog SIP korisnika i istovremeno status neuspjele registracije u Linphone-u, što potvrđuje da problem nastaje u fazi IMS Digest autentifikacije.
 
-<figure style="text-align: center;">
+<div align="center">
   <img src="assets/5g/images/linphone.jpg" alt="neuspjeh" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:60%">
-  <figcaption><i>Slika 7: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i></figcaption>
-</figure>
+  <br>
+  <i>Slika 7: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
+</div>
 
 > [!NOTE]
 > Mogući razlog neuspjeha jeste neusklađen Realm/Domen u Digest autentifikaciji.  Linphone je u pojedinim pokušajima koristio Realm kao IP adresu, dok IMS očekuje domen ims.mnc001.mcc001.3gppnetwork.org, što može dovesti do pogrešnog MD5 hash-a i odbijanja registracije. Također, moguće su kontradiktorne odnosno duple postavke u `edb.cfg` konfiguracijskog datoteci. U konfiguraciji se mogu vidjeti elementi za “standard SIP client” i istovremeno definisan SIP user sa MD5 autentifikacijom, što može uzrokovati konflikte u pravilima autentifikacije.
@@ -285,61 +292,58 @@ U narednom koraku je planirano očistiti IMS bazu i ostaviti samo jedan SIP kori
     <td>Definisati FMC koncept koji povezuje VoNR i IMS/SIP fiksne mreže uz scenarije zajedničkog IMS jezgra u 5G mreži, zajedničkog jezgra u fiksnoj mreži i odvojena IMS jezgra 5G i fiksne mreže.
     </td>
     <td>
-      <input type="checkbox">Arhitekturni dijagrami
-      <br>
-      <input type="checkbox">Opis signalizacijskih tokova (visok nivo)
-      <br>
-      <input type="checkbox">Pretpostavke i ograničenja
-      <br>
-      <input type="checkbox">Lista potrebne opreme/softvera
+      <ul>
+        <li>Arhitekturni dijagrami</li>
+        <li>Opis signalizacijskih tokova (visok nivo)</li>
+        <li>Pretpostavke i ograničenja</li>
+        <li>Lista potrebne opreme/softvera</li>
+      </ul>
     </td>
   </tr>
   <tr>
     <td>RP2 - Implementacija VoNR usluge</td>
     <td>Implementacija VoNR korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona.</td>
     <td>
-      <input type="checkbox">Postavka testnog okruženja
-      <br>
-      <input type="checkbox">Registracija i uspostava poziva
-      <br>
-      <input type="checkbox">Evidencija konfiguracija
-      <br>
-      <input type="checkbox">Screenshotovi/logovi
+      <ul>
+        <li>Postavka testnog okruženja</li>
+        <li>Registracija i uspostava poziva</li>
+        <li>Evidencija konfiguracija</li>
+        <li>Screenshotovi/logovi</li>
+      </ul>
     </td>
   </tr>
   <tr>
     <td>RP3 - Implementacija FMC za scenarij (1)</td>
     <td>FMC za slučaj gdje je IMS jezgro zajedničko i nalazi se u 5G mreži.</td> 
     <td>
-      <input type="checkbox">Implementacijski koraci
-      <br>
-      <input type="checkbox">Test scenariji
-      <br>
-      <input type="checkbox">Logovi signalizacije
+      <ul>
+        <li>Implementacijski koraci</li>
+        <li>Test scenariji</li>
+        <li>Logovi signalizacije</li>
+      </ul>
     </td>
   </tr>
   <tr>
     <td>RP4 - Implementacija FMC za scenarij (3)</td> 
     <td>FMC za slučaj gdje su IMS jezgra 5G i fiksne mreže odvojene.</td>
     <td>
-      <input type="checkbox">Implementacijski koraci
-      <br>
-      <input type="checkbox">Test scenariji
-      <br>
-      <input type="checkbox">Logovi signalizacije
+      <ul>
+        <li>Implementacijski koraci</li>
+        <li>Test scenariji</li>
+        <li>Logovi signalizacije</li>
+      </ul>
     </td> 
   </tr>
   <tr>
    <td>RP5 - Eksperimentalna analiza signalizacijskih tokova</td> 
    <td>Analiza signalizacijskih tokova za scenarije (1) i (3).</td> 
   <td>
-    <input type="checkbox">Definisati šta se tačno snima/posmatra
-    <br>
-    <input type="checkbox">Prikupiti logove
-    <br>
-    <input type="checkbox">Napraviti sekvencne dijagrame
-    <br>
-    <input type="checkbox">Zaključci i poređenje
+    <ul>
+      <li>Definisati šta se tačno snima/posmatra</li>
+      <li>Prikupiti logove</li>
+      <li>Napraviti sekvencne dijagrame</li>
+      <li>Zaključci i poređenje</li>
+    </ul>
   </td>
   </tr>
   <tr>
@@ -348,9 +352,10 @@ U narednom koraku je planirano očistiti IMS bazu i ostaviti samo jedan SIP kori
       Održavanje strukture repozitorija, ažuriranje svih datotek ažuriranje svih datoteka i predlaganje ideja za poboljšanje postojećih datoteka. 
     </td>
     <td>
-      <input type="checkbox">Redovno praćenje i održavanje strukture repozitorija
-      <br>
-      <input type="checkbox">Ažuriranje README.md datoteke
+      <ul>
+        <li>Redovno praćenje i održavanje strukture repozitorija</li>
+        <li>Ažuriranje README.md datoteke</li>
+      </ul>
     </td>
   </tr>
 </table>
