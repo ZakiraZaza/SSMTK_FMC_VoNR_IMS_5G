@@ -249,8 +249,8 @@ Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku
 <br>
 <i>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</i>
 </div>
----
 
+---
 # RP3: Implementacija FMC za scenarij (1)
 U okviru scenarija (1) pokušali smo realizovati fiksno-mobilnu konvergenciju tako što će se fiksni korisnik (SIP softphone) registrovati na isti IMS koji koristi VoNR u 5G mreži (Amarisoft Callbox Mini). Pošto nemamo fizički SIP telefon, kao fiksni terminal korišten je Linphone (desktop). Definisan je SIP korisnika u IMS bazi (ue_db-ims.cfg / edb.cfg)
 
