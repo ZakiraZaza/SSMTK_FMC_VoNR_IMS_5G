@@ -230,6 +230,25 @@ Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje
 <i>Slika 5: Uspostava poziva</i>
 </div>
 
+### Snimanje mrežnog saobraćaja (pcap) – VoNR u 5G mreži
+
+Tokom testiranja uspostave VoNR poziva izvršeno je snimanje mrežnog saobraćaja u .pcap formatu radi kasnije analize signalizacijskih i transportnih tokova. Snimanje je realizovano korištenjem alata tcpdump, na relevantnom mrežnom interfejsu AMARI sistema, u realnom vremenu. 
+
+Dobijeni .pcap fajl sadrži:
+- SCTP saobraćaj (NGAP signalizacija između gNB i 5GC),
+- GTP tunelovani saobraćaj (korisnički i kontrolni tokovi),
+- heartbeat poruke koje potvrđuju aktivne i stabilne veze između mrežnih elemenata.
+  
+Signalizacijski i govorni tokovi u VoNR scenariju su kriptovani:
+- IMS signalizacija koristi SIP over TLS,
+- govorni tok koristi SRTP.
+Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku, dok su dostupni meta-podaci (protokoli, vremenski odnosi, redoslijed paketa), što odgovara realnim operativnim 5G mrežama.
+
+<div align="center">
+<img src="/assets/5g/images/Wireshark_RP2.jpg" alt="WS_RP2" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:30%">
+<br>
+<i>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</i>
+</div>
 ---
 
 # RP3: Implementacija FMC za scenarij (1)
@@ -255,7 +274,7 @@ Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije 
 <div align="center">
 <img src="/assets/5g/images/Linphone.jpg" alt="neuspjeh" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:50%">
 <br>
-<i>Slika 6: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
+<i>Slika 7: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
 </div>
 
 Mogući razlog neuspjeha jeste neusklađen Realm/Domen u Digest autentifikaciji.  Linphone je u pojedinim pokušajima koristio Realm kao IP adresu, dok IMS očekuje domen ims.mnc001.mcc001.3gppnetwork.org, što može dovesti do pogrešnog MD5 hash-a i odbijanja registracije. Također, moguće su kontradiktorne odnosno duple postavke u edb.cfg. U konfiguraciji se vide elementi za “standard SIP client” i istovremeno definisan SIP user sa MD5 autentifikacijom, što može uzrokovati konflikte u pravilima autentifikacije.
