@@ -230,7 +230,7 @@ Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje
 <i>Slika 5: Uspostava poziva</i>
 </div>
 
-### Snimanje mrežnog saobraćaja (pcap) – VoNR u 5G mreži
+### Snimanje mrežnog saobraćaja upotrebom Wireshark alata za VoNR u 5G mreži
 
 Tokom testiranja uspostave VoNR poziva izvršeno je snimanje mrežnog saobraćaja u .pcap formatu radi kasnije analize signalizacijskih i transportnih tokova. Snimanje je realizovano korištenjem alata tcpdump, na relevantnom mrežnom interfejsu AMARI sistema, u realnom vremenu. 
 
@@ -245,7 +245,7 @@ Signalizacijski i govorni tokovi u VoNR scenariju su kriptovani:
 Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku, dok su dostupni meta-podaci (protokoli, vremenski odnosi, redoslijed paketa), što odgovara realnim operativnim 5G mrežama.
 
 <div align="center">
-<img src="/assets/5g/images/Wireshark_RP2.jpg" alt="WS_RP2" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:30%">
+<img src="/assets/5g/images/Wireshark_RP2.png" alt="WS_RP2" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:30%">
 <br>
 <i>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</i>
 </div>
