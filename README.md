@@ -273,6 +273,8 @@ Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije 
   <i>Slika 7: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
 </div>
 
+---
+
 > [!NOTE]
 > Mogući razlog neuspjeha jeste neusklađen Realm/Domen u Digest autentifikaciji.  Linphone je u pojedinim pokušajima koristio Realm kao IP adresu, dok IMS očekuje domen ims.mnc001.mcc001.3gppnetwork.org, što može dovesti do pogrešnog MD5 hash-a i odbijanja registracije. Također, moguće su kontradiktorne odnosno duple postavke u `edb.cfg` konfiguracijskog datoteci. U konfiguraciji se mogu vidjeti elementi za “standard SIP client” i istovremeno definisan SIP user sa MD5 autentifikacijom, što može uzrokovati konflikte u pravilima autentifikacije.
 
