@@ -239,6 +239,35 @@ Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku
   <i>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</i>
 </div>
 
+### SIP klijent – `pjsua` konfiguracijska datoteka
+
+Konfiguracijska datoteka `pjsua.cfg` korištena je za:
+  - registraciju SIP korisnika na IMS jezgro 5G mreže,
+  - verifikaciju ispravnosti IMS/SIP signalizacije,
+  - testiranje dostupnosti govorne usluge prije realizacije FMC scenarija.
+
+Ovaj korak je neophodan kako bi se potvrdila funkcionalnost IMS sloja nezavisno od mobilnog korisničkog uređaja.
+
+`pjsua` je odabran jer omogućava potpunu kontrolu SIP parametara kroz konfiguracijsku datoteku, daje jasan uvid u proces SIP registracije i odgovore IMS jezgra, te je pogodan za eksperimentalnu i akademsku analizu SIP/IMS sistema.
+
+Datoteka `pjsua.cfg` kreirana je sa ciljem definisanja SIP identiteta korisnika (IMPU/IMPI), IMS registra, autentifikacijskih parametara, lokalnog SIP porta i ponašanja prilikom dolaznih poziva.
+
+```bash
+--realm *
+--registrar sip:192.168.4.1
+--id sip:1234
+--username sipclient
+--password sipclient
+--local-port 5061
+--auto-answer=200
+```
+Na osnovu ove konfiguracije ostvarena je uspješna SIP registracija korisnika (200 OK), aktivan SIP nalog sa statusom Online, periodično IMS re-registriranje, spremnost sistema za uspostavu govorne sesije. Ovim je potvrđena ispravna konfiguracija SIP klijenta i IMS jezgra, čime je obezbijeđena osnova za dalju realizaciju fiksno-mobilne konvergencije u narednim radnim paketima.
+
+
+<img width="600" height="400" alt="Screenshot 2026-01-04 at 16 11 03" src="https://github.com/user-attachments/assets/c4133774-a1e5-49a2-b9d3-d32e30096e85" />
+
+
+
 ---
 
 # RP3: Implementacija FMC za scenarij (1)
