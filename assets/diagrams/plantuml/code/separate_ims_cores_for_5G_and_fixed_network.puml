@@ -1,7 +1,10 @@
 @startuml
+set separator .
 top to bottom direction
-hide <<hidden>> stereotype
-hide <<core>> stereotype
+hide stereotype
+skinparam linetype ortho
+
+title "Zajedničko IMS jezgro u 5G mreži"
 
 <style>
 rectangle {
@@ -11,8 +14,16 @@ rectangle {
     BackgroundColor transparent
     FontColor transparent
   }
+  .hidden_font {
+    FontColor transparent   
+  }
   .core {
     BackgroundColor #EEEEEE
+  }
+  .ims {
+    BackgroundColor navy
+    FontColor white
+    FontStyle bold
   }
 }
 </style>
@@ -22,30 +33,101 @@ skinparam rectangle {
   BorderColor<<hidden>> transparent
 }
 
-skinparam linetype ortho
-
-title "Odvojena IMS jezgra za 5G i fiksnu mrežu"
-
 cloud "5G mobilna mreža" as "cloud_1" {
-  rectangle "0" <<hidden>>
+  rectangle "0"<<hidden>>
   rectangle "5G UE (VoNR telefon)" as 1
   rectangle "gNB" as 2
   rectangle "_1"<<hidden>> {
-    rectangle "_2"<<hidden>> {
+    rectangle "_1"<<hidden>> {
       rectangle "5G core (5GC)\nAMF/SMF/UPF" as 3
     }
-    rectangle "Odvojeno jezgro" <<core>> as "sc_1" {
-      rectangle "IMS jezgro\nP-CSCF, I-CSCF\nS-CSCF, AS\nHSS/UDM" as 4_1 
+    rectangle "Odvojeno jezgro" <<core>> as odvojeno_jezgro {
+    skinparam NodeSep 100
+      rectangle "_1" <<hidden_font>> as 4 {
+        rectangle "_1"<<hidden>> {
+          rectangle "_1" <<hidden>> {
+
+          }
+          rectangle "I-CSCF" <<ims>> as "_2" {
+            
+          }
+          rectangle "AS/TAS" <<ims>> as "_3" {
+            
+          }
+        }
+        rectangle "_2"<<hidden>> {
+          rectangle "MGCF" <<ims>> as "_1" {
+
+          }
+          rectangle "S-CSCF" <<ims>> as "_2" {
+            
+          }
+          rectangle "HSS" <<ims>> as "_3" {
+            
+          }
+        }
+        rectangle "_3"<<hidden>> {
+          rectangle "PCRF" <<ims>> as "_1" {
+
+          }
+          rectangle "P-CSCF" <<ims>> as "_2" {
+            
+          }
+          rectangle "UE" <<ims>> as "_3" {
+            
+          }
+        }
+        rectangle "_4"<<hidden>> {
+        }
+      } 
     }
+
   }
 }
 
 cloud "Fiksna mreža" as "cloud_2" {
-  rectangle "_4"<<hidden>> {
-    rectangle "Odvojeno jezgro" <<core>> as "sc_2" {
-      rectangle "IMS jezgro\nP-CSCF, I-CSCF\nS-CSCF, AS\nHSS/UDM" as 4_2 
+  rectangle "_1"<<hidden>> {
+      rectangle "Odvojeno jezgro" <<core>> as odvojeno_jezgro {
+      skinparam NodeSep 100
+      rectangle "_1" <<hidden_font>> as 4 {
+        rectangle "_1"<<hidden>> {
+          rectangle "_1" <<hidden>> {
+
+          }
+          rectangle "I-CSCF" <<ims>> as "_2" {
+            
+          }
+          rectangle "AS/TAS" <<ims>> as "_3" {
+            
+          }
+        }
+        rectangle "_2"<<hidden>> {
+          rectangle "MGCF" <<ims>> as "_1" {
+
+          }
+          rectangle "S-CSCF" <<ims>> as "_2" {
+            
+          }
+          rectangle "HSS" <<ims>> as "_3" {
+            
+          }
+        }
+        rectangle "_3"<<hidden>> {
+          rectangle "PCRF" <<ims>> as "_1" {
+
+          }
+          rectangle "P-CSCF" <<ims>> as "_2" {
+            
+          }
+          rectangle "UE" <<ims>> as "_3" {
+            
+          }
+        }
+        rectangle "_4"<<hidden>> {
+        }
+      } 
     }
-    rectangle "_5"<<hidden>> {
+    rectangle "_1"<<hidden>> {
       rectangle "AGF/BNG\nfixed access gateway" as 5
     }
   }
@@ -62,10 +144,56 @@ cloud_1 -[hidden]right-> rectangle_empty
 0 -[hidden]down-> 1
 1 -down-> 2
 2 -down-> 3
-3 -right-> 4_1
-4_1 <-right-> 4_2
-4_2 <-right- 5
+3 -right-> cloud_1._1.odvojeno_jezgro.4
+cloud_1._1.odvojeno_jezgro.4 <-right-> cloud_2._1.odvojeno_jezgro.4   
+cloud_2._1.odvojeno_jezgro.4 <-right- 5
 5 <-up- 6
 6 <-up- 7
 7 <-up- 8
+'---'
+skinparam {
+  ArrowThickness 1
+  ArrowColor black
+  ArrowFontColor black
+  ArrowFontSize 14
+  ArrowFontStyle bold
+}
+
+cloud_1._1.odvojeno_jezgro.4._1._2 -[hidden]down-> cloud_1._1.odvojeno_jezgro.4._2._2
+cloud_1._1.odvojeno_jezgro.4._2._2 -[hidden]down-> cloud_1._1.odvojeno_jezgro.4._3._2
+cloud_1._1.odvojeno_jezgro.4._3 -[hidden]down-> cloud_1._1.odvojeno_jezgro.4._4
+'---'
+cloud_1._1.odvojeno_jezgro.4._1._1 -[hidden]right-> cloud_1._1.odvojeno_jezgro.4._1._2
+cloud_1._1.odvojeno_jezgro.4._1._2 -right- cloud_1._1.odvojeno_jezgro.4._1._3: "Ma"
+cloud_1._1.odvojeno_jezgro.4._1._2 -left- cloud_1._1.odvojeno_jezgro.4._2._1: "Mg "
+cloud_1._1.odvojeno_jezgro.4._1._2 -down- cloud_1._1.odvojeno_jezgro.4._2._2: "Mw "
+cloud_1._1.odvojeno_jezgro.4._1._2 -right- cloud_1._1.odvojeno_jezgro.4._2._3: "Cx "
+cloud_1._1.odvojeno_jezgro.4._1._3 -down- cloud_1._1.odvojeno_jezgro.4._2._2: "ISC"
+cloud_1._1.odvojeno_jezgro.4._1._3 -down- cloud_1._1.odvojeno_jezgro.4._2._3: "Sh"
+
+cloud_1._1.odvojeno_jezgro.4._2._1 -right- cloud_1._1.odvojeno_jezgro.4._2._2: "Mg "
+cloud_1._1.odvojeno_jezgro.4._2._2 -right- cloud_1._1.odvojeno_jezgro.4._2._3: "Cx  "
+cloud_1._1.odvojeno_jezgro.4._2._2 -down- cloud_1._1.odvojeno_jezgro.4._3._2: "Mw "
+
+cloud_1._1.odvojeno_jezgro.4._3._1 -right- cloud_1._1.odvojeno_jezgro.4._3._2: " Rx   "
+cloud_1._1.odvojeno_jezgro.4._3._2 -right- cloud_1._1.odvojeno_jezgro.4._3._3: "Gm "
+'---CLOUD SEPARATOR---'
+cloud_2._1.odvojeno_jezgro.4._1._2 -[hidden]down-> cloud_2._1.odvojeno_jezgro.4._2._2
+cloud_2._1.odvojeno_jezgro.4._2._2 -[hidden]down-> cloud_2._1.odvojeno_jezgro.4._3._2
+cloud_2._1.odvojeno_jezgro.4._3 -[hidden]down-> cloud_2._1.odvojeno_jezgro.4._4
+'---'
+cloud_2._1.odvojeno_jezgro.4._1._1 -[hidden]right-> cloud_2._1.odvojeno_jezgro.4._1._2
+cloud_2._1.odvojeno_jezgro.4._1._2 -right- cloud_2._1.odvojeno_jezgro.4._1._3: "Ma"
+cloud_2._1.odvojeno_jezgro.4._1._2 -left- cloud_2._1.odvojeno_jezgro.4._2._1: "Mg "
+cloud_2._1.odvojeno_jezgro.4._1._2 -down- cloud_2._1.odvojeno_jezgro.4._2._2: "Mw "
+cloud_2._1.odvojeno_jezgro.4._1._2 -right- cloud_2._1.odvojeno_jezgro.4._2._3: "Cx "
+cloud_2._1.odvojeno_jezgro.4._1._3 -down- cloud_2._1.odvojeno_jezgro.4._2._2: "ISC"
+cloud_2._1.odvojeno_jezgro.4._1._3 -down- cloud_2._1.odvojeno_jezgro.4._2._3: "Sh"
+
+cloud_2._1.odvojeno_jezgro.4._2._1 -right- cloud_2._1.odvojeno_jezgro.4._2._2: "Mg "
+cloud_2._1.odvojeno_jezgro.4._2._2 -right- cloud_2._1.odvojeno_jezgro.4._2._3: "Cx  "
+cloud_2._1.odvojeno_jezgro.4._2._2 -down- cloud_2._1.odvojeno_jezgro.4._3._2: "Mw "
+
+cloud_2._1.odvojeno_jezgro.4._3._1 -right- cloud_2._1.odvojeno_jezgro.4._3._2: " Rx   "
+cloud_2._1.odvojeno_jezgro.4._3._2 -right- cloud_2._1.odvojeno_jezgro.4._3._3: "Gm "
 @enduml
