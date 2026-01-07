@@ -261,12 +261,14 @@ Datoteka `pjsua.cfg` kreirana je sa ciljem definisanja SIP identiteta korisnika 
 --local-port 5061
 --auto-answer=200
 ```
-Na osnovu ove konfiguracije ostvarena je uspješna SIP registracija korisnika (200 OK), aktivan SIP nalog sa statusom Online, periodično IMS re-registriranje, spremnost sistema za uspostavu govorne sesije. Ovim je potvrđena ispravna konfiguracija SIP klijenta i IMS jezgra, čime je obezbijeđena osnova za dalju realizaciju fiksno-mobilne konvergencije u narednim radnim paketima.
 
+Na osnovu ove konfiguracije ostvarena je uspješna SIP registracija korisnika `(200 OK)`, aktivan SIP nalog sa statusom Online, periodično IMS re-registriranje, spremnost sistema za uspostavu govorne sesije. Ovim je potvrđena ispravna konfiguracija SIP klijenta i IMS jezgra, čime je obezbijeđena osnova za dalju realizaciju fiksno-mobilne konvergencije u narednim radnim paketima.
 
-<img width="600" height="400" alt="Screenshot 2026-01-04 at 16 11 03" src="https://github.com/user-attachments/assets/c4133774-a1e5-49a2-b9d3-d32e30096e85" />
-
-
+<div align="center">
+  <img src="assets/5g/images/pjsua.png" alt="pjsua.cfg" title="Konfiguracija pomoću `pjsua.cfg` konfiguracijske datoteke" style="width:60%">
+  <br>
+  <i>Slika 7: Korištenje <code>pjsua.cfg</code> konfiguracijske datoteke za SIP registraciju korisnika</i>
+</div>
 
 ---
 
@@ -299,7 +301,7 @@ Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije 
 <div align="center">
   <img src="assets/5g/images/linphone.jpg" alt="neuspjeh" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:60%">
   <br>
-  <i>Slika 7: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
+  <i>Slika 8: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
 </div>
 
 ---
