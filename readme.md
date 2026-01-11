@@ -1,28 +1,28 @@
 # SSMTK_FMC_VoNR_IMS_5G
 <table>
 <tr>
-  <td><b>Predmet</b></td>
+  <th><b>Predmet</b></th>
   <td>Sistemi i servisi mobilnih telekomunikacija</td>
 </tr>
 <tr>
-  <td><b>Akademska godina</b></td>
+  <th><b>Akademska godina</b></th>
   <td>2025/2026</td>
 </tr>
 <tr>
-  <td><b>Projektni zadatak</b></td>
+  <th><b>Projektni zadatak</b></th>
   <td>Fiksno-mobilna konvergencija govorne usluge u 5G mreži</td>
 </tr>
 <tr>
-  <td><b>Opis projektnog zadatka</b></td>
+  <th><b>Opis projektnog zadatka</b></th>
   <td>Dizajn i implementacija fiksno-mobilne konvergencije (FMC) koja povezuje VoNR u 5G mreži sa IMS/SIP govornom uslugom u fiksnoj mreži, kroz više scenarija IMS jezgra.</td>
 </tr>
 <tr>
-  <td><b>Tim</b></td>
+  <th><b>Tim</b></th>
   <td align="left">
     <table>
       <tr>
-        <td><b>Član tima</b></td>
-        <td colspan="2"><b><a href="#radni-paketi">Alocirani radni paketi</a></b></td>
+        <th><b>Član tima</b></th>
+        <th colspan="2"><b><a href="#radni-paketi">Alocirani radni paketi</a></b></th>
       </tr>
       <tr>
         <td>Zakira Jašarević</td>
@@ -136,7 +136,7 @@ U prvom scenariju IMS jezgro je smješteno u **mobilnoj (5G) domeni** i koristi 
 Ovaj scenarij naglašava FMC u kojem je **5G mreža “domicilna” za IMS**, a fiksna mreža ulazi kao dodatni pristupni domen.
 
 <div align="center">
-  <img src="assets/diagrams/draw_io/images/common_ims_core_in_5g_network.svg" alt="scenarij_1" title="Scenarij 1">
+  <img src="assets/diagrams/draw_io/images/common_ims_core_in_5g_network.svg" alt="common_ims_core_in_5g_network.svg" title="Zajedničko IMS jezgro u 5G mreži">
   <br>
   <i>Slika 1: Zajedničko IMS jezgro u 5G mreži</i>
 </div>
@@ -155,7 +155,7 @@ U drugom scenariju IMS jezgro je i dalje zajedničko za mobilne i fiksne korisni
 Ovaj scenarij odgovara situaciji u kojoj **fiksni IMS postoji kao centralna platforma**, a 5G mreža ga koristi kao servisni sloj za govor.
 
 <div align="center">
-  <img src="assets/diagrams/draw_io/images/common_ims_core_in_a_fixed_network.svg" title="Scenarij 2" alt="scenarij_2">
+  <img src="assets/diagrams/draw_io/images/common_ims_core_in_a_fixed_network.svg"  alt="common_ims_core_in_a_fixed_network.svg" title="Zajedničko IMS jezgro u fiksnoj mreži">
   <br>
   <i>Slika 2: Zajedničko IMS jezgro u fiksnoj mreži</i>
 </div>
@@ -175,28 +175,31 @@ Treći scenarij predstavlja pristup u kojem 5G i fiksna mreža imaju **dva odvoj
 U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS sistema**, a ne kroz jedno zajedničko jezgro, što omogućava veću nezavisnost domena, ali i kompleksnije upravljanje routiranjem i politikama.
 
 <div align="center">
-  <img src="assets/diagrams/draw_io/images/separate_ims_cores_for_5G_and_fixed_network.svg" title="Scenarij 3" alt="scenarij_3">
+  <img src="assets/diagrams/draw_io/images/separate_ims_cores_for_5G_and_fixed_network.svg" alt="separate_ims_cores_for_5G_and_fixed_network.svg" title="Odvojena IMS jezgra za 5G i fiksnu mrežu">
   <br>
   <i>Slika 3: Odvojena IMS jezgra za 5G i fiksnu mrežu</i>
 </div>
 
 ---
+
 # RP2: Implementacija VoNR usluge korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona
 U okviru eksperimenta uspješno je izvršeno povezivanje korisničkog uređaja na 5G mrežu i verifikovana osnovna funkcionalnost mrežnog i servisnog sloja.
 
 ### Uspostava 5G 
 Prelazak na 5G vrši se pozivom sljedećih naredbi kao root unutar foldera /enb:
+
 ```shell
 ln -sfn gnb-sa.cfg enb.cfg
 service lte start
 ```
+
 Mobilni uređaj je uspješno registrovan na baznu stanicu i ostvarena je 5G (NR) konekcija, što je potvrđeno statusom mreže na uređaju. Tokom testiranja, uređaj je radio u 5G režimu sa stabilnim radio linkom.
 
 ### Verifikacija podatkovne konekcije
 Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti download i upload brzine, uz prihvatljive vrijednosti kašnjenja i jittera, bez detektovanog gubitka paketa. Ovi rezultati potvrđuju ispravnu uspostavu podatkovnog prenosa preko 5G mreže.
 
 <div align="center">
-  <img src="assets/5g/images/connection_verification.png" alt="konekcija" title="Verifikacija 5G podatkovne konekcije" style="width:50%">
+  <img src="assets/5g/images/connection_verification.png" alt="connection_verification.png" title="Verifikacija podatkovne konekcije" style="width:50%">
   <br>
   <i>Slika 4: Verifikacija podatkovne konekcije</i>
 </div>
@@ -213,7 +216,7 @@ mt_call 0600000124
 Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
 <div align="center">
-  <img src="assets/5g/images/call_setup.jpg" alt="uspostava_poziva" title="Uspješno uspostavljen poziv" style="width:30%">
+  <img src="assets/5g/images/call_setup.jpg" alt="call_setup.jpg" title="Uspostava poziva" style="width:30%">
   <br>
   <i>Slika 5: Uspostava poziva</i>
 </div>
@@ -234,13 +237,14 @@ Signalizacijski i govorni tokovi u VoNR scenariju su kriptovani:
 Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku, dok su dostupni meta-podaci (protokoli, vremenski odnosi, redoslijed paketa), što odgovara realnim operativnim 5G mrežama.
 
 <div align="center">
-  <img src="assets/5g/images/wireshark_rp2.png" alt="WS_RP2" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:60%">
+  <img src="assets/5g/images/wireshark_rp2.png" alt="wireshark_rp2.png" title="Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži" style="width:60%">
   <br>
   <i>Slika 6: Snimanje mrežnog saobraćaja u Wireshark alatu za VoNR u 5G mreži</i>
 </div>
 
-### SIP klijent – `pjsua` konfiguracijska datoteka
+---
 
+### SIP klijent – `pjsua` konfiguracijska datoteka
 Konfiguracijska datoteka `pjsua.cfg` korištena je za:
   - registraciju SIP korisnika na IMS jezgro 5G mreže,
   - verifikaciju ispravnosti IMS/SIP signalizacije,
@@ -265,7 +269,7 @@ Datoteka `pjsua.cfg` kreirana je sa ciljem definisanja SIP identiteta korisnika 
 Na osnovu ove konfiguracije ostvarena je uspješna SIP registracija korisnika `(200 OK)`, aktivan SIP nalog sa statusom Online, periodično IMS re-registriranje, spremnost sistema za uspostavu govorne sesije. Ovim je potvrđena ispravna konfiguracija SIP klijenta i IMS jezgra, čime je obezbijeđena osnova za dalju realizaciju fiksno-mobilne konvergencije u narednim radnim paketima.
 
 <div align="center">
-  <img src="assets/5g/images/pjsua.png" alt="pjsua.cfg" title="Konfiguracija pomoću `pjsua.cfg` konfiguracijske datoteke" style="width:60%">
+  <img src="assets/5g/images/pjsua.png" alt="pjsua.png" title="Korištenje <code>pjsua.cfg</code> konfiguracijske datoteke za SIP registraciju korisnika" style="width:60%">
   <br>
   <i>Slika 7: Korištenje <code>pjsua.cfg</code> konfiguracijske datoteke za SIP registraciju korisnika</i>
 </div>
@@ -299,7 +303,7 @@ Linphone nije uspio završiti IMS registraciju. Indikator greške koji je ostao 
 Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije mogao biti uspostavljen u ovom koraku. Screenshot prikazuje definisanog SIP korisnika i istovremeno status neuspjele registracije u Linphone-u, što potvrđuje da problem nastaje u fazi IMS Digest autentifikacije.
 
 <div align="center">
-  <img src="assets/5g/images/linphone.jpg" alt="neuspjeh" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:60%">
+  <img src="assets/5g/images/linphone.jpg" alt="linphone.jpg" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:60%">
   <br>
   <i>Slika 8: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
 </div>
@@ -312,8 +316,8 @@ Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije 
 U narednom koraku je planirano očistiti IMS bazu i ostaviti samo jedan SIP korisnički blok (bez duplikata i bez `authent_type: none`) i zatim ponovo pokrenuti servis (`lte_stop / lte_start`). Zatim, potrebno je utvrditi tačan Realm koji IMS šalje u 401 izazovu iz `lteims.log`, te u Linphone-u eksplicitno postaviti parametre u skladu s tim.
 
 ---
-# RP4 – Implementacija FMC za scenarij (3): odvojena IMS jezgra 5G i fiksne mreže
 
+# RP4 – Implementacija FMC za scenarij (3): odvojena IMS jezgra 5G i fiksne mreže
 U okviru RP4 pokušana je realizacija fiksno-mobilne konvergencija (FMC) u scenariju u kojem 5G mreža i fiksna SIP mreža imaju odvojena IMS jezgra. Integracija je ostvarena korištenjem Asterisk-a kao SIP gateway-a između fiksne SIP domene i IMS jezgra 5G mreže (Amarisoft Callbox Mini).
 
 ## Arhitektura rješenja (RP4 kontekst)
@@ -324,17 +328,21 @@ U ovom scenariju:
 - IMS jezgra nisu zajednička, već međusobno povezana preko SIP trunk-a.
 
 ## SIP klijent – Linphone konfiguracija (fiksna mreža)
-
 Na slici je prikazana konfiguracija Linphone SIP klijenta koji se registruje na Asterisk server kao fiksni korisnik (ekstenzija `6001`).  
 Konfigurisani su osnovni SIP parametri:
 - SIP URI (`sip:6001@<IP_ASTERISK>`),
 - SIP server (Asterisk, UDP transport),
 - period registracije i transportni protokol.
 
-<img width="1281" height="832" alt="350d39d02d57c0739b670a5f57599733" src="https://github.com/user-attachments/assets/8b6a6eb1-3920-48d2-aad9-308e92759da8" />
+<div align="center">
+  <img src="assets/5g/images/linphone-sip_client_configuration.png" alt="linphone-sip_client_configuration.png" title="Linphone - Konfiguracija SIP klijenta" style="width:100%">
+  <br>
+  <i>Slika 9: Linphone - Konfiguracija SIP klijenta</i>
+</div>
+
+---
 
 ## Asterisk – PJSIP konfiguracija (IMS SIP trunk)
-
 U fajlu `/etc/asterisk/pjsip.conf` definisan je:
 - IMS SIP trunk (`ims-endpoint`) koji povezuje Asterisk sa IMS jezgrom 5G mreže,
 - dozvoljeni audio kodeci (`ulaw`, `alaw`) radi kompatibilnosti sa SIP/IMS interworking-om,
@@ -342,11 +350,24 @@ U fajlu `/etc/asterisk/pjsip.conf` definisan je:
 - lokalni SIP endpoint za fiksnog korisnika (`6001`) sa autentifikacijom.
 
 Ova konfiguracija omogućava ispravno uspostavljanje SIP sesija između Asterisk-a i IMS-a.
-<img width="705" height="595" alt="bb72c75fd2d7041dfff52ba5da4f2cdb" src="https://github.com/user-attachments/assets/c7c48878-0886-4c7a-9859-f11b7a233853" />
-<img width="903" height="573" alt="7107a41b0fdf796b92c1a3cd54138eb9" src="https://github.com/user-attachments/assets/b8299353-d6fb-44e0-8a2a-f8276de1b130" />
+
+<div align="center">
+  <img src="assets/5g/images/pjsip_conf-1.png" alt="pjsip_conf-1.png" title="Prikaz pjsip.conf konfiguracijske datoteke - 1" style="width:75%">
+  <br>
+  <i>Slika 10: Prikaz <code>pjsip.conf</code> konfiguracijske datoteke - 1</i>
+</div>
+
+---
+
+<div align="center">
+  <img src="assets/5g/images/pjsip_conf-2.png" alt="pjsip_conf-2.png" title="Prikaz pjsip.conf konfiguracijske datoteke - 2" style="width:75%">
+  <br>
+  <i>Slika 11: Prikaz <code>pjsip.conf</code> konfiguracijske datoteke - 2</i>
+</div>
+
+---
 
 ## Asterisk – rutiranje poziva
-
 U fajlu **`/etc/asterisk/extensions.conf`** definisana su pravila rutiranja poziva između fiksne SIP domene i IMS domene:
 
 - **`[internal]`**  
@@ -358,7 +379,11 @@ U fajlu **`/etc/asterisk/extensions.conf`** definisana su pravila rutiranja pozi
 
 Dodani su `NoOp()` zapisi radi lakšeg praćenja signalizacijskog toka u Asterisk CLI-u.
 
-<img width="742" height="470" alt="1ae500df8a03014802c32e3ae4769e94 2" src="https://github.com/user-attachments/assets/7f935990-e638-495a-8249-bbecaf70d718" />
+<div align="center">
+  <img src="assets/5g/images/extensions_conf.png" alt="extensions_conf.png" title=" Prikaz extensions.conf konfiguracijske datoteke" style="width:75%">
+  <br>
+  <i>Slika 12: Prikaz <code>extensions.conf</code> konfiguracijske datoteke</i>
+</div>
 
 ---
 
