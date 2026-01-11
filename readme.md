@@ -312,6 +312,55 @@ Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije 
 U narednom koraku je planirano očistiti IMS bazu i ostaviti samo jedan SIP korisnički blok (bez duplikata i bez `authent_type: none`) i zatim ponovo pokrenuti servis (`lte_stop / lte_start`). Zatim, potrebno je utvrditi tačan Realm koji IMS šalje u 401 izazovu iz `lteims.log`, te u Linphone-u eksplicitno postaviti parametre u skladu s tim.
 
 ---
+# RP4 – Implementacija FMC za scenarij (3): odvojena IMS jezgra 5G i fiksne mreže
+
+U okviru RP4 pokušana je realizacija fiksno-mobilne konvergencija (FMC) u scenariju u kojem 5G mreža i fiksna SIP mreža imaju odvojena IMS jezgra. Integracija je ostvarena korištenjem Asterisk-a kao SIP gateway-a između fiksne SIP domene i IMS jezgra 5G mreže (Amarisoft Callbox Mini).
+
+## Arhitektura rješenja (RP4 kontekst)
+U ovom scenariju:
+- 5G korisnici koriste VoNR/VoLTE preko IMS jezgra u 5G mreži,
+- fiksni korisnici koriste SIP softphone (Linphone),
+- Asterisk posreduje signalizaciju i RTP tokove između dvije domene,
+- IMS jezgra nisu zajednička, već međusobno povezana preko SIP trunk-a.
+
+## SIP klijent – Linphone konfiguracija (fiksna mreža)
+
+Na slici je prikazana konfiguracija Linphone SIP klijenta koji se registruje na Asterisk server kao fiksni korisnik (ekstenzija `6001`).  
+Konfigurisani su osnovni SIP parametri:
+- SIP URI (`sip:6001@<IP_ASTERISK>`),
+- SIP server (Asterisk, UDP transport),
+- period registracije i transportni protokol.
+
+<img width="1281" height="832" alt="350d39d02d57c0739b670a5f57599733" src="https://github.com/user-attachments/assets/8b6a6eb1-3920-48d2-aad9-308e92759da8" />
+
+## Asterisk – PJSIP konfiguracija (IMS SIP trunk)
+
+U fajlu `/etc/asterisk/pjsip.conf` definisan je:
+- IMS SIP trunk (`ims-endpoint`) koji povezuje Asterisk sa IMS jezgrom 5G mreže,
+- dozvoljeni audio kodeci (`ulaw`, `alaw`) radi kompatibilnosti sa SIP/IMS interworking-om,
+- SIP identifikacija (`identify`) prema IP adresi IMS-a,
+- lokalni SIP endpoint za fiksnog korisnika (`6001`) sa autentifikacijom.
+
+Ova konfiguracija omogućava ispravno uspostavljanje SIP sesija između Asterisk-a i IMS-a.
+<img width="705" height="595" alt="bb72c75fd2d7041dfff52ba5da4f2cdb" src="https://github.com/user-attachments/assets/c7c48878-0886-4c7a-9859-f11b7a233853" />
+<img width="903" height="573" alt="7107a41b0fdf796b92c1a3cd54138eb9" src="https://github.com/user-attachments/assets/b8299353-d6fb-44e0-8a2a-f8276de1b130" />
+
+## Asterisk – rutiranje poziva
+
+U fajlu **`/etc/asterisk/extensions.conf`** definisana su pravila rutiranja poziva između fiksne SIP domene i IMS domene:
+
+- **`[internal]`**  
+  - lokalni pozivi između SIP ekstenzija,
+  - rutiranje odlaznih poziva iz fiksne mreže ka IMS-u (`Dial(PJSIP/ims-endpoint/${EXTEN})`).
+
+- **`[from-ims]`**  
+  - dolazni pozivi iz IMS/5G mreže prema fiksnom SIP korisniku (`6001`).
+
+Dodani su `NoOp()` zapisi radi lakšeg praćenja signalizacijskog toka u Asterisk CLI-u.
+
+<img width="742" height="470" alt="1ae500df8a03014802c32e3ae4769e94 2" src="https://github.com/user-attachments/assets/7f935990-e638-495a-8249-bbecaf70d718" />
+
+---
 
 # Radni paketi
 <table>
