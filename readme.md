@@ -387,7 +387,8 @@ Dodani su `NoOp()` zapisi radi lakšeg praćenja signalizacijskog toka u Asteris
 
 ---
 
-# Radni paketi
+<details id="radni-paketi">
+<summary title="Kliknite za prikaz radnih paketa.">Radni paketi</summary>
 <table>
   <tr>
     <td><b>Radni paket</b></td>
@@ -466,6 +467,7 @@ Dodani su `NoOp()` zapisi radi lakšeg praćenja signalizacijskog toka u Asteris
     </td>
   </tr>
 </table>
+</details>
 
 # Literatura:
 [^1]: Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
