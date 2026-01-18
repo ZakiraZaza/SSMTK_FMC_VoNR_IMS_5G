@@ -379,6 +379,49 @@ U fajlu **`/etc/asterisk/extensions.conf`** definisana su pravila rutiranja pozi
 
 Dodani su `NoOp()` zapisi radi lakšeg praćenja signalizacijskog toka u Asterisk CLI-u.
 
+## MicroSIP SIP klijent
+
+U okviru projekta testiran je i MicroSIP (v3.22.3) kao alternativni SIP softphone u kontekstu FMC testiranja, s ciljem provjere da li se fiksni SIP klijent može direktno registrovati na Amarisoft IMS i koristiti za uspostavu poziva.
+U testu su korišteni sljedeći parametri iz postojeće IMS konfiguracije i baze korisnika:
+
+-IMS domena: ims.mnc001.mcc001.3gppnetwork.org
+-IMS server: Amarisoft-IMS-2020-09-14
+-SIP korisnik (IMPU): 1234@ims.mnc001.mcc001.3gppnetwork.org (definisan u ue_db-ims.cfg)
+-Autentikacija: SIP Digest (MD5), korisnički identitet sipclient
+-Transport: UDP (MicroSIP default)
+-IMS IP adresa (registrar): 192.168.200.160 (REGISTER prema sip:192.168.200.160)
+
+MicroSIP je uspješno izvršio SIP Digest autentikaciju i registraciju (REGISTER → 401 → REGISTER → 200 OK), što se vidi u IMS logu:
+
+```bash
+User-Agent: MicroSIP/3.22.3
+...
+SIP/2.0 401 Unauthorized
+...
+IMS -  - 1234 authenticated
+IMS -  - Register 1234@192.168.200.180:63247
+SIP/2.0 200 OK
+
+```
+Međutim, prilikom testiranja VoNR UE registracije (IMS/3GPP profil) IMS vraća grešku zbog sigurnosnih zahtjeva (sec-agree i ipsec-3gpp), te se u logu pojavljuje:
+```bash
+Unknown authent alg param in Security-Client header
+SIP/2.0 420 Unsupported
+Unsupported: sec-agree
+
+```
+Obzirom na ovo, izvršen je pokušaj onemogućavanja IPsec postavljanjem algoritama na "null":
+
+```bash
+/* IPSec */
+ipsec_aalg_list: ["null"],
+ipsec_ealg_list: ["null"],
+```
+Ovaj pokušaj nije dao očekivani rezultat – IMS/VoNR registracija i dalje nije u potpunosti funkcionalna, te je potrebno dodatno istražiti kako pravilno ukloniti ili zaobići IPsec zahtjeve (ili alternativno koristiti SIP klijent koji podržava 3GPP IPsec).
+
+
+
+
 <div align="center">
   <img src="assets/5g/images/extensions_conf.png" alt="extensions_conf.png" title=" Prikaz extensions.conf konfiguracijske datoteke" style="width:75%">
   <br>
