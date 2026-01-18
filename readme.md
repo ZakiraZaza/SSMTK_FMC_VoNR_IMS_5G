@@ -399,7 +399,7 @@ U testu su korišteni sljedeći parametri iz postojeće IMS konfiguracije i baze
 - Transport: UDP (MicroSIP default)
 - IMS IP adresa (registrar): 192.168.200.160 (REGISTER prema sip:192.168.200.160)
 
-MicroSIP je uspješno izvršio SIP Digest autentikaciju i registraciju (REGISTER → 401 → REGISTER → 200 OK), što se vidi u IMS logu:
+MicroSIP je uspješno izvršio SIP Digest autentikaciju i registraciju (REGISTER → 401 → REGISTER → 200 OK):
 
 ```bash
 User-Agent: MicroSIP/3.22.3
@@ -430,13 +430,6 @@ Ovaj pokušaj nije dao očekivani rezultat – IMS/VoNR registracija i dalje nij
 
 
 
-<div align="center">
-  <img src="assets/5g/images/extensions_conf.png" alt="extensions_conf.png" title=" Prikaz extensions.conf konfiguracijske datoteke" style="width:75%">
-  <br>
-  <i>Slika 12: Prikaz <code>extensions.conf</code> konfiguracijske datoteke</i>
-</div>
-
----
 
 <details id="radni-paketi">
 <summary title="Kliknite za prikaz radnih paketa.">Radni paketi</summary>
