@@ -367,6 +367,14 @@ Ova konfiguracija omogućava ispravno uspostavljanje SIP sesija između Asterisk
 
 ---
 
+<div align="center">
+  <img src="assets/5g/images/extensions_conf.png" alt="extensions_conf.png" title=" Prikaz extensions.conf konfiguracijske datoteke" style="width:75%">
+  <br>
+  <i>Slika 12: Prikaz <code>extensions.conf</code> konfiguracijske datoteke</i>
+</div>
+
+---
+
 ## Asterisk – rutiranje poziva
 U fajlu **`/etc/asterisk/extensions.conf`** definisana su pravila rutiranja poziva između fiksne SIP domene i IMS domene:
 
@@ -384,12 +392,12 @@ Dodani su `NoOp()` zapisi radi lakšeg praćenja signalizacijskog toka u Asteris
 U okviru projekta testiran je i MicroSIP (v3.22.3) kao alternativni SIP softphone u kontekstu FMC testiranja, s ciljem provjere da li se fiksni SIP klijent može direktno registrovati na Amarisoft IMS i koristiti za uspostavu poziva.
 U testu su korišteni sljedeći parametri iz postojeće IMS konfiguracije i baze korisnika:
 
--IMS domena: ims.mnc001.mcc001.3gppnetwork.org
--IMS server: Amarisoft-IMS-2020-09-14
--SIP korisnik (IMPU): 1234@ims.mnc001.mcc001.3gppnetwork.org (definisan u ue_db-ims.cfg)
--Autentikacija: SIP Digest (MD5), korisnički identitet sipclient
--Transport: UDP (MicroSIP default)
--IMS IP adresa (registrar): 192.168.200.160 (REGISTER prema sip:192.168.200.160)
+- IMS domena: ims.mnc001.mcc001.3gppnetwork.org
+- IMS server: Amarisoft-IMS-2020-09-14
+- SIP korisnik (IMPU): 1234@ims.mnc001.mcc001.3gppnetwork.org (definisan u ue_db-ims.cfg)
+- Autentikacija: SIP Digest (MD5), korisnički identitet sipclient
+- Transport: UDP (MicroSIP default)
+- IMS IP adresa (registrar): 192.168.200.160 (REGISTER prema sip:192.168.200.160)
 
 MicroSIP je uspješno izvršio SIP Digest autentikaciju i registraciju (REGISTER → 401 → REGISTER → 200 OK), što se vidi u IMS logu:
 
