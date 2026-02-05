@@ -244,6 +244,13 @@ Zbog toga sadržaj SIP poruka i audio signala nije direktno vidljiv u Wiresharku
 
 ---
 
+# RP3: Implementacija FMC za scenarij (1) – zajedničko IMS jezgro u 5G mreži
+
+U okviru RP3 realizovan je FMC scenarij (1), u kojem se zajedničko IMS jezgro nalazi u 5G mreži (AMARI Callbox Mini) i istovremeno opslužuje:
+- 5G VoNR korisnika (mobilni UE),
+- fiksnog SIP korisnika (MicroSIP client na PC-u).
+Cilj ovog radnog paketa je bio uspostaviti i verifikovati istovremenu IMS registraciju mobilnog i fiksnog korisnika na istom IMS jezgru, što predstavlja osnovni preduslov za fiksno-mobilnu konvergenciju govorne usluge.
+
 ### SIP klijent – `pjsua` konfiguracijska datoteka
 Konfiguracijska datoteka `pjsua.cfg` korištena je za:
   - registraciju SIP korisnika na IMS jezgro 5G mreže,
@@ -274,46 +281,115 @@ Na osnovu ove konfiguracije ostvarena je uspješna SIP registracija korisnika `(
   <i>Slika 7: Korištenje <code>pjsua.cfg</code> konfiguracijske datoteke za SIP registraciju korisnika</i>
 </div>
 
----
+### Fiksni SIP korisnik – MicroSIP
 
-# RP3: Implementacija FMC za scenarij (1)
-U okviru scenarija (1) pokušana je realizacija fiksno-mobilne konvergencije, tako što će se fiksni korisnik (SIP softphone) registrovati na isti IMS koji koristi VoNR u 5G mreži (Amarisoft Callbox Mini). Zbog nedostaka fizičkog SIP telefona, kao fiksni terminal korišten je `Linphone` (desktop). Definisan je SIP korisnika u IMS bazi (`ue_db-ims.cfg / edb.cfg`)
+Kao fiksni korisnički terminal korišten je MicroSIP softphone, instaliran na računaru u IP mreži povezanoj sa IMS jezgrom AMARI Callbox Mini sistema. 
+MicroSIP je u ovom scenariju predstavljao fiksnog korisnika FMC sistema, dok je mobilni korisnik realizovan kao VoNR UE u 5G mreži.
 
-Kreiran IMS korisnik za SIP klijenta koristeći standardni IMS pristup:
-- `IMPI`: sipclient (privatni identitet za autentifikaciju)
-- `IMPU`: 1234 i tel:1234 (javni identiteti za pozivanje)
-- `pwd`: sipclient (lozinka)
-- `authent_type`: MD5 (tip autentifikacije)
-- `domain`: ims.mnc001.mcc001.3gppnetwork.org (domena)
+MicroSIP je konfigurisan tako da se registruje na isto IMS jezgro koje koristi VoNR mobilni korisnik i korišteni su sljedeći parametri:
 
-Zatim je realizovana registracija Linphone-a na IMS (Digest/MD5).
+- SIP server / Registrar: 192.168.200.160
+- SIP domena: ims.mnc001.mcc001.3gppnetwork.org
+- SIP korisnik (IMPU): sip:1234@ims.mnc001.mcc001.3gppnetwork.org
+- Auth ID (IMPI): sipclient
+- Password: sipclient
+- Transport: UDP
 
-Linphone je podešen da se registruje na IMS kroz:
-- `Identity` tipa sip:sipclient@...
-- `Proxy/Server` prema IP adresi Callbox Mini (SIP port 5060)
-- pokušaj usklađivanja Realm/UserID/Password parametara za MD5 autentifikaciju
+Lokalni port je dinamički, dodijeljen od strane klijenta. Ova konfiguracija odgovara SIP korisniku definisanom u IMS bazi (ue_db-ims.cfg) i koristi standardni SIP Digest (MD5) autentifikacioni mehanizam.
 
-U više pokušaja rađeno je otklanjanje grešaka (debugging) kroz iterativno usklađivanje parametara i mijenjano je sljedeće:
-- `Realm` (IP vs IMS domena), 
-- `User ID` (IMPI vs prazno) i 
-- `Format identity` (sipclient@IP vs sipclient@IMS_domain). 
+Nakon pokretanja MicroSIP-a, izvršena je uspješna SIP registracija na IMS jezgro. Registracija je realizovana kroz standardni SIP tok:
 
-Linphone nije uspio završiti IMS registraciju. Indikator greške koji je ostao je (uzvičnik) i poruka: “Unable to authenticate. Please verify your password.”, što znači da autentifikacija nije uspjela, te da je potrebno verifikovati lozinku. 
+- REGISTER
+- 401 Unauthorized (Digest izazov)
+- REGISTER (sa Authorization headerom)
+- 200 OK
 
-Zbog neuspješne registracije SIP klijenta, FMC poziv (Linphone - VoNR UE) nije mogao biti uspostavljen u ovom koraku. Screenshot prikazuje definisanog SIP korisnika i istovremeno status neuspjele registracije u Linphone-u, što potvrđuje da problem nastaje u fazi IMS Digest autentifikacije.
+U IMS CLI izlazu ((ims) users) MicroSIP korisnik je vidljiv kao registrovan SIP korisnik sa aktivnim SIP bindingom, uključujući IP adresu računara i dodijeljeni lokalni port. Ovim je potvrđeno da MicroSIP ispravno komunicira sa IMS jezgrom i da je spreman za uspostavu FMC poziva.
+
+
+### Konfiguracija IMS servisa (Callbox Mini)
+
+IMS servis je konfigurisan kroz datoteku ims.cfg. Ključne postavke uključuju SIP bind adrese, rad u 3GPP režimu i učitavanje baze IMS korisnika.
+
+sip_addr: [
+  {addr: "192.168.200.160", bind_addr: "192.168.200.160", port_min: 10000, port_max: 20000, trunk: false},
+  "2001:468:3000:1::"
+],
+
+/* Global domain name */
+domain: "amarisoft.com",
+
+/* IMS user database */
+include "ue_db-ims.cfg",
+
+/* 3GPP IMS mode */
+precondition: true,
+
+/* IPSec algorithms */
+ipsec_aalg_list: ["hmac-md5-96", "hmac-sha-1-96"],
+ipsec_ealg_list: ["null", "aes-cbc", "des-cbc", "des-ede3-cbc"],
+
+
+Ova konfiguracija omogućava IMS rad u 3GPP režimu (VoNR), IPSec zaštitu za mobilne IMS korisnike i istovremenu registraciju standardnih SIP klijenata.
+
+### Definisanje fiksnog SIP korisnika u IMS bazi
+
+Fiksni SIP korisnik je definisan u datoteci ue_db-ims.cfg kao standardni IMS/SIP korisnik sa Digest (MD5) autentifikacijom.
+
+{
+  /* Dummy SIM information */
+  sim_algo: "xor",
+  imsi: "000000000000000",
+  K: "00000000000000000000000000000000",
+  amf: 0x0000,
+
+  /* SIP user for FMC */
+  impi: "sipclient",
+  impu: [
+    "sip:1234@ims.mnc001.mcc001.3gppnetwork.org",
+    "tel:1234"
+  ],
+  pwd: "sipclient",
+  authent_type: "MD5"
+},
+
+
+Ovim su definisani IMPI privatni identitet za autentifikaciju (sipclient) i IMPU – javni identiteti (SIP URI i telefonski broj), te autentifikacija kao standardni SIP Digest (MD5).
+
+Nakon izmjena konfiguracije, IMS i LTE servisi su restartovani:
+
+service lte stop
+service lte start
+
+### Konfiguracija fiksnog SIP clienta
+
+Fiksni korisnik je realizovan korištenjem standardnog SIP clienta (MicroSIP). Nakon pokretanja SIP clienta ostvarena je uspješna SIP registracija na IMS.
+
+### Verifikacija FMC scenarija (1)
+
+Uspješna realizacija RP3 potvrđena je komandom:
+
+(ims) users
+
+
+Rezultat prikazuje istovremeno registrovane VoNR mobilnog korisnika (IMS + IPSec, 3GPP) i fiksnog SIP korisnika (sipclient) sa PC-a.
 
 <div align="center">
-  <img src="assets/5g/images/linphone.jpg" alt="linphone.jpg" title="Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)" style="width:60%">
+  <img src="assets/5g/images/RP3_users.png" alt="RP3_users.png" title="IMS users – registrovani VoNR i SIP korisnik" style="width:60%">
   <br>
-  <i>Slika 8: Pokušaj registracije Linphone SIP klijenta na IMS (zajedničko IMS jezgro u 5G mreži)</i>
+  <i>Slika 8: Izlaz komande <code>(ims) users</code>. Prikazan je VoNR korisnik registrovan uz IPSec zaštitu (gornji dio) i standardni SIP korisnik <code>sipclient</code> registrovan sa PC-a (donji dio). Ovo potvrđuje da oba korisnika koriste isto IMS jezgro </i>
 </div>
 
----
+Nakon uspješne IMS registracije oba korisnika (fiksnog SIP clienta i mobilnog VoNR UE-a), izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP clienta prema mobilnom VoNR korisniku. Poziv je uspostavljen korištenjem javnog identiteta (IMPU) tel:1234, koji je mapiran na SIP korisnika u IMS bazi, te routiran kroz zajedničko IMS jezgro prema 5G mobilnom korisniku.
 
-> [!NOTE]
-> Mogući razlog neuspjeha jeste neusklađen Realm/Domen u Digest autentifikaciji.  Linphone je u pojedinim pokušajima koristio Realm kao IP adresu, dok IMS očekuje domen ims.mnc001.mcc001.3gppnetwork.org, što može dovesti do pogrešnog MD5 hash-a i odbijanja registracije. Također, moguće su kontradiktorne odnosno duple postavke u `edb.cfg` konfiguracijskog datoteci. U konfiguraciji se mogu vidjeti elementi za “standard SIP client” i istovremeno definisan SIP user sa MD5 autentifikacijom, što može uzrokovati konflikte u pravilima autentifikacije.
 
-U narednom koraku je planirano očistiti IMS bazu i ostaviti samo jedan SIP korisnički blok (bez duplikata i bez `authent_type: none`) i zatim ponovo pokrenuti servis (`lte_stop / lte_start`). Zatim, potrebno je utvrditi tačan Realm koji IMS šalje u 401 izazovu iz `lteims.log`, te u Linphone-u eksplicitno postaviti parametre u skladu s tim.
+<div align="center"> <img src="assets/5g/images/rp3_call_established.jpg" alt="rp3_call_established.jpg" title="Uspostavljen FMC poziv: SIP client → VoNR UE" style="width:35%"> <br> <i><b>Slika X:</b> Uspostavljen FMC govorni poziv između fiksnog SIP korisnika (<code>1234</code>) i mobilnog VoNR korisnika. Prikazan je aktivan poziv na 5G mobilnom uređaju sa identifikacijom pozivaoca <code>SIP korisnik RP3</code> i mjerenim trajanjem poziva, čime se potvrđuje ispravna realizacija FMC scenarija (1) na nivou signalizacije i govornog saobraćaja.</i> </div>
+
+<div align="center">
+  <img src="assets/5g/images/RP3_poziv.png" alt="RP3_poziv.png" title="Uspostavljen FMC poziv" style="width:35%">
+  <br>
+  <i>Slika 9: Uspostavljen FMC govorni poziv između fiksnog SIP korisnika (<code>1234</code>) i mobilnog VoNR korisnika. Prikazan je aktivan poziv na 5G mobilnom uređaju sa identifikacijom pozivaoca <code>SIP korisnik RP3</code> i mjerenim trajanjem poziva, čime se potvrđuje ispravna realizacija FMC scenarija (1) na nivou signalizacije i govornog saobraćaja. </i>
+</div>
 
 ---
 
