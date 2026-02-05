@@ -383,7 +383,7 @@ Rezultat prikazuje istovremeno registrovane VoNR mobilnog korisnika (IMS + IPSec
 Nakon uspješne IMS registracije oba korisnika (fiksnog SIP clienta i mobilnog VoNR UE-a), izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP clienta prema mobilnom VoNR korisniku. Poziv je uspostavljen korištenjem javnog identiteta (IMPU) tel:1234, koji je mapiran na SIP korisnika u IMS bazi, te routiran kroz zajedničko IMS jezgro prema 5G mobilnom korisniku.
 
 <div align="center">
-  <img src="assets/5g/images/RP3_poziv.png" alt="RP3_poziv.png" title="Uspostavljen FMC poziv" style="width:35%">
+  <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" title="Uspostavljen FMC poziv" style="width:35%">
   <br>
   <i>Slika 9: Uspostavljen FMC govorni poziv između fiksnog SIP korisnika (<code>1234</code>) i mobilnog VoNR korisnika. Prikazan je aktivan poziv na 5G mobilnom uređaju sa identifikacijom pozivaoca <code>SIP korisnik RP3</code> i mjerenim trajanjem poziva, čime se potvrđuje ispravna realizacija FMC scenarija (1) na nivou signalizacije i govornog saobraćaja. </i>
 </div>
