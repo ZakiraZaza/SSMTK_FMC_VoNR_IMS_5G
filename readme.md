@@ -389,14 +389,15 @@ Nakon uspješne IMS registracije oba korisnika (fiksnog SIP clienta i mobilnog V
 ---
 
 # RP4 – Implementacija FMC za scenarij (3): odvojena IMS jezgra 5G i fiksne mreže
+
 U okviru RP4 pokušana je realizacija fiksno-mobilne konvergencija (FMC) u scenariju u kojem 5G mreža i fiksna SIP mreža imaju odvojena IMS jezgra. Integracija je ostvarena korištenjem Asterisk-a kao SIP gateway-a između fiksne SIP domene i IMS jezgra 5G mreže (Amarisoft Callbox Mini).
 
 ## Arhitektura rješenja (RP4 kontekst)
 U ovom scenariju:
 - 5G korisnici koriste VoNR/VoLTE preko IMS jezgra u 5G mreži,
-- fiksni korisnici koriste SIP softphone (Linphone),
+- fiksni korisnici koriste SIP softphone (Microsip),
 - Asterisk posreduje signalizaciju i RTP tokove između dvije domene,
-- IMS jezgra nisu zajednička, već međusobno povezana preko SIP trunk-a.
+- IMS jezgra nisu zajednička, već međusobno povezane preko SIP trunk-a.
 
 ## Podrška za AMR kodek u Asterisku
 
@@ -437,90 +438,10 @@ Ovo proširenje je bilo ključni korak za realizaciju funkcionalne fiksno-mobiln
 
 ---
 
-## Asterisk – PJSIP konfiguracija (IMS SIP trunk)
-U fajlu `/etc/asterisk/pjsip.conf` definisan je:
-- IMS SIP trunk (`ims-endpoint`) koji povezuje Asterisk sa IMS jezgrom 5G mreže,
-- dozvoljeni audio kodeci (`ulaw`, `alaw`) radi kompatibilnosti sa SIP/IMS interworking-om,
-- SIP identifikacija (`identify`) prema IP adresi IMS-a,
-- lokalni SIP endpoint za fiksnog korisnika (`6001`) sa autentifikacijom.
-
-Ova konfiguracija omogućava ispravno uspostavljanje SIP sesija između Asterisk-a i IMS-a.
-
-<div align="center">
-  <img src="assets/5g/images/pjsip_conf-1.png" alt="pjsip_conf-1.png" title="Prikaz pjsip.conf konfiguracijske datoteke - 1" style="width:75%">
-  <br>
-  <i>Slika 10: Prikaz <code>pjsip.conf</code> konfiguracijske datoteke - 1</i>
-</div>
-
----
-
-<div align="center">
-  <img src="assets/5g/images/pjsip_conf-2.png" alt="pjsip_conf-2.png" title="Prikaz pjsip.conf konfiguracijske datoteke - 2" style="width:75%">
-  <br>
-  <i>Slika 11: Prikaz <code>pjsip.conf</code> konfiguracijske datoteke - 2</i>
-</div>
-
----
-
-<div align="center">
-  <img src="assets/5g/images/extensions_conf.png" alt="extensions_conf.png" title=" Prikaz extensions.conf konfiguracijske datoteke" style="width:75%">
-  <br>
-  <i>Slika 12: Prikaz <code>extensions.conf</code> konfiguracijske datoteke</i>
-</div>
-
----
+## Asterisk – PJSIP konfiguracija i dodavanje IMS SIP trunk-a
 
 ## Asterisk – rutiranje poziva
 U fajlu **`/etc/asterisk/extensions.conf`** definisana su pravila rutiranja poziva između fiksne SIP domene i IMS domene:
-
-- **`[internal]`**  
-  - lokalni pozivi između SIP ekstenzija,
-  - rutiranje odlaznih poziva iz fiksne mreže ka IMS-u (`Dial(PJSIP/ims-endpoint/${EXTEN})`).
-
-- **`[from-ims]`**  
-  - dolazni pozivi iz IMS/5G mreže prema fiksnom SIP korisniku (`6001`).
-
-Dodani su `NoOp()` zapisi radi lakšeg praćenja signalizacijskog toka u Asterisk CLI-u.
-
-## MicroSIP SIP klijent
-
-U okviru projekta testiran je i MicroSIP (v3.22.3) kao alternativni SIP softphone u kontekstu FMC testiranja, s ciljem provjere da li se fiksni SIP klijent može direktno registrovati na Amarisoft IMS i koristiti za uspostavu poziva.
-U testu su korišteni sljedeći parametri iz postojeće IMS konfiguracije i baze korisnika:
-
-- IMS domena: ims.mnc001.mcc001.3gppnetwork.org
-- IMS server: Amarisoft-IMS-2020-09-14
-- SIP korisnik (IMPU): 1234@ims.mnc001.mcc001.3gppnetwork.org (definisan u ue_db-ims.cfg)
-- Autentikacija: SIP Digest (MD5), korisnički identitet sipclient
-- Transport: UDP (MicroSIP default)
-- IMS IP adresa (registrar): 192.168.200.160 (REGISTER prema sip:192.168.200.160)
-
-MicroSIP je uspješno izvršio SIP Digest autentikaciju i registraciju (REGISTER → 401 → REGISTER → 200 OK):
-
-```bash
-User-Agent: MicroSIP/3.22.3
-...
-SIP/2.0 401 Unauthorized
-...
-IMS -  - 1234 authenticated
-IMS -  - Register 1234@192.168.200.180:63247
-SIP/2.0 200 OK
-
-```
-Međutim, prilikom testiranja VoNR UE registracije (IMS/3GPP profil) IMS vraća grešku zbog sigurnosnih zahtjeva (sec-agree i ipsec-3gpp), te se u logu pojavljuje:
-```bash
-Unknown authent alg param in Security-Client header
-SIP/2.0 420 Unsupported
-Unsupported: sec-agree
-
-```
-Obzirom na ovo, izvršen je pokušaj onemogućavanja IPsec postavljanjem algoritama na "null":
-
-```bash
-/* IPSec */
-ipsec_aalg_list: ["null"],
-ipsec_ealg_list: ["null"],
-```
-Ovaj pokušaj nije dao očekivani rezultat – IMS/VoNR registracija i dalje nije u potpunosti funkcionalna, te je potrebno dodatno istražiti kako pravilno ukloniti ili zaobići IPsec zahtjeve (ili alternativno koristiti SIP klijent koji podržava 3GPP IPsec).
 
 
 
