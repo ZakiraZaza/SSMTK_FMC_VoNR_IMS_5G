@@ -415,6 +415,45 @@ Konfigurisani su osnovni SIP parametri:
 
 ---
 
+## Podrška za AMR kodek u Asterisku
+
+Podrazumijevana verzija Asteriska ne podržava AMR (Adaptive Multi-Rate) kodek. To predstavlja ograničenje u scenarijima gdje se koriste SIP/IMS klijenti koji rade sa AMR kodekom, kao što je MicroSIP, koji AMR podršku ima implementiranu i aktivno je koristi prilikom SIP pregovaranja kodeka (SDP).
+
+Zbog toga je u sistemu dolazilo do nekompatibilnosti kodeka i neuspješnog uspostavljanja poziva između SIP klijenta i Asterisk jezgra. 
+
+## Razlog proširenja Asteriska
+
+U okviru projekta bilo je potrebno omogućiti:
+  - interoperabilnost između AMR-capable SIP klijenata (MicroSIP) i Asterisk jezgra,
+  - pravilno SIP/SDP pregovaranje kodeka,
+  - uspješno uspostavljanje govornih poziva u IMS/FMC testnom okruženju.
+
+Kako Asterisk ne nudi nativnu AMR podršku, bilo je neophodno proširiti Asterisk dodatnim AMR kodek modulom.
+
+## Implementirano rješenje
+
+AMR podrška je realizovana integracijom otvorenog (open-source) AMR modula za Asterisk, dostupnog na sljedećem repozitoriju:
+
+🔗 https://github.com/traud/asterisk-amr
+
+Ovaj modul omogućava:
+
+  - dodavanje AMR kodeka u Asterisk;
+  - pravilno kodiranje i dekodiranje AMR govornog signala;
+  - uspješno pregovaranje AMR kodeka u SIP/SDP razmjeni;
+  - interoperabilnost sa SIP klijentima koji koriste AMR kodek (npr. MicroSIP).
+
+## Rezultat integracije
+
+Nakon proširenja Asteriska:
+  - pozivi između MicroSIP klijenta i Asterisk jezgra se uspješno uspostavljaju,
+  - AMR kodek se ispravno pregovara i koristi tokom poziva,
+  - sistem postaje kompatibilan sa IMS okruženjem i mobilnim mrežama gdje je AMR standardni govorni kodek.
+
+Ovo proširenje je bilo ključni korak za realizaciju funkcionalne fiksno-mobilne konvergencije (FMC) govorne usluge u našem projektnom okruženju.
+
+---
+
 ## Asterisk – PJSIP konfiguracija (IMS SIP trunk)
 U fajlu `/etc/asterisk/pjsip.conf` definisan je:
 - IMS SIP trunk (`ims-endpoint`) koji povezuje Asterisk sa IMS jezgrom 5G mreže,
