@@ -284,7 +284,7 @@ MicroSIP je konfigurisan tako da se registruje na isto IMS jezgro koje koristi V
 - Transport: UDP
 
 <div align="center">
-  <img src="assets/5g/images/RP3_sip_client.png" alt="RP3_sip_client.png" title="Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik" style="width:60%">
+  <img src="assets/5g/images/RP3_sip_client.png" alt="RP3_sip_client.png" title="Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik" style="width:35%">
   <br>
   <i>Slika 7: Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik</i>
 </div>
