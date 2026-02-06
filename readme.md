@@ -222,20 +222,12 @@ Zatim je pristupljeno aktivnoj screen sesiji u kojoj je pokrenut LTE/5G stack:
 screen -x lte
 ```
 
-Ovom naredbom se otvara interaktivni multi-panelni screen interfejs AMARI sistema, koji sadrži više virtuelnih prozora (panela) za nadzor i upravljanje različitim komponentama sistema (gNB/eNB, 5G Core, IMS, sistemski logovi). Unutar screen interfejsa, izvršen je prelazak na IMS panel korištenjem sljedeće kombinacije tipki:
-
-```
-Ctrl + a, 3
-```
-
-Panel sa indeksom 3 predstavlja IMS kontrolni interfejs, koji omogućava upravljanje IMS funkcijama i iniciranje poziva. Nakon što je IMS panel aktivan, poziv je iniciran sljedećom naredbom:
+Ovom naredbom se otvara interaktivni multi-panelni screen interfejs AMARI sistema, koji sadrži više virtuelnih prozora (panela) za nadzor i upravljanje različitim komponentama sistema (gNB/eNB, 5G Core, IMS, sistemski logovi). Unutar screen interfejsa, izvršen je prelazak na IMS panel korištenjem sljedeće kombinacije tipki **Ctrl + a + 3**. Panel sa indeksom 3 predstavlja IMS kontrolni interfejs, koji omogućava upravljanje IMS funkcijama i iniciranje poziva. Nakon što je IMS panel aktivan, poziv je iniciran sljedećom naredbom:
 
 ```
 mt_call 0600000124
 ```
-Ova komanda pokreće mobilno-terminirani poziv (Mobile Terminated Call) prema navedenom broju, koristeći IMS/VoNR servisni sloj.
-
-Nakon uspješne registracije na mrežu, na mobilnom uređaju je uspostavljen poziv čime je potvrđena ispravna signalizacija i funkcionalnost servisnog sloja. Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
+Ova komanda pokreće mobilno-terminirani poziv (Mobile Terminated Call) prema navedenom broju, koristeći IMS/VoNR servisni sloj. Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
 <div align="center">
   <img src="assets/5g/images/call_setup.jpg" alt="call_setup.jpg" title="Uspostava poziva" style="width:30%">
@@ -277,7 +269,6 @@ U okviru RP3 realizovan je FMC scenarij (1), u kojem se zajedničko IMS jezgro n
 - fiksnog SIP korisnika (MicroSIP client na PC-u).
 Cilj ovog radnog paketa je bio uspostaviti i verifikovati istovremenu IMS registraciju mobilnog i fiksnog korisnika na istom IMS jezgru, što predstavlja osnovni preduslov za fiksno-mobilnu konvergenciju govorne usluge.
 
-
 ### Fiksni SIP korisnik – MicroSIP
 
 Kao fiksni korisnički terminal korišten je MicroSIP softphone, instaliran na računaru u IP mreži povezanoj sa IMS jezgrom AMARI Callbox Mini sistema. 
@@ -292,6 +283,12 @@ MicroSIP je konfigurisan tako da se registruje na isto IMS jezgro koje koristi V
 - Password: sipclient
 - Transport: UDP
 
+<div align="center">
+  <img src="assets/5g/images/RP3_sip_client.png" alt="RP3_sip_client.png" title="Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik" style="width:60%">
+  <br>
+  <i>Slika 7: Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik</i>
+</div>
+
 Lokalni port je dinamički, dodijeljen od strane klijenta. Ova konfiguracija odgovara SIP korisniku definisanom u IMS bazi (ue_db-ims.cfg) i koristi standardni SIP Digest (MD5) autentifikacioni mehanizam.
 
 Nakon pokretanja MicroSIP-a, izvršena je uspješna SIP registracija na IMS jezgro. Registracija je realizovana kroz standardni SIP tok:
@@ -301,8 +298,37 @@ Nakon pokretanja MicroSIP-a, izvršena je uspješna SIP registracija na IMS jezg
 - REGISTER (sa Authorization headerom)
 - 200 OK
 
-U IMS CLI izlazu ((ims) users) MicroSIP korisnik je vidljiv kao registrovan SIP korisnik sa aktivnim SIP bindingom, uključujući IP adresu računara i dodijeljeni lokalni port. Ovim je potvrđeno da MicroSIP ispravno komunicira sa IMS jezgrom i da je spreman za uspostavu FMC poziva.
+Fiksni SIP korisnik, također, je definisan u datoteci ue_db-ims.cfg kao standardni IMS/SIP korisnik sa Digest (MD5) autentifikacijom.
 
+```
+{
+  /* Dummy SIM information */
+  sim_algo: "xor",
+  imsi: "000000000000000",
+  K: "00000000000000000000000000000000",
+  amf: 0x0000,
+
+  /* SIP user for FMC */
+  impi: "sipclient",
+  impu: [
+    "sip:1234@ims.mnc001.mcc001.3gppnetwork.org",
+    "tel:1234"
+  ],
+  pwd: "sipclient",
+  authent_type: "MD5"
+},
+```
+
+Ovim su definisani IMPI privatni identitet za autentifikaciju (sipclient) i IMPU – javni identiteti (SIP URI i telefonski broj), te autentifikacija kao standardni SIP Digest (MD5).
+
+Nakon izmjena konfiguracije, IMS i LTE servisi su restartovani, što se podrazumijeva pri svakoj izmjeni konfiguracijskih fajlova:
+
+```shell
+service lte stop
+service lte start
+```
+
+U IMS CLI izlazu ((ims) users) prikazanom na Slici 8 MicroSIP korisnik je vidljiv kao registrovan SIP korisnik sa aktivnim SIP bindingom, uključujući IP adresu računara i dodijeljeni lokalni port. Ovim je potvrđeno da MicroSIP ispravno komunicira sa IMS jezgrom i da je spreman za uspostavu FMC poziva.
 
 ### Konfiguracija IMS servisa - Callbox Mini
 
@@ -326,40 +352,16 @@ precondition: true,
 ipsec_aalg_list: ["hmac-md5-96", "hmac-sha-1-96"],
 ipsec_ealg_list: ["null", "aes-cbc", "des-cbc", "des-ede3-cbc"],
 ```
-
-Ova konfiguracija omogućava IMS rad u 3GPP režimu (VoNR), IPSec zaštitu za mobilne IMS korisnike i istovremenu registraciju standardnih SIP klijenata.
-
-### Definisanje fiksnog SIP korisnika u IMS bazi
-
-Fiksni SIP korisnik je definisan u datoteci ue_db-ims.cfg kao standardni IMS/SIP korisnik sa Digest (MD5) autentifikacijom.
+Također, za uspješnu uspostavu govornog poziva između MicroSIP klijenta i VoNR mobilnog telefona unutar istog IMS jezgra, bilo je neophodno koristiti 3GPP preconditions mehanizam. U 3GPP IMS/VoLTE/VoNR okruženju, preduslovi (engl. preconditions) služe da se prije prihvatanja poziva potvrdi da su resursi rezervisani, QoS politika primijenjena, te medijski tok pripremljen za govor. U praksi to znači da IMS u 3GPP režimu očekuje da krajnji korisnici (ili barem relevantni identiteti) budu označeni kao korisnici koji podržavaju preconditions. Bez toga može doći do situacije da SIP signalizacija krene ispravno, ali se poziv ne uspostavi korektno (npr. ne prođe offer/answer faza kako IMS očekuje) ili se sesija prekine zbog neusaglašenih zahtjeva prema QoS preduvjetima. Zbog toga je osim globalnog podešavanja precondition: true u ims.cfg bilo potrebno uključiti preconditions i na nivou korisničkog identiteta unutar datotetke ue_db-ims.cfg na način:
 
 ```
-{
-  /* Dummy SIM information */
-  sim_algo: "xor",
-  imsi: "000000000000000",
-  K: "00000000000000000000000000000000",
-  amf: 0x0000,
-
-  /* SIP user for FMC */
-  impi: "sipclient",
-  impu: [
-    "sip:1234@ims.mnc001.mcc001.3gppnetwork.org",
-    "tel:1234"
-  ],
-  pwd: "sipclient",
-  authent_type: "MD5"
-},
+impu: [
+      "001010123456789",
+      { impu: "tel:0600000124", imei: "867786040633402", precondition: "on" },
+      ]
 ```
 
-Ovim su definisani IMPI privatni identitet za autentifikaciju (sipclient) i IMPU – javni identiteti (SIP URI i telefonski broj), te autentifikacija kao standardni SIP Digest (MD5).
-
-Nakon izmjena konfiguracije, IMS i LTE servisi su restartovani:
-
-```shell
-service lte stop
-service lte start
-```
+Na taj način IMS tretira taj identitet kao 3GPP korisnika koji podržava preconditions, što je bilo potrebno da poziv MicroSIP → VoNR UE bude uspješno uspostavljen u zajedničkom IMS jezgru.
 
 ### Verifikacija FMC scenarija (1)
 
@@ -377,7 +379,7 @@ Rezultat prikazuje istovremeno registrovane VoNR mobilnog korisnika (IMS + IPSec
   <i>Slika 8: Izlaz komande <code>(ims) users</code>. Prikazan je VoNR korisnik registrovan uz IPSec zaštitu (gornji dio) i standardni SIP korisnik <code>sipclient</code> registrovan sa PC-a (donji dio). Ovo potvrđuje da oba korisnika koriste isto IMS jezgro </i>
 </div>
 
-Nakon uspješne IMS registracije oba korisnika (fiksnog SIP clienta i mobilnog VoNR UE-a), izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP clienta prema mobilnom VoNR korisniku. Poziv je uspostavljen korištenjem javnog identiteta (IMPU) tel:1234, koji je mapiran na SIP korisnika u IMS bazi, te routiran kroz zajedničko IMS jezgro prema 5G mobilnom korisniku.
+Nakon uspješne IMS registracije oba korisnika (fiksnog SIP clienta i mobilnog VoNR UE-a), izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP clienta prema mobilnom VoNR korisniku. Poziv je uspostavljen korištenjem javnog identiteta (IMPU) tel:1234, koji je mapiran na SIP korisnika u IMS bazi, te rutiran kroz zajedničko IMS jezgro prema 5G mobilnom korisniku.
 
 <div align="center">
   <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" title="Uspostavljen FMC poziv" style="width:35%">
