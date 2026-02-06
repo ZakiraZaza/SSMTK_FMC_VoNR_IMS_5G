@@ -206,14 +206,36 @@ Izvršeno je mjerenje performansi mreže. Ostvarene su stabilne vrijednosti down
 
 ---
 
-### Uspostava poziva
-Nakon uspješne registracije na mrežu, na mobilnom uređaju je uspostavljen poziv čime je potvrđena ispravna signalizacija i funkcionalnost servisnog sloja. Poziv je izvršen sljedećom komandom:
+### Uspostava poziva sa AMARI Callbox Mini ka mobilnom UE
+
+Nakon uspješne registracije mobilnog uređaja na 5G mrežu i IMS, poziv je iniciran direktno sa strane AMARI Callbox Mini sistema.
+
+U terminalu je prvo pozicioniranje izvršeno unutar direktorija:
+
+```
+cd/enb
+```
+
+Zatim je pristupljeno aktivnoj screen sesiji u kojoj je pokrenut LTE/5G stack:
+
+```
+screen -x lte
+```
+
+Ovom naredbom se otvara interaktivni multi-panelni screen interfejs AMARI sistema, koji sadrži više virtuelnih prozora (panela) za nadzor i upravljanje različitim komponentama sistema (gNB/eNB, 5G Core, IMS, sistemski logovi). Unutar screen interfejsa, izvršen je prelazak na IMS panel korištenjem sljedeće kombinacije tipki:
+
+```
+Ctrl + a, 3
+```
+
+Panel sa indeksom 3 predstavlja IMS kontrolni interfejs, koji omogućava upravljanje IMS funkcijama i iniciranje poziva. Nakon što je IMS panel aktivan, poziv je iniciran sljedećom naredbom:
 
 ```
 mt_call 0600000124
 ```
+Ova komanda pokreće mobilno-terminirani poziv (Mobile Terminated Call) prema navedenom broju, koristeći IMS/VoNR servisni sloj.
 
-Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
+Nakon uspješne registracije na mrežu, na mobilnom uređaju je uspostavljen poziv čime je potvrđena ispravna signalizacija i funkcionalnost servisnog sloja. Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje mrežne infrastrukture i povezanih servisa.
 
 <div align="center">
   <img src="assets/5g/images/call_setup.jpg" alt="call_setup.jpg" title="Uspostava poziva" style="width:30%">
@@ -225,6 +247,10 @@ Poziv je iniciran i održan bez prekida, što ukazuje na pravilno funkcionisanje
 
 ### Snimanje mrežnog saobraćaja upotrebom Wireshark alata za VoNR u 5G mreži
 Tokom testiranja uspostave VoNR poziva izvršeno je snimanje mrežnog saobraćaja u .pcap formatu radi kasnije analize signalizacijskih i transportnih tokova. Snimanje je realizovano korištenjem alata `tcpdump`, na relevantnom mrežnom interfejsu AMARI sistema, u realnom vremenu. 
+
+```
+tcpdump -i lo -w /root/capture/rp2_snimak.pcap
+```
 
 Dobijeni .pcap fajl sadrži:
 - SCTP saobraćaj (NGAP signalizacija između gNB i 5GC),
@@ -251,35 +277,6 @@ U okviru RP3 realizovan je FMC scenarij (1), u kojem se zajedničko IMS jezgro n
 - fiksnog SIP korisnika (MicroSIP client na PC-u).
 Cilj ovog radnog paketa je bio uspostaviti i verifikovati istovremenu IMS registraciju mobilnog i fiksnog korisnika na istom IMS jezgru, što predstavlja osnovni preduslov za fiksno-mobilnu konvergenciju govorne usluge.
 
-### SIP klijent – `pjsua` konfiguracijska datoteka
-Konfiguracijska datoteka `pjsua.cfg` korištena je za:
-  - registraciju SIP korisnika na IMS jezgro 5G mreže,
-  - verifikaciju ispravnosti IMS/SIP signalizacije,
-  - testiranje dostupnosti govorne usluge prije realizacije FMC scenarija.
-
-Ovaj korak je neophodan kako bi se potvrdila funkcionalnost IMS sloja nezavisno od mobilnog korisničkog uređaja.
-
-`pjsua` je odabran jer omogućava potpunu kontrolu SIP parametara kroz konfiguracijsku datoteku, daje jasan uvid u proces SIP registracije i odgovore IMS jezgra, te je pogodan za eksperimentalnu i akademsku analizu SIP/IMS sistema.
-
-Datoteka `pjsua.cfg` kreirana je sa ciljem definisanja SIP identiteta korisnika (IMPU/IMPI), IMS registra, autentifikacijskih parametara, lokalnog SIP porta i ponašanja prilikom dolaznih poziva.
-
-```bash
---realm *
---registrar sip:192.168.4.1
---id sip:1234
---username sipclient
---password sipclient
---local-port 5061
---auto-answer=200
-```
-
-Na osnovu ove konfiguracije ostvarena je uspješna SIP registracija korisnika `(200 OK)`, aktivan SIP nalog sa statusom Online, periodično IMS re-registriranje, spremnost sistema za uspostavu govorne sesije. Ovim je potvrđena ispravna konfiguracija SIP klijenta i IMS jezgra, čime je obezbijeđena osnova za dalju realizaciju fiksno-mobilne konvergencije u narednim radnim paketima.
-
-<div align="center">
-  <img src="assets/5g/images/pjsua.png" alt="pjsua.png" title="Korištenje <code>pjsua.cfg</code> konfiguracijske datoteke za SIP registraciju korisnika" style="width:60%">
-  <br>
-  <i>Slika 7: Korištenje <code>pjsua.cfg</code> konfiguracijske datoteke za SIP registraciju korisnika</i>
-</div>
 
 ### Fiksni SIP korisnik – MicroSIP
 
