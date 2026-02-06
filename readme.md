@@ -398,21 +398,6 @@ U ovom scenariju:
 - Asterisk posreduje signalizaciju i RTP tokove između dvije domene,
 - IMS jezgra nisu zajednička, već međusobno povezana preko SIP trunk-a.
 
-## SIP klijent – Linphone konfiguracija (fiksna mreža)
-Na slici je prikazana konfiguracija Linphone SIP klijenta koji se registruje na Asterisk server kao fiksni korisnik (ekstenzija `6001`).  
-Konfigurisani su osnovni SIP parametri:
-- SIP URI (`sip:6001@<IP_ASTERISK>`),
-- SIP server (Asterisk, UDP transport),
-- period registracije i transportni protokol.
-
-<div align="center">
-  <img src="assets/5g/images/linphone-sip_client_configuration.png" alt="linphone-sip_client_configuration.png" title="Linphone - Konfiguracija SIP klijenta" style="width:100%">
-  <br>
-  <i>Slika 9: Linphone - Konfiguracija SIP klijenta</i>
-</div>
-
----
-
 ## Podrška za AMR kodek u Asterisku
 
 Podrazumijevana verzija Asteriska ne podržava AMR (Adaptive Multi-Rate) kodek. To predstavlja ograničenje u scenarijima gdje se koriste SIP/IMS klijenti koji rade sa AMR kodekom, kao što je MicroSIP, koji AMR podršku ima implementiranu i aktivno je koristi prilikom SIP pregovaranja kodeka (SDP).
