@@ -396,35 +396,45 @@ Uspješna uspostava i održavanje poziva potvrđuju ispravnu IMS registraciju fi
 
 # RP4 – Implementacija FMC za scenarij (3): odvojena IMS jezgra 5G i fiksne mreže
 
-U okviru RP4 pokušana je realizacija fiksno-mobilne konvergencija (FMC) u scenariju u kojem 5G mreža i fiksna SIP mreža imaju odvojena IMS jezgra. Integracija je ostvarena korištenjem Asterisk-a kao SIP gateway-a između fiksne SIP domene i IMS jezgra 5G mreže (Amarisoft Callbox Mini).
+U okviru RP4 realizovan je FMC scenarij (3), u kojem 5G mreža i fiksna mreža imaju odvojena IMS jezgra, a međusobna komunikacija ostvarena je putem SIP trunk veze. U ovom scenariju, Asterisk se koristi kao SIP gateway / interkonekcijski čvor između fiksne SIP mreže i IMS jezgra u 5G mreži (AMARI Callbox Mini). Cilj ovog radnog paketa je demonstrirati FMC konvergenciju na nivou interkonekcije dva odvojena IMS domena, što predstavlja realističan operaterski scenarij.
 
 ## Arhitektura rješenja (RP4 kontekst)
-U ovom scenariju:
-- 5G korisnici koriste VoNR/VoLTE preko IMS jezgra u 5G mreži,
-- fiksni korisnici koriste SIP softphone (Microsip),
-- Asterisk posreduje signalizaciju i RTP tokove između dvije domene,
-- IMS jezgra nisu zajednička, već međusobno povezane preko SIP trunk-a.
 
-## Podrška za AMR kodek u Asterisku
+U realizovanom rješenju učestvuju sljedeći elementi:
+- 5G IMS jezgro (AMARI Callbox Mini) - opslužuje VoNR mobilne korisnike, implementira 3GPP IMS funkcije, te omogućava SIP trunk konekciju prema eksternoj SIP mreži;
+- Asterisk SIP server (fiksna mreža) - predstavlja IMS/fiksni SIP domen,terminira fiksne SIP korisnike, te realizuje SIP trunk prema IMS jezgru u 5G mreži;
+- Fiksni SIP klijent (Microsip) - registrovan na Asterisk, te predstavlja fiksnog korisnika FMC sistema;
+- VoNR mobilni korisnik (UE) - registrovan na IMS jezgro 5G mreže, te ostvaruje govornu uslugu preko VoNR-a.
+
+## Dodavanje SIP trunk-a u IMS (AMARI Callbox Mini)
+
+Prvi korak u realizaciji RP4 bio je dodavanje SIP trunk veze u IMS konfiguraciju AMARI Callbox Mini sistema, u skladu sa zvaničnom Amarisoft dokumentacijom. SIP trunk je definisan u datoteci ims.cfg na sljedeći način:
+
+```
+trunk: {
+           addr: "x.x.x.x", // SIP server IP address
+           name: "xxx", // SIP account username, used for contact/from headers
+    },
+```
+
+Prethodnim je IMS jezgru omogućeno da prihvata SIP pozive iz eksternog SIP domena (Asterisk), rutira pozive prema VoNR korisnicima, te šalje odlazne pozive iz IMS-a prema fiksnoj SIP mreži.
+
+Ovim je IMS jezgro logički pripremljeno za inter-IMS komunikaciju, iako fizički IMS sistemi ostaju odvojeni.
+
+  
+## Asterisk - izbor i priprema sistema 
+
+Za realizaciju fiksne SIP mreže korišten je Asterisk.
 
 Podrazumijevana verzija Asteriska ne podržava AMR (Adaptive Multi-Rate) kodek. To predstavlja ograničenje u scenarijima gdje se koriste SIP/IMS klijenti koji rade sa AMR kodekom, kao što je MicroSIP, koji AMR podršku ima implementiranu i aktivno je koristi prilikom SIP pregovaranja kodeka (SDP).
 
 Zbog toga je u sistemu dolazilo do nekompatibilnosti kodeka i neuspješnog uspostavljanja poziva između SIP klijenta i Asterisk jezgra. 
 
-## Razlog proširenja Asteriska
-
-U okviru projekta bilo je potrebno omogućiti:
-  - interoperabilnost između AMR-capable SIP klijenata (MicroSIP) i Asterisk jezgra,
-  - pravilno SIP/SDP pregovaranje kodeka,
-  - uspješno uspostavljanje govornih poziva u IMS/FMC testnom okruženju.
+Shodno ranije navedenom, u okviru projekta bilo je potrebno omogućiti interoperabilnost između AMR-capable SIP klijenata (MicroSIP) i Asterisk jezgra, pravilno SIP/SDP pregovaranje kodeka, te uspješno uspostavljanje govornih poziva u IMS/FMC testnom okruženju.
 
 Kako Asterisk ne nudi nativnu AMR podršku, bilo je neophodno proširiti Asterisk dodatnim AMR kodek modulom.
 
-## Implementirano rješenje
-
-AMR podrška je realizovana integracijom otvorenog (open-source) AMR modula za Asterisk, dostupnog na sljedećem repozitoriju:
-
-🔗 https://github.com/traud/asterisk-amr
+AMR podrška je realizovana integracijom otvorenog (open-source) AMR modula za Asterisk, dostupnog na sljedećem repozitoriju: https://github.com/traud/asterisk-amr
 
 Ovaj modul omogućava:
 
@@ -433,9 +443,73 @@ Ovaj modul omogućava:
   - uspješno pregovaranje AMR kodeka u SIP/SDP razmjeni;
   - interoperabilnost sa SIP klijentima koji koriste AMR kodek (npr. MicroSIP).
 
+## Konfiguracija Asterisk-a - pjsip.conf
+
+Datoteka pjsip.conf sadrži kompletnu SIP konfiguraciju Asterisk sistema i obuhvata:
+- transportni sloj koji omogućava SIP komunikaciju preko UDP-a na standardnom portu 5060.
+```
+[transport-udp]
+type=transport
+protocol=udp
+bind=0.0.0.0:5060
+```
+- fiksni SIP korisnik (ekstenzija 1000)
+```
+[1000]
+type=endpoint
+transport=transport-udp
+context=internal
+disallow=all
+allow=amr
+allow=amrwb
+auth=1000-auth
+aors=1000
+direct_media=yes
+```
+Prethodnim se definiše SIP endpoint za fiksnog korisnika, dozvoljavaju AMR i AMR-WB kodeci, te se mapiraju korisnici u dialplan kontekst internal. Također, omogućena je autentifikacija korisnika na sljedeći način:
+
+```
+[1000-auth]
+type=auth
+auth_type=userpass
+username=1000
+password=1000
+```
+- IMS SIP trunk
+
+```
+[ims-aor]
+type=aor
+contact=sip:192.168.200.160:5060
+
+[ims-endpoint]
+type=endpoint
+transport=transport-udp
+aors=ims-aor
+disallow=all
+allow=amr
+allow=amrwb
+direct_media=yes
+from_domain=ims.mnc001.mcc001.3gppnetwork.org
+send_pai=yes
+trust_id_inbound=yes
+context=from-ims
+```
+Prethodnim se definiše SIP trunk prema IMS jezgri, omogućava razmjena identiteta, te se mapiraju dolazni pozivi iz IMS-a u kontekstu from-ims. Na kraju, definisana je identifikacija IMS-a po IP adresi na sljedeći način:
+
+```
+[ims-identify]
+type=identify
+endpoint=ims-endpoint
+match=192.168.200.160
+
+```
+
+## Asterisk – extensions
+
 ## Rezultat integracije
 
-Nakon proširenja Asteriska:
+Nakon konfiguracije, te proširenja Asteriska:
   - pozivi između MicroSIP klijenta i Asterisk jezgra se uspješno uspostavljaju,
   - AMR kodek se ispravno pregovara i koristi tokom poziva,
   - sistem postaje kompatibilan sa IMS okruženjem i mobilnim mrežama gdje je AMR standardni govorni kodek.
@@ -444,10 +518,7 @@ Ovo proširenje je bilo ključni korak za realizaciju funkcionalne fiksno-mobiln
 
 ---
 
-## Asterisk – PJSIP konfiguracija i dodavanje IMS SIP trunk-a
 
-## Asterisk – rutiranje poziva
-U fajlu **`/etc/asterisk/extensions.conf`** definisana su pravila rutiranja poziva između fiksne SIP domene i IMS domene:
 
 
 
