@@ -643,7 +643,9 @@ Prekid poziva realizovan je standardnim SIP mehanizmom: jedna strana šalje poru
 
 U Wireshark prikazu INVITE paketa vidi se da MicroSIP koristi application/sdp.
 
-<div align="center"> <img src="assets/5g/images/RP3_INVITE.jpg" alt="RP3_INVITE.jpg" title="SIP INVITE sa SDP" style="width:85%"> <br> <i><b>Slika Y:</b> SIP <code>INVITE</code> poruka (MicroSIP/3.22.3) prema IMS serveru <code>192.168.200.160:5060</code>. U poruci je prisutan SDP, kojim se nude medijski parametri i kodeci.</i> </div>
+<div align="center"> <img src="assets/5g/images/RP3_INVITE.jpg" alt="RP3_INVITE.jpg" title="SIP INVITE" style="width:85%"> <br> <i><b>Slika Y:</b> SIP <code>INVITE</code> poruka (MicroSIP/3.22.3) prema IMS serveru <code>192.168.200.160:5060</code>.</i> </div>
+
+<div align="center"> <img src="assets/5g/images/RP5_sdp.jpg" alt="RP5_sdp.jpg" title="SDP" style="width:85%"> <br> <i><b>Slika Y:</b> U INVITE poruci je prisutan SDP, kojim se nude medijski parametri i kodeci.</i> </div>
 
 Iz MSC-a je vidljivo da SDP ponuda sadrži kodeke:
 
