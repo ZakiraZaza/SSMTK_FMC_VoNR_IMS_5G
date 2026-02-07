@@ -378,13 +378,19 @@ Rezultat prikazuje istovremeno registrovane VoNR mobilnog korisnika (IMS + IPSec
   <i>Slika 8: Izlaz komande <code>(ims) users</code>. Prikazan je VoNR korisnik registrovan uz IPSec zaštitu (gornji dio) i standardni SIP korisnik <code>sipclient</code> registrovan sa PC-a (donji dio). Ovo potvrđuje da oba korisnika koriste isto IMS jezgro </i>
 </div>
 
-Nakon uspješne IMS registracije oba korisnika (fiksnog SIP clienta i mobilnog VoNR UE-a), izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP clienta prema mobilnom VoNR korisniku. Poziv je uspostavljen korištenjem javnog identiteta (IMPU) tel:1234, koji je mapiran na SIP korisnika u IMS bazi, te rutiran kroz zajedničko IMS jezgro prema 5G mobilnom korisniku.
+Nakon uspješne IMS registracije oba korisnika, izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP klijenta (MicroSIP) prema mobilnom VoNR korisniku. Poziv je rutiran kroz zajedničko IMS jezgro u 5G mreži.
 
-<div align="center">
-  <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" title="Uspostavljen FMC poziv" style="width:35%">
-  <br>
-  <i>Slika 9: Uspostavljen FMC govorni poziv između fiksnog SIP korisnika (<code>1234</code>) i mobilnog VoNR korisnika. Prikazan je aktivan poziv na 5G mobilnom uređaju sa identifikacijom pozivaoca <code>SIP korisnik RP3</code> i mjerenim trajanjem poziva, čime se potvrđuje ispravna realizacija FMC scenarija (1) na nivou signalizacije i govornog saobraćaja. </i>
-</div>
+<div align="center"> <table> <tr> <td align="center" width="50%"> <img src="assets/5g/images/RP3_microsip.png" alt="RP3_microsip.png" width="90%">
+
+<i><b>Slika 9a:</b> Iniciranje FMC poziva sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku <code>0600000124</code>.</i>
+
+</td> <td align="center" width="50%"> <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" width="50%">
+
+<i><b>Slika 9b:</b> Dolazni i aktivni FMC govorni poziv na VoNR mobilnom uređaju, sa prikazanim identitetom pozivaoca <code>SIP korisnik RP3</code> i trajanjem poziva.</i>
+
+</td> </tr> </table> </div>
+
+Uspješna uspostava i održavanje poziva potvrđuju ispravnu IMS registraciju fiksnog i mobilnog korisnika, korektno SIP rutiranje kroz zajedničko IMS jezgro, te funkcionalan govorni (medijski) tok između fiksne i mobilne mreže.
 
 ---
 
