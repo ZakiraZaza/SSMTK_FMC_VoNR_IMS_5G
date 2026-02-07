@@ -607,7 +607,7 @@ U Wireshark fajlu snimljen je saobraćaj uspostave VoLTE/IMS poziva. Jedna od pr
 
 MSC dijagram ilustruje proces uspostave, odvijanja i prekida VoLTE poziva, pri čemu se za signalizaciju koristi SIP (Session Initiation Protocol), dok je prenos govornih paketa realizovan putem RTP-a (Real-Time Transport Protocol). 
 
-<div align="center"> <img src="assets/5g/images/RP3_v2_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika X: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i> </div>
+<div align="center"> <img src="assets/5g/images/RP3_v2_msc.pdf" alt="RP3_v2_msc.pdf" width="85%"> <br> <i>Slika X: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i> </div>
 
 Iz MSC dijagrama i SIP paketa vidljiva su dva osnovna signalizacijska čvora:
 
