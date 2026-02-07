@@ -676,7 +676,59 @@ Na prikazanim slikame se može uočiti polje FT (Frame Type) koje definiše AMR-
 
 Ovim je eksperimentalno potvrđena ispravna realizacija FMC poziva u scenariju (1) na nivou signalizacije i medije.
 
-## Analiza signalizacijskih tokova za scenarije (3)
+## Analiza signalizacijskih tokova za scenarij (3)
+
+Analogno prethodnoj proceduri, nakon snimanja Wireshark saobraćaja i za scenarij (3), kreiran je MSC dijagram prikazan na sljedećoj slici:
+
+<div align="center"> <img src="assets/5g/images/RP4_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika X: MSC dijagram generisan u Wireshark-u za scenarij (3).</i> </div>
+
+MSC dijagram ilustruje pokušaj uspostave VoIP/IMS poziva u kojem:
+- Asterisk (IP: 192.168.200.194) djeluje kao SIP gateway/trunk prema IMS jezgru
+- IMS jezgro (IP: 192.168.200.160) predstavlja 5G IMS domen
+- Poziv je iniciran iz fiksne SIP domene (MicroSIP → Asterisk)
+- Signalizacija koristi SIP, dok je medijski prenos predviđen putem RTP
+
+Za razliku od scenarija (1), u ovom slučaju ne dolazi do kompletne SIP razmjene, jer IMS jezgro ne prihvata dolazni INVITE zahtjev sa Asterisk strane.
+
+Asterisk šalje SIP INVITE poruku prema IMS jezgru na port 5060. INVITE sadrži SDP tijelo sa definisanim medijskim parametrima: 
+- IP adresa izvora: 192.168.200.194
+- IP adresa odredišta (IMS): 192.168.200.160
+- Transport: UDP
+- User-Agent: Asterisk PBX 13.38.3
+
+U SDP dijelu ponuđeni su sljedeći kodeci:
+	•	AMR (8 kHz)
+	•	AMR-WB (16 kHz)
+	•	telephone-event (DTMF preko RTP-a)
+
+Ova ponuda kodeka je u potpunosti kompatibilna sa IMS/VoLTE/VoNR okruženjem, gdje su AMR i AMR-WB standardni govorni kodeci.
+
+Na MSC dijagramu i u Wireshark listi paketa vidi se da Asterisk više puta šalje identičan INVITE prema IMS jezgru, u pravilnim vremenskim intervalima.
+
+<div align="center">
+  <img src="assets/5g/images/RP4_invite_retries.png" alt="RP4_invite_retries.png" title="Višestruki INVITE pokušaji Asterisk → IMS" style="width:85%">
+  <br>
+  <i>Slika Y: Višestruki SIP INVITE zahtjevi poslani sa Asterisk-a prema IMS jezgru</i>
+</div>
+
+Ovo ponašanje je u skladu sa SIP retransmission mehanizmom, koji se aktivira kada klijent ne dobije nikakav odgovor (ni 100 Trying, ni grešku). Ključni nalaz ove analize jeste činjenica da IMS ne vraća nikakav SIP odgovor, što je objašnjeno kroz ranija poglavlja.
+
+
+### Analiza SDP i kodeka
+
+Iako poziv nije uspostavljen, SDP analiza potvrđuje da je sa SIP/Asterisk strane sve korektno:
+	•	AMR i AMR-WB su pravilno oglašeni
+	•	Korišten je octet-align=1 (obavezno za IMS interoperabilnost)
+	•	Ponuđen je ptime=20 ms, što odgovara IMS preporukama
+	•	RTP port je validan i otvoren.
+
+<div align="center">
+  <img src="assets/5g/images/RP4_amr_wb.png" alt="RP4_amr_wb.png" title="AMR i AMR-WB kodeci u SDP ponudi" style="width:75%">
+  <br>
+  <i>Slika Z: SDP analiza – AMR/AMR-WB kodeci ponuđeni prema IMS jezgru</i>
+</div>
+
+Sa tehničke strane SIP klijenta i Asterisk-a, ne postoji greška u kodecima niti u SDP strukturi.
 
 <details id="radni-paketi">
 <summary title="Kliknite za prikaz radnih paketa.">Radni paketi</summary>
