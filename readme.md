@@ -380,7 +380,7 @@ Rezultat prikazuje istovremeno registrovane VoNR mobilnog korisnika (IMS + IPSec
 
 Nakon uspješne IMS registracije oba korisnika, izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP klijenta (MicroSIP) prema mobilnom VoNR korisniku. Poziv je rutiran kroz zajedničko IMS jezgro u 5G mreži.
 
-<div align="center"> <table> <tr> <td align="center" width="50%"> <img src="assets/5g/images/RP3_microsip.png" alt="RP3_microsip.png" width="90%">
+<div align="center"> <table> <tr> <td align="center" width="50%"> <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" width="90%">
 
 <i><b>Slika 9a:</b> Iniciranje FMC poziva sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku <code>0600000124</code>.</i>
 
