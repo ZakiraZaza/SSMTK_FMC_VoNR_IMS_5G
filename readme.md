@@ -586,6 +586,94 @@ Drugim riječima, SIP signalizacija se završava na Asterisk strani, dok na IMS 
 # RP5: Eksperimentalna analiza signalizacijskih tokova
 
 ## Analiza signalizacijskih tokova za scenarij (1)
+
+U RP5 je analiziran snimljeni saobraćaj uspostave govornog poziva u FMC scenariju (1), gdje se zajedničko IMS jezgro nalazi u 5G mreži (AMARI Callbox Mini), a poziv se inicira sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku.
+
+Analiza je izvedena na osnovu .pcap datoteka i Wireshark prikaza:
+
+- SIP signalizacije (INVITE/180/200/ACK/BYE…),
+
+- MSC dijagrama (Message Sequence Chart) generisanog iz snimljenog saobraćaja,
+
+- RTP medijskog toka i dekodiranog AMR-WB payload-a.
+
+### Kreiranje MSC dijagrama u Wireshark-u
+
+Snimanje saobraćaja na baznoj stanici (Callbox Mini) pohranjuje se u .pcap fajlove. Komanda korištena za snimanje je **tcpdump** (snimanje paketa na mrežnom interfejsu). Budući da se .pcap fajlovi analiziraju u Wireshark-u, a Wireshark GUI nije moguće pokrenuti u terminalu bazne stanice, snimljene .pcap datoteke je potrebno prebaciti na remote računar i otvoriti u Wireshark-u radi analize.
+
+U Wireshark fajlu snimljen je saobraćaj uspostave VoLTE/IMS poziva. Jedna od prednosti Wireshark-a je mogućnost automatskog kreiranja MSC dijagrama iz VoIP signalizacije. MSC dijagram se generiše tako što se najprije otvori odgovarajući .pcap fajl u alatu Wireshark. Nakon toga, iz glavnog menija se odabere opcija Telephony → VoIP Calls, čime se prikazuje lista detektovanih poziva. U otvorenom prozoru je potrebno označiti sve relevantne stavke koje pripadaju analiziranom pozivu, a zatim kliknuti na opciju Flow Sequence, čime se automatski generiše MSC dijagram toka signalizacije. 
+
+<div align="center"> <img src="assets/5g/images/RP5_flowsequence.jpg" alt="RP5_flowsequence.jpg" width="85%"> <br> <i>Slika X: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i> </div>
+
+MSC dijagram ilustruje proces uspostave, odvijanja i prekida VoLTE poziva, pri čemu se za signalizaciju koristi SIP (Session Initiation Protocol), dok je prenos govornih paketa realizovan putem RTP-a (Real-Time Transport Protocol). 
+
+<div align="center"> <img src="assets/5g/images/RP3_v2_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika X: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i> </div>
+
+Iz MSC dijagrama i SIP paketa vidljiva su dva osnovna signalizacijska čvora:
+
+- 192.168.200.193 – fiksni SIP klijent (MicroSIP, PC)
+
+- 192.168.200.160 – IMS/SIP server (Callbox Mini / IMS jezgro)
+
+SIP signalizacija se odvija preko UDP portova:
+
+- MicroSIP koristi dinamički lokalni port (npr. 60198),
+
+- IMS server sluša na standardnom SIP portu 5060.
+
+U početnoj fazi, korisnički uređaj koji započinje poziv (MicroSIP klijent na IP adresi 192.168.200.193) šalje SIP INVITE poruku prema IMS jezgru (192.168.200.160). INVITE poruka sadrži SDP (Session Description Protocol), unutar kojeg su definisani podržani govorni kodeci, uključujući AMR-WB i AMR, parametri medijskog toka, te dodatne mogućnosti sistema, što će detaljnije biti obrađeno u narednoj sekciji.
+
+INVITE poruka se dalje prosljeđuje kroz IMS mrežnu infrastrukturu, obuhvatajući funkcionalne IMS čvorove (npr. P-CSCF i S-CSCF), sve dok ne stigne do odredišnog korisnika, odnosno do mobilnog VoNR UE-a.
+
+Po prijemu INVITE zahtjeva, IMS jezgro vraća odgovor 401 Unauthorized, koji predstavlja standardni SIP Digest izazov. Ovim odgovorom IMS ne odbija poziv, već zahtijeva autentifikaciju pozivajućeg korisnika korištenjem mehanizma koji omogućava sigurnu provjeru identiteta bez slanja lozinke u otvorenom obliku. MicroSIP potvrđuje prijem ovog odgovora porukom ACK.
+
+Nakon toga, MicroSIP ponovo šalje INVITE poruku, ovaj put dopunjenu Authorization zaglavljem koje sadrži kriptografski izračunat odgovor (Digest/MD5) na prethodni izazov. Time klijent dokazuje svoj identitet i ispunjava sigurnosne zahtjeve IMS jezgra.
+
+IMS zatim odgovara porukom 100 Trying, čime signalizira da je zahtjev ispravno zaprimljen i da je proces uspostave poziva u toku. Slijedi poruka 180 Ringing, kojom se označava da je pozvani korisnik obaviješten o dolaznom pozivu i da se nalazi u fazi zvonjenja.
+
+U narednom koraku IMS šalje poruku 183 Session Progress, koja u ovom scenariju sadrži SDP i koristi se za rani napredak sesije (engl. early media). Ova poruka je povezana sa korištenjem pouzdanih privremenih odgovora (100rel), što je tipično ponašanje u IMS okruženju. Kako bi se osigurala pouzdana razmjena ovakvih privremenih odgovora, MicroSIP šalje poruku PRACK, kojom potvrđuje prijem 183 odgovora i omogućava kontrolisano fazno uspostavljanje sesije.
+
+Nakon uspješne razmjene SDP parametara i ispunjenja svih preduslova, IMS šalje 200 OK kao finalni odgovor na INVITE zahtjev. MicroSIP potvrđuje ovaj odgovor slanjem završne ACK poruke, čime je SIP sesija zvanično uspostavljena.
+
+Po završetku signalizacijske faze započinje medijski tok, koji se u MSC dijagramu vidi kao RTP saobraćaj sa AMR-WB kodekom. Prisustvo kontinuiranog RTP toka potvrđuje da je govor ispravno uspostavljen i da se audio prenosi u realnom vremenu između fiksnog SIP klijenta i mobilnog VoNR korisnika.
+
+Prekid poziva realizovan je standardnim SIP mehanizmom: jedna strana šalje poruku BYE, a druga potvrđuje prekid sesije odgovorom 200 OK. Time je kompletiran puni SIP/RTP životni ciklus poziva – od inicijalnog INVITE zahtjeva, preko aktivnog govornog toka, do urednog zatvaranja sesije.
+
+### Detaljna analiza INVITE poruke (SDP i ponuđeni kodeci)
+
+U Wireshark prikazu INVITE paketa vidi se da MicroSIP koristi application/sdp.
+
+<div align="center"> <img src="assets/5g/images/RP3_INVITE.jpg" alt="RP3_INVITE.jpg" title="SIP INVITE sa SDP" style="width:85%"> <br> <i><b>Slika Y:</b> SIP <code>INVITE</code> poruka (MicroSIP/3.22.3) prema IMS serveru <code>192.168.200.160:5060</code>. U poruci je prisutan SDP, kojim se nude medijski parametri i kodeci.</i> </div>
+
+Iz MSC-a je vidljivo da SDP ponuda sadrži kodeke:
+
+- AMR
+- AMR-WB (wideband govor, tipično za VoLTE/VoNR),
+- G.711 A-law (g711a),
+- G.711 μ-law (g711u) (kompatibilni “fallback” kodeci),
+- telephone-event (DTMF tonovi preko RTP-a).
+
+IMS/VoLTE okruženja preferiraju AMR/AMR-WB zbog efikasnosti i standardizacije za mobilni govor, dok G.711 služi kao kompatibilna alternativa u nekim interworking scenarijima.
+
+### RTP medijski tok i portovi
+
+MSC prikazuje početak RTP toka označen kao RTP (AMR-WB). U prikazu je vidljivo da se RTP odvija između portova:
+- MicroSIP strana: UDP 4000
+- IMS strana: UDP 10000.
+
+Ovo odgovara SDP pregovoru, SIP signalizacija dogovara RTP portove, nakon čega medijski tok teče direktno preko UDP/RTP.
+
+
+Wireshark omogućava dekodiranje AMR-WB RTP payload-a. U priloženim primjerima payload je dekodiran kao RFC 3267 octet-aligned mode.
+
+Na prikazanim slikame se može uočiti polje FT (Frame Type) koje definiše AMR-WB “mode” i time efektivnu bitrate vrijednost (kb/s):
+- AMR-WB 15.85 kbit/s (FT = 4)
+- AMR-WB 23.85 kbit/s (FT = 8).
+
+<div align="center"> <table> <tr> <td align="center" width="50%"> <img src="assets/5g/images/RP3_amr_wb.jpg" alt="RP3_amr_wb.jpg" width="95%"> <br> <i><b>Slika Z1:</b> RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 15.85 kbit/s (FT=4).</i> </td> <td align="center" width="50%"> <img src="assets/5g/images/RP3_amr_wb2.jpg" alt="RP3_amr_wb2.jpg" width="95%"> <br> <i><b>Slika Z2:</b> RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 23.85 kbit/s (FT=8).</i> </td> </tr> </table> </div>
+
+Ovim je eksperimentalno potvrđena ispravna realizacija FMC poziva u scenariju (1) na nivou signalizacije i medije.
+
 ## Analiza signalizacijskih tokova za scenarije (3)
 
 <details id="radni-paketi">
