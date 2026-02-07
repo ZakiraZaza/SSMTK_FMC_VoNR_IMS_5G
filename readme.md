@@ -696,12 +696,7 @@ Asterisk šalje SIP INVITE poruku prema IMS jezgru na port 5060. INVITE sadrži 
 - Transport: UDP
 - User-Agent: Asterisk PBX 13.38.3
 
-U SDP dijelu ponuđeni su sljedeći kodeci:
-	•	AMR (8 kHz)
-	•	AMR-WB (16 kHz)
-	•	telephone-event (DTMF preko RTP-a)
-
-Ova ponuda kodeka je u potpunosti kompatibilna sa IMS/VoLTE/VoNR okruženjem, gdje su AMR i AMR-WB standardni govorni kodeci.
+U SDP dijelu ponuđeni su kodeci AMR (8 kHz), AMR-WB (16 kHz) i telephone-event (DTMF preko RTP-a). Ova ponuda kodeka je u potpunosti kompatibilna sa IMS/VoLTE/VoNR okruženjem, gdje su AMR i AMR-WB standardni govorni kodeci.
 
 Na MSC dijagramu i u Wireshark listi paketa vidi se da Asterisk više puta šalje identičan INVITE prema IMS jezgru, u pravilnim vremenskim intervalima.
 
@@ -717,10 +712,10 @@ Ovo ponašanje je u skladu sa SIP retransmission mehanizmom, koji se aktivira ka
 ### Analiza SDP i kodeka
 
 Iako poziv nije uspostavljen, SDP analiza potvrđuje da je sa SIP/Asterisk strane sve korektno:
-	•	AMR i AMR-WB su pravilno oglašeni
-	•	Korišten je octet-align=1 (obavezno za IMS interoperabilnost)
-	•	Ponuđen je ptime=20 ms, što odgovara IMS preporukama
-	•	RTP port je validan i otvoren.
+- AMR i AMR-WB su pravilno oglašeni
+- Korišten je octet-align=1 (obavezno za IMS interoperabilnost)
+- Ponuđen je ptime=20 ms, što odgovara IMS preporukama
+- RTP port je validan i otvoren.
 
 <div align="center">
   <img src="assets/5g/images/RP4_amr_wb.png" alt="RP4_amr_wb.png" title="AMR i AMR-WB kodeci u SDP ponudi" style="width:75%">
@@ -730,6 +725,7 @@ Iako poziv nije uspostavljen, SDP analiza potvrđuje da je sa SIP/Asterisk stran
 
 Sa tehničke strane SIP klijenta i Asterisk-a, ne postoji greška u kodecima niti u SDP strukturi.
 
+---
 <details id="radni-paketi">
 <summary title="Kliknite za prikaz radnih paketa.">Radni paketi</summary>
 <table>
