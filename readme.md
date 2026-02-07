@@ -412,8 +412,8 @@ Prvi korak u realizaciji RP4 bio je dodavanje SIP trunk veze u IMS konfiguraciju
 
 ```
 trunk: {
-           addr: "x.x.x.x", // SIP server IP address
-           name: "xxx", // SIP account username, used for contact/from headers
+           addr: "192.168.200.194", // SIP server IP address
+           name: "amarisoft", // SIP account username, used for contact/from headers
     },
 ```
 
