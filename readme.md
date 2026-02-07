@@ -563,7 +563,7 @@ Nakon završene konfiguracije Asterisk sistema (PJSIP trunk, dialplan i kodeci),
 - AMR kodek se ispravno pregovara i koristi tokom poziva, što je potvrđeno kroz SDP razmjenu i RTP tok.
 - Sistem je time postao kompatibilan sa IMS okruženjem i mobilnim mrežama, u kojima je AMR standardni govorni kodek (VoLTE/VoNR).
 - MicroSIP klijent se uspješno registruje na Asterisk (PJSIP endpoint).
-- SIP trunk prema IMS jezgru je definisan i aktivan.
+- SIP trunk je definisan i aktivan.
 - Sa Asterisk strane kompletan call-flow se izvršava korektno: INVITE se generiše, SIP dijalog se pravilno formira, te se zahtjev prosljeđuje prema IMS trunk-u.
 
 Prethodno će detaljnije biti opisano kroz RP5.
