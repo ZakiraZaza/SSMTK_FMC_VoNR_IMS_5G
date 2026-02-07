@@ -465,7 +465,7 @@ auth=1000-auth
 aors=1000
 direct_media=yes
 ```
-Prethodnim se definiše SIP endpoint za fiksnog korisnika, dozvoljavaju AMR i AMR-WB kodeci, te se mapiraju korisnici u dialplan kontekst internal. Također, omogućena je autentifikacija korisnika na sljedeći način:
+Prethodnim se definiše SIP endpoint za fiksnog korisnika, dozvoljavaju AMR i AMR-WB kodeci, te se mapiraju korisnici u dialplan kontekst _internal_, koji će naknadno biti pojašnjen. Također, omogućena je autentifikacija korisnika na sljedeći način:
 
 ```
 [1000-auth]
@@ -514,7 +514,7 @@ Konfiguracija je organizovana u dva osnovna context-a:
 
 ### Context internal:  interne ekstenzije i odlazni pozivi ka IMS-u
 
-Unutar konfiguracijske datoteke prvo je definisana test ekstenzija 1000 za lokalni poziv, te provjeru audio puta.
+Unutar konfiguracijske datoteke prvo je definisana test ekstenzija 1000 za lokalni poziv, te provjeru govornog (audio) kanala.
 
 ```
 [internals]
@@ -528,7 +528,7 @@ Ova ekstenzija služi kao lokalna provjera osnovne Asterisk funkcionalnosti:
 - Playback(demo-congrats) reproducira testni audio,
 - Hangup() završava sesiju.
 
-Dakle, prethodna ekstezija se koristi kao brza verifikacija da je endpoint registriran i da lokalni audio put funkcioniše bez IMS-a.
+Dakle, prethodna ekstezija se koristi kao brza verifikacija da je endpoint registriran i da lokalni audio kanal funkcioniše bez IMS-a.
 
 Za odlazne pozive prema IMS-u definisano je:
 ```
