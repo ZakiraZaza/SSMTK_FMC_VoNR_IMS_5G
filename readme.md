@@ -505,16 +505,61 @@ match=192.168.200.160
 
 ```
 
-## Asterisk – extensions
+## Asterisk Dialplan konfiguracija - extensions.conf
+
+Pored prethodnog, neophodno je implementirati dialplan logiku s ciljem da se omoguće outbound pozivi iz Asterisk-a prema IMS jezgru (pozivi ka mobilnim 06X brojevima) i inbound pozivi iz IMS jezgra prema lokalnom Asterisk korisniku (npr. SIP/PJSIP ekstenzija 1000).
+
+Konfiguracija je organizovana u dva osnovna context-a:
+	•	internal – lokalni “dialplan” za interne ekstenzije i odlazne pozive ka IMS-u;
+	•	from-ims – obrada dolaznih poziva koji stižu sa IMS trunk-a u Asterisk.
+
+### Context internal:  interne ekstenzije i odlazni pozivi ka IMS-u
+
+Unutar konfiguracijske datoteke prvo je definisana test ekstenzija 1000 za lokalni poziv, te provjeru audio puta.
+
+```
+[internals]
+exten => 1000,1,Answer()
+ same => n,Playback(demo-congrats)
+ same => n,Hangup()
+```
+
+Ova ekstenzija služi kao lokalna provjera osnovne Asterisk funkcionalnosti:
+- Answer() prihvata poziv,
+- Playback(demo-congrats) reproducira testni audio,
+- Hangup() završava sesiju.
+
+Dakle, prethodna ekstezija se koristi kao brza verifikacija da je endpoint registriran i da lokalni audio put funkcioniše bez IMS-a.
+
+Za odlazne pozive prema IMS-u definisano je:
+```
+exten => _06X.,1,NoOp(Outgoing call to IMS: ${EXTEN})
+ same => n,Dial(PJSIP/${EXTEN}@ims-endpoint,60)
+ same => n,Hangup()
+```
+Ovaj dio dialplan-a omogućava da se svi brojevi koji odgovaraju šablonu _06X. (npr. 060...) automatski tretiraju kao pozivi ka IMS mreži.
+
+
+### Context from-ims: dolazni pozivi iz IMS-a prema Asterisku
+
+```
+[from-ims]
+exten => 1000,1,NoOp(Incoming call from IMS to 1000)
+ same => n,Dial(PJSIP/1000,30)
+ same => n,Hangup()
+```
+
+Ovaj context je namijenjen obradi poziva koji stižu sa IMS trunk-a prema Asterisku. Kada IMS pošalje INVITE prema Asterisku sa ciljem 1000, dialplan ispisuje dijagnostičku poruku (NoOp), zatim zvoni lokalni endpoint PJSIP/1000 do 30 sekundi, nakon čega se završava poziv.
+
+Ovim se zatvara drugi smjer komunikacije (IMS → Asterisk), čiji je cilj omogućavanje da mobilni IMS korisnik može pozvati “fiksnog” korisnika/ekstenziju na Asterisku.
 
 ## Rezultat integracije
 
 Nakon konfiguracije, te proširenja Asteriska:
-  - pozivi između MicroSIP klijenta i Asterisk jezgra se uspješno uspostavljaju,
   - AMR kodek se ispravno pregovara i koristi tokom poziva,
-  - sistem postaje kompatibilan sa IMS okruženjem i mobilnim mrežama gdje je AMR standardni govorni kodek.
+  - sistem postaje kompatibilan sa IMS okruženjem i mobilnim mrežama gdje je AMR standardni govorni kodek
+  - DODATI 
 
-Ovo proširenje je bilo ključni korak za realizaciju funkcionalne fiksno-mobilne konvergencije (FMC) govorne usluge u našem projektnom okruženju.
 
 ---
 
