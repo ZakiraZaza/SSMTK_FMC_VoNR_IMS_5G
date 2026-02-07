@@ -408,7 +408,7 @@ U realizovanom rješenju učestvuju sljedeći elementi:
 
 ## Dodavanje SIP trunk-a u IMS (AMARI Callbox Mini)
 
-Prvi korak u realizaciji RP4 bio je dodavanje SIP trunk veze u IMS konfiguraciju AMARI Callbox Mini sistema, u skladu sa zvaničnom Amarisoft dokumentacijom. SIP trunk je definisan u datoteci ims.cfg na sljedeći način:
+Prvi korak u realizaciji RP4 bio je dodavanje SIP trunk veze u IMS konfiguraciju AMARI Callbox Mini sistema, u skladu sa zvaničnom Amarisoft dokumentacijom [^3]. SIP trunk je definisan u datoteci ims.cfg na sljedeći način:
 
 ```
 trunk: {
@@ -630,3 +630,5 @@ Drugim riječima, SIP signalizacija se završava na Asterisk strani, dok na IMS 
 # Literatura:
 [^1]: Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
 [^2]: What is Voice over New Radio (VoNR). NG-Voice <a href="https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr">Link</a>
+[^3] How to run VoLTE/VoNR call using a SIP trunk. Amarisoft Tech Academy. <a href="https://tech-academy.amarisoft.com/how_to_run_volte_call_using_a_sip_trunk.wiki">Link</a>
+[^4]
