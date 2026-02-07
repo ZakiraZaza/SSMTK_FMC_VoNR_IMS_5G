@@ -603,7 +603,7 @@ Snimanje saobraćaja na baznoj stanici (Callbox Mini) pohranjuje se u .pcap fajl
 
 U Wireshark fajlu snimljen je saobraćaj uspostave VoLTE/IMS poziva. Jedna od prednosti Wireshark-a je mogućnost automatskog kreiranja MSC dijagrama iz VoIP signalizacije. MSC dijagram se generiše tako što se najprije otvori odgovarajući .pcap fajl u alatu Wireshark. Nakon toga, iz glavnog menija se odabere opcija Telephony → VoIP Calls, čime se prikazuje lista detektovanih poziva. U otvorenom prozoru je potrebno označiti sve relevantne stavke koje pripadaju analiziranom pozivu, a zatim kliknuti na opciju Flow Sequence, čime se automatski generiše MSC dijagram toka signalizacije. 
 
-<div align="center"> <img src="assets/5g/images/RP5_flowsequence.jpg" alt="RP5_flowsequence.jpg" width="85%"> <br> <i>Slika X: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i> </div>
+<div align="center"> <img src="assets/5g/images/RP5_flow_sequence.jpg" alt="RP5_flow_sequence.jpg" width="85%"> <br> <i>Slika X: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i> </div>
 
 MSC dijagram ilustruje proces uspostave, odvijanja i prekida VoLTE poziva, pri čemu se za signalizaciju koristi SIP (Session Initiation Protocol), dok je prenos govornih paketa realizovan putem RTP-a (Real-Time Transport Protocol). 
 
