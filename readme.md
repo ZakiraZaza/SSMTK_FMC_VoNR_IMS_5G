@@ -595,77 +595,33 @@ Drugim riječima, SIP signalizacija se završava na Asterisk strani, dok na IMS 
   <tr>
     <td><b>Radni paket</b></td>
     <td><b>Opis</b></td>
-    <td><b>Plan isporuke</b></td>
   </tr>
   <tr>
     <td>RP1 - Dizajn koncepta FMC</td>
     <td>Definisati FMC koncept koji povezuje VoNR i IMS/SIP fiksne mreže uz scenarije zajedničkog IMS jezgra u 5G mreži, zajedničkog jezgra u fiksnoj mreži i odvojena IMS jezgra 5G i fiksne mreže.
     </td>
-    <td>
-      <ul>
-        <li>Arhitekturni dijagrami</li>
-        <li>Opis signalizacijskih tokova (visok nivo)</li>
-        <li>Pretpostavke i ograničenja</li>
-        <li>Lista potrebne opreme/softvera</li>
-      </ul>
-    </td>
   </tr>
   <tr>
     <td>RP2 - Implementacija VoNR usluge</td>
     <td>Implementacija VoNR korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona.</td>
-    <td>
-      <ul>
-        <li>Postavka testnog okruženja</li>
-        <li>Registracija i uspostava poziva</li>
-        <li>Evidencija konfiguracija</li>
-        <li>Screenshotovi/logovi</li>
-      </ul>
-    </td>
   </tr>
   <tr>
     <td>RP3 - Implementacija FMC za scenarij (1)</td>
     <td>FMC za slučaj gdje je IMS jezgro zajedničko i nalazi se u 5G mreži.</td> 
-    <td>
-      <ul>
-        <li>Implementacijski koraci</li>
-        <li>Test scenariji</li>
-        <li>Logovi signalizacije</li>
-      </ul>
-    </td>
+    
   </tr>
   <tr>
     <td>RP4 - Implementacija FMC za scenarij (3)</td> 
     <td>FMC za slučaj gdje su IMS jezgra 5G i fiksne mreže odvojene.</td>
-    <td>
-      <ul>
-        <li>Implementacijski koraci</li>
-        <li>Test scenariji</li>
-        <li>Logovi signalizacije</li>
-      </ul>
-    </td> 
   </tr>
   <tr>
    <td>RP5 - Eksperimentalna analiza signalizacijskih tokova</td> 
    <td>Analiza signalizacijskih tokova za scenarije (1) i (3).</td> 
-  <td>
-    <ul>
-      <li>Definisati šta se tačno snima/posmatra</li>
-      <li>Prikupiti logove</li>
-      <li>Napraviti sekvencne dijagrame</li>
-      <li>Zaključci i poređenje</li>
-    </ul>
-  </td>
   </tr>
   <tr>
    <td>RP6 - Repozitorij i dokumentacija</td> 
     <td>
       Održavanje strukture repozitorija, ažuriranje svih datotek ažuriranje svih datoteka i predlaganje ideja za poboljšanje postojećih datoteka. 
-    </td>
-    <td>
-      <ul>
-        <li>Redovno praćenje i održavanje strukture repozitorija</li>
-        <li>Ažuriranje README.md datoteke</li>
-      </ul>
     </td>
   </tr>
 </table>
