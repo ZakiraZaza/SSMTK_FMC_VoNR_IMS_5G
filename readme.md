@@ -424,17 +424,15 @@ Ovim je IMS jezgro logički pripremljeno za inter-IMS komunikaciju, iako fizičk
   
 ## Asterisk - izbor i priprema sistema 
 
-Za realizaciju fiksne SIP mreže korišten je Asterisk.
+Za realizaciju ovog dijela projekta korišten je Asterisk. Asterisk je open-source okvir za izgradnju komunikacijskih aplikacija koji pretvara računar u komunikacijski server [^4].
 
 Podrazumijevana verzija Asteriska ne podržava AMR (Adaptive Multi-Rate) kodek. To predstavlja ograničenje u scenarijima gdje se koriste SIP/IMS klijenti koji rade sa AMR kodekom, kao što je MicroSIP, koji AMR podršku ima implementiranu i aktivno je koristi prilikom SIP pregovaranja kodeka (SDP).
 
 Zbog toga je u sistemu dolazilo do nekompatibilnosti kodeka i neuspješnog uspostavljanja poziva između SIP klijenta i Asterisk jezgra. 
 
-Shodno ranije navedenom, u okviru projekta bilo je potrebno omogućiti interoperabilnost između AMR-capable SIP klijenata (MicroSIP) i Asterisk jezgra, pravilno SIP/SDP pregovaranje kodeka, te uspješno uspostavljanje govornih poziva u IMS/FMC testnom okruženju.
+Shodno ranije navedenom, u okviru projekta bilo je potrebno omogućiti interoperabilnost između AMR-capable SIP klijenata (MicroSIP) i Asterisk jezgra, pravilno SIP/SDP pregovaranje kodeka, te uspješno uspostavljanje govornih poziva u IMS/FMC testnom okruženju. Kako Asterisk ne nudi nativnu AMR podršku, bilo je neophodno proširiti Asterisk dodatnim AMR kodek modulom.
 
-Kako Asterisk ne nudi nativnu AMR podršku, bilo je neophodno proširiti Asterisk dodatnim AMR kodek modulom.
-
-AMR podrška je realizovana integracijom otvorenog (open-source) AMR modula za Asterisk, dostupnog na sljedećem repozitoriju: https://github.com/traud/asterisk-amr
+AMR podrška je realizovana integracijom otvorenog (open-source) AMR modula za Asterisk, dostupnog na sljedećem repozitoriju: https://github.com/traud/asterisk-amr [^5].
 
 Ovaj modul omogućava:
 
@@ -446,6 +444,7 @@ Ovaj modul omogućava:
 ## Konfiguracija Asterisk-a - pjsip.conf
 
 Datoteka pjsip.conf sadrži kompletnu SIP konfiguraciju Asterisk sistema i obuhvata:
+
 - transportni sloj koji omogućava SIP komunikaciju preko UDP-a na standardnom portu 5060.
 ```
 [transport-udp]
@@ -629,6 +628,7 @@ Drugim riječima, SIP signalizacija se završava na Asterisk strani, dok na IMS 
 
 # Literatura:
 [^1]: Raj, M., Narayan, A., Datta, S., Das, S. K., & Pathak, J. K. (2010). Fixed mobile convergence: challenges and solutions. IEEE Communications Magazine, 48(12), 26-34.
-[^2]: What is Voice over New Radio (VoNR). NG-Voice <a href="https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr">Link</a>
-[^3] How to run VoLTE/VoNR call using a SIP trunk. Amarisoft Tech Academy. <a href="https://tech-academy.amarisoft.com/how_to_run_volte_call_using_a_sip_trunk.wiki">Link</a>
-[^4]
+[^2]: What is Voice over New Radio (VoNR). NG-Voice <a href="https://www.ng-voice.com/learning-center/what-is-voice-over-new-radio-vonr#what-is-voice-over-new-radio-vonr">Link</a>.
+[^3]: How to run VoLTE/VoNR call using a SIP trunk. Amarisoft Tech Academy. <a href="https://tech-academy.amarisoft.com/how_to_run_volte_call_using_a_sip_trunk.wiki">Link</a>.
+[^4]: Getting Started with Asterisk. Sangoma Technologies. 2026. <a href="https://www.asterisk.org/get-started/">Link</a>.
+[^5]: Asterisk patch for AMR and AMR-WB. <a href="https://github.com/traud/asterisk-amr">Link</a>.
