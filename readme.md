@@ -682,7 +682,7 @@ Analogno prethodnoj proceduri, nakon snimanja Wireshark saobraćaja i za scenari
 
 <div align="center"> <img src="assets/5g/images/RP4_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika X: MSC dijagram generisan u Wireshark-u za scenarij (3).</i> </div>
 
-MSC dijagram ilustruje pokušaj uspostave VoIP/IMS poziva u kojem:
+MSC dijagram ilustruje pokušaj uspostave poziva u kojem:
 - Asterisk (IP: 192.168.200.194) djeluje kao SIP gateway/trunk prema IMS jezgru
 - IMS jezgro (IP: 192.168.200.160) predstavlja 5G IMS domen
 - Poziv je iniciran iz fiksne SIP domene (MicroSIP → Asterisk)
@@ -697,6 +697,8 @@ Asterisk šalje SIP INVITE poruku prema IMS jezgru na port 5060. INVITE sadrži 
 - User-Agent: Asterisk PBX 13.38.3
 
 U SDP dijelu ponuđeni su kodeci AMR (8 kHz), AMR-WB (16 kHz) i telephone-event (DTMF preko RTP-a). Ova ponuda kodeka je u potpunosti kompatibilna sa IMS/VoLTE/VoNR okruženjem, gdje su AMR i AMR-WB standardni govorni kodeci.
+
+### Ponovljeni INVITE zahtjevi
 
 Na MSC dijagramu i u Wireshark listi paketa vidi se da Asterisk više puta šalje identičan INVITE prema IMS jezgru, u pravilnim vremenskim intervalima.
 
