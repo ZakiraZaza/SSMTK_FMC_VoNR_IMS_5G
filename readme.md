@@ -441,7 +441,7 @@ Ovaj modul omogućava:
   - dodavanje AMR kodeka u Asterisk;
   - pravilno kodiranje i dekodiranje AMR govornog signala;
   - uspješno pregovaranje AMR kodeka u SIP/SDP razmjeni;
-  - interoperabilnost sa SIP klijentima koji koriste AMR kodek (npr. MicroSIP).
+  - interoperabilnost sa SIP klijentima koji koriste AMR kodek (MicroSIP).
 
 ## Konfiguracija Asterisk-a - pjsip.conf
 
@@ -555,10 +555,27 @@ Ovim se zatvara drugi smjer komunikacije (IMS → Asterisk), čiji je cilj omogu
 
 ## Rezultat integracije
 
-Nakon konfiguracije, te proširenja Asteriska:
-  - AMR kodek se ispravno pregovara i koristi tokom poziva,
-  - sistem postaje kompatibilan sa IMS okruženjem i mobilnim mrežama gdje je AMR standardni govorni kodek
-  - DODATI 
+Nakon završene konfiguracije Asterisk sistema (PJSIP trunk, dialplan i kodeci), funkcionalnost sistema je analizirana kroz više testnih scenarija.
+
+### Funkcionalnosti koje rade ispravno 
+
+- Asterisk je uspješno instaliran i pokrenut sa podrškom za AMR i AMR-WB govorne kodeke.
+- AMR kodek se ispravno pregovara i koristi tokom poziva, što je potvrđeno kroz SDP razmjenu i RTP tok.
+- Sistem je time postao kompatibilan sa IMS okruženjem i mobilnim mrežama, u kojima je AMR standardni govorni kodek (VoLTE/VoNR).
+- MicroSIP klijent se uspješno registruje na Asterisk (PJSIP endpoint).
+- SIP trunk prema IMS jezgru je definisan i aktivan.
+- Sa Asterisk strane kompletan call-flow se izvršava korektno: INVITE se generiše, SIP dijalog se pravilno formira, te se zahtjev prosljeđuje prema IMS trunk-u.
+
+Prethodno će detaljnije biti opisano kroz RP5.
+
+### Identifikovani problem / ograničenje
+
+Prilikom pokušaja uspostave poziva u smjeru MicroSIP → Asterisk → IMS → 5G VoNR UE uočeno je sljedeće ponašanje:
+- Asterisk ispravno šalje SIP INVITE poruke prema IMS jezgru putem SIP trunk-a.
+- INVITE poruke se ponavljaju (retransmisije), što je vidljivo u Wireshark snimcima, a koji će biti prikazani kroz RP5.
+- IMS jezgro ne obrađuje dolazni INVITE - ne pojavljuje se u IMS logovima, ne stiže do bazne stanice, te se ne generiše SIP odgovor (niti 1xx, niti 4xx/5xx).
+
+Drugim riječima, SIP signalizacija se završava na Asterisk strani, dok na IMS strani INVITE nikada ne biva procesuiran.
 
 
 ---
