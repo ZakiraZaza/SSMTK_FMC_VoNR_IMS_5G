@@ -213,7 +213,7 @@ Nakon uspješne registracije mobilnog uređaja na 5G mrežu i IMS, poziv je inic
 U terminalu je prvo pozicioniranje izvršeno unutar direktorija:
 
 ```
-cd/enb
+cd /enb
 ```
 
 Zatim je pristupljeno aktivnoj screen sesiji u kojoj je pokrenut LTE/5G stack:
@@ -411,10 +411,15 @@ U realizovanom rješenju učestvuju sljedeći elementi:
 Prvi korak u realizaciji RP4 bio je dodavanje SIP trunk veze u IMS konfiguraciju AMARI Callbox Mini sistema, u skladu sa zvaničnom Amarisoft dokumentacijom [^3]. SIP trunk je definisan u datoteci ims.cfg na sljedeći način:
 
 ```
+sip_addr: [
+        {addr: "192.168.200.160", bind_addr: "192.168.200.160", port_min: 10000, port_max: 20000, trunk: true},
+        "2001:468:3000:1::"
+],
+
 trunk: {
            addr: "192.168.200.194", // SIP server IP address
            name: "amarisoft", // SIP account username, used for contact/from headers
-    },
+},
 ```
 
 Prethodnim je IMS jezgru omogućeno da prihvata SIP pozive iz eksternog SIP domena (Asterisk), rutira pozive prema VoNR korisnicima, te šalje odlazne pozive iz IMS-a prema fiksnoj SIP mreži.
