@@ -382,11 +382,11 @@ Nakon uspješne IMS registracije oba korisnika, izvršena je uspostava FMC govor
 
 <div align="center"> <table> <tr> <td align="center" width="50%"> <img src="assets/5g/images/RP3_microsip.png" alt="RP3_microsip.png" width="90%">
 
-<i><b>Slika 9a:</b> Iniciranje FMC poziva sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku <code>0600000124</code>.</i>
+<i>Slika 9a: Iniciranje FMC poziva sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku <code>0600000124</code>.</i>
 
 </td> <td align="center" width="50%"> <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" width="50%">
 
-<i><b>Slika 9b:</b> Dolazni i aktivni FMC govorni poziv na VoNR mobilnom uređaju, sa prikazanim identitetom pozivaoca <code>SIP korisnik RP3</code> i trajanjem poziva.</i>
+<i>Slika 9b: Dolazni i aktivni FMC govorni poziv na VoNR mobilnom uređaju, sa prikazanim identitetom pozivaoca <code>SIP korisnik RP3</code> i trajanjem poziva.</i>
 
 </td> </tr> </table> </div>
 
@@ -608,11 +608,11 @@ Snimanje saobraćaja na baznoj stanici (Callbox Mini) pohranjuje se u .pcap fajl
 
 U Wireshark fajlu snimljen je saobraćaj uspostave VoLTE/IMS poziva. Jedna od prednosti Wireshark-a je mogućnost automatskog kreiranja MSC dijagrama iz VoIP signalizacije. MSC dijagram se generiše tako što se najprije otvori odgovarajući .pcap fajl u alatu Wireshark. Nakon toga, iz glavnog menija se odabere opcija Telephony → VoIP Calls, čime se prikazuje lista detektovanih poziva. U otvorenom prozoru je potrebno označiti sve relevantne stavke koje pripadaju analiziranom pozivu, a zatim kliknuti na opciju Flow Sequence, čime se automatski generiše MSC dijagram toka signalizacije. 
 
-<div align="center"> <img src="assets/5g/images/RP5_flow_sequence.jpg" alt="RP5_flow_sequence.jpg" width="85%"> <br> <i>Slika X: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i> </div>
+<div align="center"> <img src="assets/5g/images/RP5_flow_sequence.jpg" alt="RP5_flow_sequence.jpg" width="85%"> <br> <i>Slika 10: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i> </div>
 
 MSC dijagram ilustruje proces uspostave, odvijanja i prekida VoLTE poziva, pri čemu se za signalizaciju koristi SIP (Session Initiation Protocol), dok je prenos govornih paketa realizovan putem RTP-a (Real-Time Transport Protocol). 
 
-<div align="center"> <img src="assets/5g/images/RP3_v2_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika X: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i> </div>
+<div align="center"> <img src="assets/5g/images/RP3_v2_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika 11: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i> </div>
 
 Iz MSC dijagrama i SIP paketa vidljiva su dva osnovna signalizacijska čvora:
 
@@ -648,9 +648,9 @@ Prekid poziva realizovan je standardnim SIP mehanizmom: jedna strana šalje poru
 
 U Wireshark prikazu INVITE paketa vidi se da MicroSIP koristi application/sdp.
 
-<div align="center"> <img src="assets/5g/images/RP3_INVITE.jpg" alt="RP3_INVITE.jpg" title="SIP INVITE" style="width:85%"> <br> <i><b>Slika Y:</b> SIP <code>INVITE</code> poruka (MicroSIP/3.22.3) prema IMS serveru <code>192.168.200.160:5060</code>.</i> </div>
+<div align="center"> <img src="assets/5g/images/RP3_INVITE.jpg" alt="RP3_INVITE.jpg" title="SIP INVITE" style="width:85%"> <br> <i>Slika 12: SIP <code>INVITE</code> poruka (MicroSIP/3.22.3) prema IMS serveru <code>192.168.200.160:5060</code>.</i> </div>
 
-<div align="center"> <img src="assets/5g/images/RP5_sdp.jpg" alt="RP5_sdp.jpg" title="SDP" style="width:85%"> <br> <i><b>Slika Y:</b> U INVITE poruci je prisutan SDP, kojim se nude medijski parametri i kodeci.</i> </div>
+<div align="center"> <img src="assets/5g/images/RP5_sdp.jpg" alt="RP5_sdp.jpg" title="SDP" style="width:85%"> <br> <i>Slika 13: U INVITE poruci je prisutan SDP, kojim se nude medijski parametri i kodeci.</i> </div>
 
 Iz MSC-a je vidljivo da SDP ponuda sadrži kodeke:
 
@@ -677,7 +677,7 @@ Na prikazanim slikame se može uočiti polje FT (Frame Type) koje definiše AMR-
 - AMR-WB 15.85 kbit/s (FT = 4)
 - AMR-WB 23.85 kbit/s (FT = 8).
 
-<div align="center"> <table> <tr> <td align="center" width="50%"> <img src="assets/5g/images/RP3_amr_wb.jpg" alt="RP3_amr_wb.jpg" width="95%"> <br> <i><b>Slika Z1:</b> RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 15.85 kbit/s (FT=4).</i> </td> <td align="center" width="50%"> <img src="assets/5g/images/RP3_amr_wb2.jpg" alt="RP3_amr_wb2.jpg" width="95%"> <br> <i><b>Slika Z2:</b> RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 23.85 kbit/s (FT=8).</i> </td> </tr> </table> </div>
+<div align="center"> <table> <tr> <td align="center" width="50%"> <img src="assets/5g/images/RP3_amr_wb.jpg" alt="RP3_amr_wb.jpg" width="95%"> <br> <i>Slika 14a: RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 15.85 kbit/s (FT=4).</i> </td> <td align="center" width="50%"> <img src="assets/5g/images/RP3_amr_wb2.jpg" alt="RP3_amr_wb2.jpg" width="95%"> <br> <i>Slika 14b: RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 23.85 kbit/s (FT=8).</i> </td> </tr> </table> </div>
 
 Ovim je eksperimentalno potvrđena ispravna realizacija FMC poziva u scenariju (1) na nivou signalizacije i medije.
 
@@ -685,7 +685,7 @@ Ovim je eksperimentalno potvrđena ispravna realizacija FMC poziva u scenariju (
 
 Analogno prethodnoj proceduri, nakon snimanja Wireshark saobraćaja i za scenarij (3), kreiran je MSC dijagram prikazan na sljedećoj slici:
 
-<div align="center"> <img src="assets/5g/images/RP4_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika X: MSC dijagram generisan u Wireshark-u za scenarij (3).</i> </div>
+<div align="center"> <img src="assets/5g/images/RP4_msc.png" alt="RP3_v2_msc.png" width="85%"> <br> <i>Slika 15: MSC dijagram generisan u Wireshark-u za scenarij (3).</i> </div>
 
 MSC dijagram ilustruje pokušaj uspostave poziva u kojem:
 - Asterisk (IP: 192.168.200.194) djeluje kao SIP gateway/trunk prema IMS jezgru
@@ -710,7 +710,7 @@ Na MSC dijagramu i u Wireshark listi paketa vidi se da Asterisk više puta šalj
 <div align="center">
   <img src="assets/5g/images/RP4_invite_retries.png" alt="RP4_invite_retries.png" title="Višestruki INVITE pokušaji Asterisk → IMS" style="width:85%">
   <br>
-  <i>Slika Y: Višestruki SIP INVITE zahtjevi poslani sa Asterisk-a prema IMS jezgru</i>
+  <i>Slika 16: Višestruki SIP INVITE zahtjevi poslani sa Asterisk-a prema IMS jezgru</i>
 </div>
 
 Ovo ponašanje je u skladu sa SIP retransmission mehanizmom, koji se aktivira kada klijent ne dobije nikakav odgovor (ni 100 Trying, ni grešku). Ključni nalaz ove analize jeste činjenica da IMS ne vraća nikakav SIP odgovor, što je objašnjeno kroz ranija poglavlja.
@@ -727,7 +727,7 @@ Iako poziv nije uspostavljen, SDP analiza potvrđuje da je sa SIP/Asterisk stran
 <div align="center">
   <img src="assets/5g/images/RP4_amr_wb.png" alt="RP4_amr_wb.png" title="AMR i AMR-WB kodeci u SDP ponudi" style="width:75%">
   <br>
-  <i>Slika Z: SDP analiza – AMR/AMR-WB kodeci ponuđeni prema IMS jezgru</i>
+  <i>Slika 17: SDP analiza – AMR/AMR-WB kodeci ponuđeni prema IMS jezgru</i>
 </div>
 
 Sa tehničke strane SIP klijenta i Asterisk-a, ne postoji greška u kodecima niti u SDP strukturi.
