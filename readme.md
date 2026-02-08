@@ -137,6 +137,8 @@ Glavna komponenta za izvedbu projekta jeste Amarisoft CallBox mini bazna stanica
   <i>Slika 1: Arhitektura Amarisoft CallBox mini bazne stanice</i>
 </div>
 
+---
+
 #### Fiksna mreža
 - **SIP telefon / Softphone** – krajnji uređaj fiksnog korisnika (IP telefon ili softphone).  
 - **CPE / Home router** – kućni ruter koji pruža lokalnu IP konekciju prema operatoru (NAT, osnovni QoS).  
@@ -307,6 +309,8 @@ MicroSIP je konfigurisan tako da se registruje na isto IMS jezgro koje koristi V
   <i>Slika 8: Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik</i>
 </div>
 
+---
+
 Lokalni port je dinamički, dodijeljen od strane klijenta. Ova konfiguracija odgovara SIP korisniku definisanom u IMS bazi (_ue_db-ims.cfg_) i koristi standardni SIP Digest (MD5) autentifikacioni mehanizam.
 
 Nakon pokretanja MicroSIP-a, izvršena je uspješna SIP registracija na IMS jezgro. Registracija je realizovana kroz standardni SIP tok:
@@ -396,6 +400,8 @@ Rezultat prikazuje istovremeno registrovane VoNR mobilnog korisnika (IMS + IPSec
   <br>
   <i>Slika 9: Izlaz komande <code>(ims) users</code>. Prikazan je VoNR korisnik registrovan uz IPSec zaštitu (gornji dio) i standardni SIP korisnik <code>sipclient</code> registrovan sa PC-a (donji dio). Ovo potvrđuje da oba korisnika koriste isto IMS jezgro </i>
 </div>
+
+---
 
 Nakon uspješne IMS registracije oba korisnika, izvršena je uspostava FMC govornog poziva iniciranog sa fiksnog SIP klijenta (MicroSIP) prema mobilnom VoNR korisniku. Poziv je rutiran kroz zajedničko IMS jezgro u 5G mreži.
 
@@ -623,16 +629,21 @@ U Wireshark-u je snimljen saobraćaj uspostave VoLTE/IMS poziva. Jedna od predno
 <div align="center"> 
   <img src="assets/5g/images/RP5_flow_sequence.jpg" alt="RP5_flow_sequence.jpg" width="85%"> 
   <br> 
-  <i>Slika 11: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i> 
+  <i>Slika 11: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i>
 </div>
+
+---
 
 MSC dijagram ilustruje proces uspostave, odvijanja i prekida VoLTE poziva, pri čemu se za signalizaciju koristi SIP (Session Initiation Protocol), dok je prenos govornih paketa realizovan putem RTP-a (Real-Time Transport Protocol). 
 
 <div align="center"> 
   <img src="assets/5g/images/RP3_v2_msc.png" alt="RP3_v2_msc.png" width="85%"> 
   <br> 
-  <i>Slika 12: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i> 
+  <i>Slika 12: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i>
+  <span style="display:block"></span>
 </div>
+
+---
 
 Iz MSC dijagrama i SIP paketa vidljiva su dva osnovna signalizacijska čvora:
 - 192.168.200.193 – fiksni SIP klijent (MicroSIP, PC)
@@ -669,11 +680,15 @@ U Wireshark prikazu INVITE paketa vidi se da MicroSIP koristi application/sdp.
   <i>Slika 13: SIP <code>INVITE</code> poruka (MicroSIP/3.22.3) prema IMS serveru <code>192.168.200.160:5060</code>.</i> 
 </div>
 
+---
+
 <div align="center"> 
   <img src="assets/5g/images/RP5_sdp.jpg" alt="RP5_sdp.jpg" title="SDP" style="width:85%"> 
   <br>
   <i>Slika 14: U INVITE poruci je prisutan SDP, kojim se nude medijski parametri i kodeci.</i> 
 </div>
+
+---
 
 Iz MSC-a je vidljivo da SDP ponuda sadrži kodeke:
 - AMR
@@ -725,6 +740,8 @@ Analogno prethodnoj proceduri, nakon snimanja Wireshark saobraćaja i za scenari
   <i>Slika 16: MSC dijagram generisan u Wireshark-u za scenarij (3).</i>
 </div>
 
+---
+
 MSC dijagram ilustruje pokušaj uspostave poziva u kojem:
 - Asterisk (IP: 192.168.200.194) djeluje kao SIP gateway/trunk prema IMS jezgru
 - IMS jezgro (IP: 192.168.200.160) predstavlja 5G IMS domen
@@ -750,6 +767,8 @@ Na MSC dijagramu i u Wireshark listi paketa vidi se da Asterisk više puta šalj
   <i>Slika 17: Višestruki SIP INVITE zahtjevi poslani sa Asterisk-a prema IMS jezgru</i>
 </div>
 
+---
+
 Ovo ponašanje je u skladu sa SIP retransmission mehanizmom, koji se aktivira kada klijent ne dobije nikakav odgovor (ni 100 Trying, ni grešku). Ključni nalaz ove analize jeste činjenica da IMS ne vraća nikakav SIP odgovor, što je objašnjeno kroz ranija poglavlja.
 
 ### Analiza SDP i kodeka
@@ -766,12 +785,11 @@ Iako poziv nije uspostavljen, SDP analiza potvrđuje da je sa SIP/Asterisk stran
   <i>Slika 18: SDP analiza – AMR/AMR-WB kodeci ponuđeni prema IMS jezgru</i>
 </div>
 
-Sa tehničke strane SIP klijenta i Asterisk-a, ne postoji greška u kodecima niti u SDP strukturi.
-
 ---
 
-# Zaključak 
+Sa tehničke strane SIP klijenta i Asterisk-a, ne postoji greška u kodecima niti u SDP strukturi.
 
+# Zaključak 
 U ovom projektu implementirane su i analizirane različite varijante fiksno-mobilne konvergencije (FMC) u kontekstu 5G IMS mreže, koristeći kombinaciju 5G VoNR, IMS jezgra i SIP/Asterisk sistema. Poseban fokus stavljen je na praktičnu realizaciju signalizacijskih tokova, interoperabilnost fiksnih i mobilnih korisnika, te ponašanje sistema u realnim mrežnim uslovima.
 
 U scenariju u kojem se koristi zajedničko IMS jezgro, FMC arhitektura je demonstrirala potpunu funkcionalnost sistema. Uspješno su realizovane SIP registracije fiksnih i mobilnih korisnika, ispravno je provedeno SDP pregovaranje govornog kodeka (AMR/AMR-WB), te je ostvaren stabilan dvosmjerni RTP medijski tok. Analiza MSC dijagrama i snimljenog saobraćaja potvrđuje korektnu razmjenu signalizacijskih poruka (INVITE, 401, 183, PRACK, 200 OK, ACK, BYE), čime je potvrđena ispravna integracija fiksne i mobilne domene unutar istog IMS jezgra.
