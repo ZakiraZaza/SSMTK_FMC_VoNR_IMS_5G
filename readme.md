@@ -130,6 +130,9 @@ U zavisnosti od scenarija, IMS jezgro je smješteno u 5G ili u fiksnoj mreži, i
 - **AS (Application Servers)** – aplikacijski serveri za dodatne usluge (FMC logika, istovremeno zvonjenje, voicemail itd.).  
 - **HSS/UDM** – pretplatnička baza sa profilima mobilnih i fiksnih korisnika (brojevi, identiteti, servisi).
 
+
+Glavna komponenta za izvedbu projekta jeste Amarisoft CallBox mini bazna stanica, čija je arhitektura prikazana na narednoj slici. Dodatno, korišten je mobilni uređaj koji podržava 5G tehnologiju.
+
 <div align="center">
   <img src="assets/5g/images/Amarisoft.jpg" alt="Amarisoft.jpg" title="Arhitektura Amarisoft CallBox mini bazne stanice">
   <br>
