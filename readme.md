@@ -733,6 +733,17 @@ Iako poziv nije uspostavljen, SDP analiza potvrđuje da je sa SIP/Asterisk stran
 Sa tehničke strane SIP klijenta i Asterisk-a, ne postoji greška u kodecima niti u SDP strukturi.
 
 ---
+# Zaključak 
+
+U ovom projektu implementirane su i analizirane različite varijante fiksno-mobilne konvergencije (FMC) u kontekstu 5G IMS mreže, koristeći kombinaciju 5G VoNR, IMS jezgra i SIP/Asterisk sistema. Poseban fokus stavljen je na praktičnu realizaciju signalizacijskih tokova, interoperabilnost fiksnih i mobilnih korisnika, te ponašanje sistema u realnim mrežnim uslovima.
+
+U scenariju u kojem se koristi zajedničko IMS jezgro, FMC arhitektura je demonstrirala potpunu funkcionalnost sistema. Uspješno su realizovane SIP registracije fiksnih i mobilnih korisnika, ispravno je provedeno SDP pregovaranje govornog kodeka (AMR/AMR-WB), te je ostvaren stabilan dvosmjerni RTP medijski tok. Analiza MSC dijagrama i snimljenog saobraćaja potvrđuje korektnu razmjenu signalizacijskih poruka (INVITE, 401, 183, PRACK, 200 OK, ACK, BYE), čime je potvrđena ispravna integracija fiksne i mobilne domene unutar istog IMS jezgra.
+
+S druge strane, u scenariju sa odvojenim IMS domenama, gdje je Asterisk korišten kao SIP posrednik i trunk prema IMS jezgru, uočen je funkcionalni limit sistema. Iako Asterisk ispravno obrađuje poziv, generiše SIP INVITE zahtjeve i nudi odgovarajuće medijske parametre, signalizacija se zaustavlja na IMS strani, bez povratnog odgovora i bez dalje obrade zahtjeva. Ovo ponašanje ukazuje na ograničenja trenutne interkonekcije IMS procesa s generičkim SIP trunk-om i potrebu za dodatnom IMS/Proxy logikom ili specijaliziranim IMS interworking servisima.
+
+Projekt jasno demonstrira praktične izazove fiksno-mobilne konvergencije u 5G IMS okruženju, ali istovremeno pokazuje i realne granice interoperabilnosti između IMS-specifičnih sistema i klasičnih SIP rješenja. Dobijeni rezultati pružaju uvid u razliku između teorijske FMC arhitekture i njene stvarne implementacije, te jasno identifikuju uslove pod kojima je FMC funkcionalna, kao i tačke na kojima su potrebna dodatna IMS-orijentisana rješenja i napredniji interworking mehanizmi.
+
+---
 <details id="radni-paketi">
 <summary title="Kliknite za prikaz radnih paketa.">Radni paketi</summary>
 <table>
