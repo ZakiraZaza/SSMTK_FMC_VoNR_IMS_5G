@@ -77,13 +77,24 @@ Tipičan tok je:
 - poziv se uspostavlja SIP porukama (INVITE/180/200/ACK),
 - govor ide preko RTP (medijski tok), uz QoS politike i prioritet govora.
 
-## IMS i SIP – uloga u govornoj usluzi
+## IMS i SIP uloga u govornoj usluzi
 IMS je arhitekturni okvir koji omogućava operaterima da pružaju govor kroz IP (multimedijalne) servise. Ključne IMS komponente (konceptualno) uključuju:
-- P-CSCF (prva SIP tačka za UE, sigurnost i politika),
-- I-CSCF / S-CSCF (routing, registracija i servisna logika),
-- baza korisnika (HSS/UDM u modernim implementacijama),
-- interkonekcijski elementi (npr. SBC/IBCF) za povezivanje sa drugim mrežama,
-- aplikacijski serveri (npr. call services), te medijski gateway elementi kada je potrebno.
+- P-CSCF predstavlja prvu SIP tačku za krajnjeg korisnika (mobilni UE ili fiksni SIP klijent), te terminira SIP signalizaciju, primjenjuje sigurnosne politike, inicira autentifikaciju i prosljeđuje poruke dalje unutar IMS jezgra,
+- I-CSCF je ulazna tačka IMS domene koja služi za pronalaženje odgovarajućeg S-CSCF čvora i komunicira sa pretplatničkom bazom radi određivanja servisne logike za datog korisnika,
+- S-CSCF je centralni kontrolni čvor IMS-a koji upravlja registracijama korisnika, održava SIP sesije i primjenjuje servisna pravila. S-CSCF je odgovoran za rutiranje poziva i interakciju sa aplikacijskim serverima,
+- Pretplatnička baza koja sadrži identitete korisnika (IMPU/IMPI), autentifikacione podatke, dozvoljene servise i profil pretplatnika,
+- Aplikacijski serveri (AS) implementiraju dodatnu servisnu logiku, poput upravljanja pozivima, FMC funkcionalnosti, preusmjeravanja, govorne pošte i sličnih usluga.
+
+IP Multimedia Subsystem (IMS) predstavlja standardizirani arhitekturalni okvir koji omogućava pružanje multimedijalnih servisa, prvenstveno govorne usluge, preko IP mreža. IMS odvaja servisni sloj od pristupne mreže, čime omogućava da se isti govorni servisi koriste nezavisno od tehnologije pristupa (5G, LTE, fiksni pristup). U kontekstu VoNR i fiksno-mobilne konvergencije, IMS ima centralnu ulogu u upravljanju signalizacijom, autentifikacijom korisnika, rutiranjem poziva i primjenom servisne logike.
+
+
+Session Initiation Protocol (SIP) je osnovni signalizacijski protokol koji se koristi unutar IMS arhitekture za registraciju korisnika, uspostavu, održavanje i prekid govornog poziva, te razmjenu informacija o medijskim parametrima (kodeci, portovi, transport).
+
+SIP je tekstualni protokol aplikacijskog sloja koji funkcioniše po principu zahtjev–odgovor, pri čemu se ključne faze govornog poziva realizuju kroz poruke poput REGISTER, INVITE, ACK, BYE i odgovore tipa 401 Unauthorized, 180 Ringing i 200 OK. Informacije o govornom toku ne prenose se direktno kroz SIP, već se u SIP porukama koristi SDP (Session Description Protocol) kojim se pregovaraju parametri medijskog prenosa (npr. AMR/AMR-WB kodeci).
+
+U VoNR scenariju, IMS omogućava da se govorna usluga realizuje isključivo unutar 5G mreže, dok se kod fiksno-mobilne konvergencije isti IMS servisni sloj koristi za opsluživanje i mobilnih i fiksnih korisnika. SIP signalizacija osigurava pravilnu kontrolu poziva, dok se sam govorni saobraćaj prenosi putem RTP/SRTP protokola, uz QoS mehanizme koje IMS i mreža zajednički primjenjuju.
+
+Na ovaj način, IMS i SIP zajedno čine osnovu za realizaciju savremene govorne usluge u 5G i FMC okruženju.
 
 ## Scenariji koji se analiziraju
 U projektu se razmatraju tri realna scenarija organizacije IMS jezgra:
