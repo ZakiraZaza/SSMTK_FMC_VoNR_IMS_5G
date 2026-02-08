@@ -119,12 +119,6 @@ U svim scenarijima razlikuju se pristupni domeni (5G mobilna mreža i fiksna pri
   - **SMF** – upravlja PDU sesijama, IP adresama i QoS parametrima.  
   - **UPF** – provodi korisnički saobraćaj (SIP/RTP) između 5G RAN-a i servisnih platformi (IMS, Internet itd.).
 
-#### Fiksna mreža
-- **SIP telefon / Softphone** – krajnji uređaj fiksnog korisnika (IP telefon ili softphone).  
-- **CPE / Home router** – kućni ruter koji pruža lokalnu IP konekciju prema operatoru (NAT, osnovni QoS).  
-- **Fiksna pristupna tačka (xDSL/FTTH)** – pristupni segment koji povezuje CPE sa mrežom operatora.  
-- **AGF / BNG (Fixed Access Gateway)** – agregacioni čvor koji terminiše sesije fiksnih korisnika, obavlja IP agregaciju i QoS te usmjerava SIP/RTP saobraćaj prema IMS-u.
-
 #### IMS jezgro (logičke funkcije)
 U zavisnosti od scenarija, IMS jezgro je smješteno u 5G ili u fiksnoj mreži, ili postoje dva odvojena IMS domena. U svim slučajevima IMS obuhvata:
 - **P-CSCF** – prvi kontakt za SIP signalizaciju iz mreže.  
@@ -132,6 +126,18 @@ U zavisnosti od scenarija, IMS jezgro je smješteno u 5G ili u fiksnoj mreži, i
 - **S-CSCF** – centralni SIP server koji održava registracije i sesije korisnika te primjenjuje servisna pravila.  
 - **AS (Application Servers)** – aplikacijski serveri za dodatne usluge (FMC logika, istovremeno zvonjenje, voicemail itd.).  
 - **HSS/UDM** – pretplatnička baza sa profilima mobilnih i fiksnih korisnika (brojevi, identiteti, servisi).
+
+<div align="center">
+  <img src="assets/diagrams/draw_io/images/Amarisoft.jpg" alt="Amarisoft.jpg" title="Arhitektura Amarisoft CallBox mini bazne stanice">
+  <br>
+  <i>Slika 1: Arhitektura Amarisoft CallBox mini bazne stanice</i>
+</div>
+
+#### Fiksna mreža
+- **SIP telefon / Softphone** – krajnji uređaj fiksnog korisnika (IP telefon ili softphone).  
+- **CPE / Home router** – kućni ruter koji pruža lokalnu IP konekciju prema operatoru (NAT, osnovni QoS).  
+- **Fiksna pristupna tačka (xDSL/FTTH)** – pristupni segment koji povezuje CPE sa mrežom operatora.  
+- **AGF / BNG (Fixed Access Gateway)** – agregacioni čvor koji terminiše sesije fiksnih korisnika, obavlja IP agregaciju i QoS te usmjerava SIP/RTP saobraćaj prema IMS-u.
 
 ---
 
