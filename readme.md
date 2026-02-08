@@ -500,7 +500,7 @@ send_pai=yes
 trust_id_inbound=yes
 context=from-ims
 ```
-Prethodnim se definiše SIP trunk prema IMS jezgri, omogućava razmjena identiteta, te se mapiraju dolazni pozivi iz IMS-a u kontekstu from-ims. Na kraju, definisana je identifikacija IMS-a po IP adresi na sljedeći način:
+Prethodnim se definiše SIP trunk prema IMS jezgri, omogućava razmjena identiteta, te se mapiraju dolazni pozivi iz IMS-a u kontekstu _from-ims._ Na kraju, definisana je identifikacija IMS-a po IP adresi na sljedeći način:
 
 ```
 [ims-identify]
@@ -515,8 +515,8 @@ match=192.168.200.160
 Pored prethodnog, neophodno je implementirati dialplan logiku s ciljem da se omoguće outbound pozivi iz Asterisk-a prema IMS jezgru (pozivi ka mobilnim 06X brojevima) i inbound pozivi iz IMS jezgra prema lokalnom Asterisk korisniku (npr. SIP/PJSIP ekstenzija 1000).
 
 Konfiguracija je organizovana u dva osnovna context-a:
-	•	internal – lokalni “dialplan” za interne ekstenzije i odlazne pozive ka IMS-u;
-	•	from-ims – obrada dolaznih poziva koji stižu sa IMS trunk-a u Asterisk.
+- _internal_ – lokalni “dialplan” za interne ekstenzije i odlazne pozive ka IMS-u;
+- _from-ims_ – obrada dolaznih poziva koji stižu sa IMS trunk-a u Asterisk.
 
 ### Context internal:  interne ekstenzije i odlazni pozivi ka IMS-u
 
@@ -595,7 +595,7 @@ Drugim riječima, SIP signalizacija se završava na Asterisk strani, dok na IMS 
 
 U RP5 je analiziran snimljeni saobraćaj uspostave govornog poziva u FMC scenariju (1), gdje se zajedničko IMS jezgro nalazi u 5G mreži (AMARI Callbox Mini), a poziv se inicira sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku.
 
-Analiza je izvedena na osnovu .pcap datoteka i Wireshark prikaza:
+Analiza je izvedena na osnovu _.pcap_ datoteka i Wireshark prikaza:
 
 - SIP signalizacije (INVITE/180/200/ACK/BYE…),
 
@@ -605,9 +605,9 @@ Analiza je izvedena na osnovu .pcap datoteka i Wireshark prikaza:
 
 ### Kreiranje MSC dijagrama u Wireshark-u
 
-Snimanje saobraćaja na baznoj stanici (Callbox Mini) pohranjuje se u .pcap fajlove. Komanda korištena za snimanje je **tcpdump** (snimanje paketa na mrežnom interfejsu). Budući da se .pcap fajlovi analiziraju u Wireshark-u, a Wireshark GUI nije moguće pokrenuti u terminalu bazne stanice, snimljene .pcap datoteke je potrebno prebaciti na remote računar i otvoriti u Wireshark-u radi analize.
+Snimanje saobraćaja na baznoj stanici (Callbox Mini) pohranjuje se u _.pcap_ datoteke. Komanda korištena za snimanje je **tcpdump** (snimanje paketa na mrežnom interfejsu). Budući da se _.pcap_ datoteke analiziraju u Wireshark-u, a Wireshark GUI nije moguće pokrenuti u terminalu bazne stanice, snimljene ._pcap_ datoteke je potrebno prebaciti na remote računar i otvoriti u Wireshark-u radi analize.
 
-U Wireshark fajlu snimljen je saobraćaj uspostave VoLTE/IMS poziva. Jedna od prednosti Wireshark-a je mogućnost automatskog kreiranja MSC dijagrama iz VoIP signalizacije. MSC dijagram se generiše tako što se najprije otvori odgovarajući .pcap fajl u alatu Wireshark. Nakon toga, iz glavnog menija se odabere opcija Telephony → VoIP Calls, čime se prikazuje lista detektovanih poziva. U otvorenom prozoru je potrebno označiti sve relevantne stavke koje pripadaju analiziranom pozivu, a zatim kliknuti na opciju Flow Sequence, čime se automatski generiše MSC dijagram toka signalizacije. 
+U Wireshark-u je snimljen saobraćaj uspostave VoLTE/IMS poziva. Jedna od prednosti Wireshark-a je mogućnost automatskog kreiranja MSC dijagrama iz VoIP signalizacije. MSC dijagram se generiše tako što se najprije otvori odgovarajuća _.pcap_ datoteka u alatu Wireshark. Nakon toga, iz glavnog menija se odabere opcija Telephony → VoIP Calls, čime se prikazuje lista detektovanih poziva. U otvorenom prozoru je potrebno označiti sve relevantne stavke koje pripadaju analiziranom pozivu, a zatim kliknuti na opciju Flow Sequence, čime se automatski generiše MSC dijagram toka signalizacije. 
 
 <div align="center"> <img src="assets/5g/images/RP5_flow_sequence.jpg" alt="RP5_flow_sequence.jpg" width="85%"> <br> <i>Slika 10: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i> </div>
 
@@ -754,7 +754,8 @@ Projekt jasno demonstrira praktične izazove fiksno-mobilne konvergencije u 5G I
   </tr>
   <tr>
     <td>RP1 - Dizajn koncepta FMC</td>
-    <td>Definisati FMC koncept koji povezuje VoNR i IMS/SIP fiksne mreže uz scenarije zajedničkog IMS jezgra u 5G mreži, zajedničkog jezgra u fiksnoj mreži i odvojena IMS jezgra 5G i fiksne mreže.
+    <td>Dizajn koncepta fiksno-mobilne konvergencije (FMC) koji povezuje govornu uslugu u 5G mreži (VoNR) sa IMS/SIP baziranom govornom uslugom u fiksnoj mreži, a uključuje
+različite scenarije: (1) IMS jezgro je zajedničko i nalazi se u 5G mreži, (2) IMS jezgro je zajedničko i nalazi se u fiksnoj mreži i (3) IMS jezgre 5G i fiksne mreže su odvojene.
     </td>
   </tr>
   <tr>
@@ -777,7 +778,7 @@ Projekt jasno demonstrira praktične izazove fiksno-mobilne konvergencije u 5G I
   <tr>
    <td>RP6 - Repozitorij i dokumentacija</td> 
     <td>
-      Održavanje strukture repozitorija, ažuriranje svih datotek ažuriranje svih datoteka i predlaganje ideja za poboljšanje postojećih datoteka. 
+      Izrada projektne dokumentacija i održavanje GitHub repozitorija. 
     </td>
   </tr>
 </table>
