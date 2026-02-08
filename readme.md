@@ -132,7 +132,7 @@ U zavisnosti od scenarija, IMS jezgro je smješteno u 5G ili u fiksnoj mreži, i
 Glavna komponenta za izvedbu projekta jeste Amarisoft CallBox mini bazna stanica, čija je arhitektura prikazana na narednoj slici. Dodatno, korišten je mobilni uređaj koji podržava 5G tehnologiju.
 
 <div align="center">
-  <img src="assets/5g/images/amarisoft.jpg" alt="amarisoft.jpg" title="Arhitektura Amarisoft CallBox mini bazne stanice">
+  <img src="assets/diagrams/draw_io/images/amarisoft.drawio.svg" alt="amarisoft.drawio.svg" title="Arhitektura Amarisoft CallBox mini bazne stanice">
   <br>
   <i>Slika 1: Arhitektura Amarisoft CallBox mini bazne stanice</i>
 </div>
