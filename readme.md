@@ -183,7 +183,8 @@ U ovom scenariju konvergencija se ostvaruje **na nivou interkonekcije dva IMS si
 ---
 
 # RP2: Implementacija VoNR usluge korištenjem AMARI Callbox Mini rješenja i 5G mobilnih telefona
-U okviru eksperimenta uspješno je izvršeno povezivanje korisničkog uređaja na 5G mrežu i verifikovana osnovna funkcionalnost mrežnog i servisnog sloja.
+
+U okviru ovog radnog paketa realizovana je implementacija i verifikacija Voice over New Radio (VoNR) usluge u 5G mreži, koristeći AMARI Callbox Mini kao baznu stanicu i jezgro mreže, te komercijalni 5G mobilni telefone kao krajnji korisnički uređaj. Cilj RP2 bio je uspostaviti funkcionalnu govornu uslugu isključivo unutar 5G arhitekture, bez oslanjanja na LTE fallback mehanizme, čime se demonstrira puna podrška za nativni 5G voice servis.
 
 ### Uspostava 5G 
 Prelazak na 5G vrši se pozivom sljedećih naredbi kao root unutar foldera /enb:
@@ -288,7 +289,7 @@ MicroSIP je konfigurisan tako da se registruje na isto IMS jezgro koje koristi V
   <i>Slika 7: Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik</i>
 </div>
 
-Lokalni port je dinamički, dodijeljen od strane klijenta. Ova konfiguracija odgovara SIP korisniku definisanom u IMS bazi (ue_db-ims.cfg) i koristi standardni SIP Digest (MD5) autentifikacioni mehanizam.
+Lokalni port je dinamički, dodijeljen od strane klijenta. Ova konfiguracija odgovara SIP korisniku definisanom u IMS bazi (_ue_db-ims.cfg_) i koristi standardni SIP Digest (MD5) autentifikacioni mehanizam.
 
 Nakon pokretanja MicroSIP-a, izvršena je uspješna SIP registracija na IMS jezgro. Registracija je realizovana kroz standardni SIP tok:
 
@@ -297,7 +298,7 @@ Nakon pokretanja MicroSIP-a, izvršena je uspješna SIP registracija na IMS jezg
 - REGISTER (sa Authorization headerom)
 - 200 OK
 
-Fiksni SIP korisnik, također, je definisan u datoteci ue_db-ims.cfg kao standardni IMS/SIP korisnik sa Digest (MD5) autentifikacijom.
+Fiksni SIP korisnik je, također, definisan u datoteci _ue_db-ims.cfg_ kao standardni IMS/SIP korisnik sa Digest (MD5) autentifikacijom.
 
 ```
 {
@@ -327,11 +328,11 @@ service lte stop
 service lte start
 ```
 
-U IMS CLI izlazu ((ims) users) prikazanom na Slici 8 MicroSIP korisnik je vidljiv kao registrovan SIP korisnik sa aktivnim SIP bindingom, uključujući IP adresu računara i dodijeljeni lokalni port. Ovim je potvrđeno da MicroSIP ispravno komunicira sa IMS jezgrom i da je spreman za uspostavu FMC poziva.
+U IMS CLI izlazu ((ims) users) prikazanom na _Slici 8_ MicroSIP korisnik je vidljiv kao registrovan SIP korisnik sa aktivnim SIP bindingom, uključujući IP adresu računara i dodijeljeni lokalni port. Ovim je potvrđeno da MicroSIP ispravno komunicira sa IMS jezgrom i da je spreman za uspostavu FMC poziva.
 
 ### Konfiguracija IMS servisa - Callbox Mini
 
-IMS servis je konfigurisan kroz datoteku ims.cfg. Ključne postavke uključuju SIP bind adrese, rad u 3GPP režimu i učitavanje baze IMS korisnika.
+IMS servis je konfigurisan kroz datoteku _ims.cfg_. Ključne postavke uključuju SIP bind adrese, rad u 3GPP režimu i učitavanje baze IMS korisnika.
 ```
 sip_addr: [
   {addr: "192.168.200.160", bind_addr: "192.168.200.160", port_min: 10000, port_max: 20000, trunk: false},
@@ -351,7 +352,7 @@ precondition: true,
 ipsec_aalg_list: ["hmac-md5-96", "hmac-sha-1-96"],
 ipsec_ealg_list: ["null", "aes-cbc", "des-cbc", "des-ede3-cbc"],
 ```
-Također, za uspješnu uspostavu govornog poziva između MicroSIP klijenta i VoNR mobilnog telefona unutar istog IMS jezgra, bilo je neophodno koristiti 3GPP preconditions mehanizam. U 3GPP IMS/VoLTE/VoNR okruženju, preduslovi (engl. preconditions) služe da se prije prihvatanja poziva potvrdi da su resursi rezervisani, QoS politika primijenjena, te medijski tok pripremljen za govor. U praksi to znači da IMS u 3GPP režimu očekuje da krajnji korisnici (ili barem relevantni identiteti) budu označeni kao korisnici koji podržavaju preconditions. Bez toga može doći do situacije da SIP signalizacija krene ispravno, ali se poziv ne uspostavi korektno (npr. ne prođe offer/answer faza kako IMS očekuje) ili se sesija prekine zbog neusaglašenih zahtjeva prema QoS preduvjetima. Zbog toga je osim globalnog podešavanja precondition: true u ims.cfg bilo potrebno uključiti preconditions i na nivou korisničkog identiteta unutar datotetke ue_db-ims.cfg na način:
+Također, za uspješnu uspostavu govornog poziva između MicroSIP klijenta i VoNR mobilnog telefona unutar istog IMS jezgra, bilo je neophodno koristiti 3GPP preconditions mehanizam. U 3GPP IMS/VoLTE/VoNR okruženju, preduslovi (engl. preconditions) služe da se prije prihvatanja poziva potvrdi da su resursi rezervisani, QoS politika primijenjena, te medijski tok pripremljen za govor. U praksi to znači da IMS u 3GPP režimu očekuje da krajnji korisnici (ili barem relevantni identiteti) budu označeni kao korisnici koji podržavaju preconditions. Bez toga može doći do situacije da SIP signalizacija krene ispravno, ali se poziv ne uspostavi korektno (npr. ne prođe offer/answer faza kako IMS očekuje) ili se sesija prekine zbog neusaglašenih zahtjeva prema QoS preduslovima. Zbog toga je osim globalnog podešavanja _precondition: true_ u _ims.cfg_ bilo potrebno uključiti preconditions i na nivou korisničkog identiteta unutar datotetke _ue_db-ims.cfg_ na način:
 
 ```
 impu: [
@@ -398,7 +399,7 @@ Uspješna uspostava i održavanje poziva potvrđuju ispravnu IMS registraciju fi
 
 U okviru RP4 realizovan je FMC scenarij (3), u kojem 5G mreža i fiksna mreža imaju odvojena IMS jezgra, a međusobna komunikacija ostvarena je putem SIP trunk veze. U ovom scenariju, Asterisk se koristi kao SIP gateway / interkonekcijski čvor između fiksne SIP mreže i IMS jezgra u 5G mreži (AMARI Callbox Mini). Cilj ovog radnog paketa je demonstrirati FMC konvergenciju na nivou interkonekcije dva odvojena IMS domena, što predstavlja realističan operaterski scenarij.
 
-## Arhitektura rješenja (RP4 kontekst)
+## Arhitektura rješenja
 
 U realizovanom rješenju učestvuju sljedeći elementi:
 - 5G IMS jezgro (AMARI Callbox Mini) - opslužuje VoNR mobilne korisnike, implementira 3GPP IMS funkcije, te omogućava SIP trunk konekciju prema eksternoj SIP mreži;
@@ -408,7 +409,7 @@ U realizovanom rješenju učestvuju sljedeći elementi:
 
 ## Dodavanje SIP trunk-a u IMS (AMARI Callbox Mini)
 
-Prvi korak u realizaciji RP4 bio je dodavanje SIP trunk veze u IMS konfiguraciju AMARI Callbox Mini sistema, u skladu sa zvaničnom Amarisoft dokumentacijom [^3]. SIP trunk je definisan u datoteci ims.cfg na sljedeći način:
+Prvi korak u realizaciji RP4 bio je dodavanje SIP trunk veze u IMS konfiguraciju AMARI Callbox Mini sistema, u skladu sa zvaničnom Amarisoft dokumentacijom [^3]. SIP trunk je definisan u datoteci _ims.cfg_ na sljedeći način:
 
 ```
 sip_addr: [
