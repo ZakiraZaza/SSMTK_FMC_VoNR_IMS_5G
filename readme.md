@@ -132,7 +132,7 @@ U zavisnosti od scenarija, IMS jezgro je smješteno u 5G ili u fiksnoj mreži, i
 Glavna komponenta za izvedbu projekta jeste Amarisoft CallBox mini bazna stanica, čija je arhitektura prikazana na narednoj slici. Dodatno, korišten je mobilni uređaj koji podržava 5G tehnologiju.
 
 <div align="center">
-  <img src="assets/5g/images/Amarisoft.jpg" alt="Amarisoft.jpg" title="Arhitektura Amarisoft CallBox mini bazne stanice">
+  <img src="assets/5g/images/amarisoft.jpg" alt="amarisoft.jpg" title="Arhitektura Amarisoft CallBox mini bazne stanice">
   <br>
   <i>Slika 1: Arhitektura Amarisoft CallBox mini bazne stanice</i>
 </div>
@@ -304,7 +304,7 @@ MicroSIP je konfigurisan tako da se registruje na isto IMS jezgro koje koristi V
 - Transport: UDP
 
 <div align="center">
-  <img src="assets/5g/images/RP3_sip_client.png" alt="RP3_sip_client.png" title="Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik" style="width:35%">
+  <img src="assets/5g/images/wp3_sip_client.png" alt="wp3_sip_client.png" title="Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik" style="width:35%">
   <br>
   <i>Slika 8: Konfiguracija MicroSIP klijenta na isto IMS jezgro koje koristi VoNR mobilni korisnik</i>
 </div>
@@ -396,7 +396,7 @@ Uspješna realizacija RP3 potvrđena je komandom:
 Rezultat prikazuje istovremeno registrovane VoNR mobilnog korisnika (IMS + IPSec, 3GPP) i fiksnog SIP korisnika (sipclient) sa PC-a.
 
 <div align="center">
-  <img src="assets/5g/images/RP3_users.png" alt="RP3_users.png" title="IMS users – registrovani VoNR i SIP korisnik" style="width:60%">
+  <img src="assets/5g/images/wp3_users.png" alt="wp3_users.png" title="IMS users – registrovani VoNR i SIP korisnik" style="width:60%">
   <br>
   <i>Slika 9: Izlaz komande <code>(ims) users</code>. Prikazan je VoNR korisnik registrovan uz IPSec zaštitu (gornji dio) i standardni SIP korisnik <code>sipclient</code> registrovan sa PC-a (donji dio). Ovo potvrđuje da oba korisnika koriste isto IMS jezgro </i>
 </div>
@@ -409,12 +409,12 @@ Nakon uspješne IMS registracije oba korisnika, izvršena je uspostava FMC govor
   <table> 
     <tr> 
       <td align="center" width="50%"> 
-        <img src="assets/5g/images/RP3_microsip.png" alt="RP3_microsip.png" width="90%">
+        <img src="assets/5g/images/wp3_microsip.png" alt="wp3_microsip.png" width="90%">
         <br>
         <i>Slika 10a: Iniciranje FMC poziva sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku <code>0600000124</code>.</i>
       </td> 
       <td align="center" width="50%"> 
-        <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" width="50%">
+        <img src="assets/5g/images/wp3_poziv.png" alt="wp3_poziv.png" width="50%">
         <br>
         <i>Slika 10b: Dolazni i aktivni FMC govorni poziv na VoNR mobilnom uređaju, sa prikazanim identitetom pozivaoca <code>SIP korisnik RP3</code> i trajanjem poziva.</i>
       </td> 
@@ -627,7 +627,7 @@ Snimanje saobraćaja na baznoj stanici (Callbox Mini) pohranjuje se u _.pcap_ da
 U Wireshark-u je snimljen saobraćaj uspostave VoLTE/IMS poziva. Jedna od prednosti Wireshark-a je mogućnost automatskog kreiranja MSC dijagrama iz VoIP signalizacije. MSC dijagram se generiše tako što se najprije otvori odgovarajuća _.pcap_ datoteka u alatu Wireshark. Nakon toga, iz glavnog menija se odabere opcija Telephony → VoIP Calls, čime se prikazuje lista detektovanih poziva. U otvorenom prozoru je potrebno označiti sve relevantne stavke koje pripadaju analiziranom pozivu, a zatim kliknuti na opciju Flow Sequence, čime se automatski generiše MSC dijagram toka signalizacije. 
 
 <div align="center"> 
-  <img src="assets/5g/images/RP5_flow_sequence.jpg" alt="RP5_flow_sequence.jpg" width="85%"> 
+  <img src="assets/5g/images/wp5_flow_sequence.jpg" alt="wp5_flow_sequence.jpg" width="85%"> 
   <br> 
   <i>Slika 11: Prikaz VoIP Calls prozora u Wireshark-u sa označenim SIP pozivom, na osnovu kojeg je generisan MSC dijagram.</i>
 </div>
@@ -637,7 +637,7 @@ U Wireshark-u je snimljen saobraćaj uspostave VoLTE/IMS poziva. Jedna od predno
 MSC dijagram ilustruje proces uspostave, odvijanja i prekida VoLTE poziva, pri čemu se za signalizaciju koristi SIP (Session Initiation Protocol), dok je prenos govornih paketa realizovan putem RTP-a (Real-Time Transport Protocol). 
 
 <div align="center"> 
-  <img src="assets/5g/images/RP3_v2_msc.png" alt="RP3_v2_msc.png" width="85%"> 
+  <img src="assets/5g/images/wp3_v2_msc.png" alt="wp3_v2_msc.png" width="85%"> 
   <br> 
   <i>Slika 12: MSC dijagram generisan u Wireshark-u (Telephony → VoIP Calls → Flow Sequence). Prikazan je tok SIP signalizacije i početak RTP medijskog toka između fiksnog SIP klijenta i IMS jezgra.</i>
   <span style="display:block"></span>
@@ -675,7 +675,7 @@ Prekid poziva realizovan je standardnim SIP mehanizmom: jedna strana šalje poru
 U Wireshark prikazu INVITE paketa vidi se da MicroSIP koristi application/sdp.
 
 <div align="center"> 
-  <img src="assets/5g/images/RP3_INVITE.jpg" alt="RP3_INVITE.jpg" title="SIP INVITE" style="width:85%"> 
+  <img src="assets/5g/images/wp3_invite.jpg" alt="wp3_invite.jpg" title="SIP INVITE" style="width:85%"> 
   <br> 
   <i>Slika 13: SIP <code>INVITE</code> poruka (MicroSIP/3.22.3) prema IMS serveru <code>192.168.200.160:5060</code>.</i> 
 </div>
@@ -683,7 +683,7 @@ U Wireshark prikazu INVITE paketa vidi se da MicroSIP koristi application/sdp.
 ---
 
 <div align="center"> 
-  <img src="assets/5g/images/RP5_sdp.jpg" alt="RP5_sdp.jpg" title="SDP" style="width:85%"> 
+  <img src="assets/5g/images/wp5_sdp.jpg" alt="wp5_sdp.jpg" title="SDP" style="width:85%"> 
   <br>
   <i>Slika 14: U INVITE poruci je prisutan SDP, kojim se nude medijski parametri i kodeci.</i> 
 </div>
@@ -716,12 +716,12 @@ Na prikazanim slikame se može uočiti polje FT (Frame Type) koje definiše AMR-
   <table> 
     <tr> 
       <td align="center" width="50%"> 
-        <img src="assets/5g/images/RP3_amr_wb.jpg" alt="RP3_amr_wb.jpg" width="95%"> 
+        <img src="assets/5g/images/wp3_amr_wb.jpg" alt="wp3_amr_wb.jpg" width="95%"> 
         <br> 
         <i>Slika 15a: RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 15.85 kbit/s (FT=4).</i> 
       </td> 
       <td align="center" width="50%"> 
-        <img src="assets/5g/images/RP3_amr_wb2.jpg" alt="RP3_amr_wb2.jpg" width="95%"> 
+        <img src="assets/5g/images/wp3_amr_wb2.jpg" alt="wp3_amr_wb2.jpg" width="95%"> 
         <br> 
         <i>Slika 15b: RTP payload dekodiran kao AMR-WB (RFC 3267), primjer moda 23.85 kbit/s (FT=8).</i> 
       </td> 
@@ -735,7 +735,7 @@ Ovim je eksperimentalno potvrđena ispravna realizacija FMC poziva u scenariju (
 Analogno prethodnoj proceduri, nakon snimanja Wireshark saobraćaja i za scenarij (3), kreiran je MSC dijagram prikazan na sljedećoj slici:
 
 <div align="center"> 
-  <img src="assets/5g/images/RP4_msc.png" alt="RP3_v2_msc.png" width="85%"> 
+  <img src="assets/5g/images/wp4_msc.png" alt="RP3_v2_msc.png" width="85%"> 
   <br> 
   <i>Slika 16: MSC dijagram generisan u Wireshark-u za scenarij (3).</i>
 </div>
@@ -762,7 +762,7 @@ U SDP dijelu ponuđeni su kodeci AMR (8 kHz), AMR-WB (16 kHz) i telephone-event 
 Na MSC dijagramu i u Wireshark listi paketa vidi se da Asterisk više puta šalje identičan INVITE prema IMS jezgru, u pravilnim vremenskim intervalima.
 
 <div align="center">
-  <img src="assets/5g/images/RP4_invite_retries.png" alt="RP4_invite_retries.png" title="Višestruki INVITE pokušaji Asterisk → IMS" style="width:85%">
+  <img src="assets/5g/images/wp4_invite_retries.png" alt="wp4_invite_retries.png" title="Višestruki INVITE pokušaji Asterisk → IMS" style="width:85%">
   <br>
   <i>Slika 17: Višestruki SIP INVITE zahtjevi poslani sa Asterisk-a prema IMS jezgru</i>
 </div>
@@ -780,7 +780,7 @@ Iako poziv nije uspostavljen, SDP analiza potvrđuje da je sa SIP/Asterisk stran
 - RTP port je validan i otvoren.
 
 <div align="center">
-  <img src="assets/5g/images/RP4_amr_wb.png" alt="RP4_amr_wb.png" title="AMR i AMR-WB kodeci u SDP ponudi" style="width:75%">
+  <img src="assets/5g/images/wp4_amr_wb.png" alt="wp4_amr_wb.png" title="AMR i AMR-WB kodeci u SDP ponudi" style="width:75%">
   <br>
   <i>Slika 18: SDP analiza – AMR/AMR-WB kodeci ponuđeni prema IMS jezgru</i>
 </div>
