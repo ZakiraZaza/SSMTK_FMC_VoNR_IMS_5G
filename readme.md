@@ -404,10 +404,12 @@ Nakon uspješne IMS registracije oba korisnika, izvršena je uspostava FMC govor
     <tr> 
       <td align="center" width="50%"> 
         <img src="assets/5g/images/RP3_microsip.png" alt="RP3_microsip.png" width="90%">
+        <br>
         <i>Slika 10a: Iniciranje FMC poziva sa fiksnog SIP klijenta (MicroSIP) prema mobilnom korisniku <code>0600000124</code>.</i>
       </td> 
       <td align="center" width="50%"> 
         <img src="assets/5g/images/RP3_poziv.jpeg" alt="RP3_poziv.jpeg" width="50%">
+        <br>
         <i>Slika 10b: Dolazni i aktivni FMC govorni poziv na VoNR mobilnom uređaju, sa prikazanim identitetom pozivaoca <code>SIP korisnik RP3</code> i trajanjem poziva.</i>
       </td> 
   </tr> 
